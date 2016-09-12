@@ -6,14 +6,29 @@ var Sequelize = require('sequelize');
 var db = require('../_db');
 
 module.exports = db.define('user', {
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
     },
     password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1024), //since we are encrypting with SHA-512
+        allowNull: false
+    },
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
     },
     salt: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     twitter_id: {
         type: Sequelize.STRING
@@ -35,10 +50,10 @@ module.exports = db.define('user', {
     },
     classMethods: {
         generateSalt: function () {
-            return crypto.randomBytes(16).toString('base64');
+            return crypto.randomBytes(64).toString('base64');
         },
         encryptPassword: function (plainText, salt) {
-            var hash = crypto.createHash('sha1');
+            var hash = crypto.createHash('sha512');
             hash.update(plainText);
             hash.update(salt);
             return hash.digest('hex');
