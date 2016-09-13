@@ -28,7 +28,10 @@ module.exports = db.define('address', {
     // State / Province / Region
     administrative_area: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isAlpha: true
+        }
     },
     // County / District (Unused)
     sub_administrative_area: {
@@ -69,7 +72,7 @@ module.exports = db.define('address', {
 
 }, {
     getterMethods: {
-        name_line: function() {
+        full_name: function() {
             return this.first_name + ' ' + this.last_name;
         }
     },
