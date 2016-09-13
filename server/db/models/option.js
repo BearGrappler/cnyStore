@@ -1,8 +1,8 @@
 'use strict';
-var Sequelize = require('sequelize');
-var db = require('../_db');
+const Sequelize = require('sequelize');
+const db = require('../_db');
 
-module.exports = db.define('option', {
+module.exports = db.define('Option', {
 
     // Base model Product ID - will need to be a foreign key
     baseId: {

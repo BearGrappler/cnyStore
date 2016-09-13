@@ -1,8 +1,8 @@
 'use strict';
-var Sequelize = require('sequelize');
-var db = require('../_db');
+const Sequelize = require('sequelize');
+const db = require('../_db');
 
-module.exports = db.define('address', {
+module.exports = db.define('Address', {
     // Country (always require, 2 character ISO code)
     country: {
         type: Sequelize.STRING(2),
