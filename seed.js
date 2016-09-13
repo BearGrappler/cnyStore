@@ -24,23 +24,13 @@ var Promise = require('sequelize').Promise;
 
 var seedUsers = function () {
 
-    var users = [
-        {
-            email: 'testing@fsa.com',
-            password: 'password'
-        },
-        {
-            email: 'obama@gmail.com',
-            password: 'potus'
-        }
-    ];
+    var users = require('./seed.user.js')()
 
     var creatingUsers = users.map(function (userObj) {
         return User.create(userObj);
     });
 
     return Promise.all(creatingUsers);
-
 };
 
 db.sync({ force: true })
