@@ -11,12 +11,16 @@ module.exports = db.define('review', {
         type: Sequelize.STRING(500),
         allowNull: false,
         validate:{
-            len: [20, 500]  //to satisfy validatio requirement that the review has to have a minimum length
+            len: [20, 500]  //to satisfy validation requirement that the review has to have a minimum length
         }
     },
     rating: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            max: 5,
+            min: 0
+        }
     },
     dateWritten: {
         type: Sequelize.DATE,
