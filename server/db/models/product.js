@@ -19,7 +19,7 @@ module.exports = db.define('product', {
         },
         get: function() {
             var msrp = this.getDataValue('msrp');
-            return msrp * 100
+            return msrp / 100
         }
     },
     price: {
@@ -30,7 +30,7 @@ module.exports = db.define('product', {
         },
         get: function() {
             var price = this.getDataValue('price');
-            return price * 100
+            return price / 100
         }
     },
     description: {
