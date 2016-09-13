@@ -42,7 +42,7 @@ module.exports = db.define('product', {
         allowNull: false
     },
     type: {
-        type: Sequelize.ENUM('base', 'ram', 'hdd', 'cpu'),
+        type: Sequelize.ENUM('base', 'ram', 'hdd', 'cpu', 'gpu'),
         allowNull: false
     },
     inventory: {
