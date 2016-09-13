@@ -54,6 +54,9 @@ module.exports = db.define('address', {
             validZip: function(value) {
                 return /(^[0-9]{5}(\-[0-9]{4}$)?)/.test(String(value));
             }
+        },
+        set: function(val) {
+            this.setDataValue('postal_code', String(val));
         }
     },
     // Street Address
