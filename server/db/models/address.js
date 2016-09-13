@@ -1,10 +1,7 @@
 'use strict';
-var _ = require('lodash');
 var Sequelize = require('sequelize');
-
 var db = require('../_db');
 
-//Uses 
 module.exports = db.define('address', {
     // Country (always require, 2 character ISO code)
     country: {
