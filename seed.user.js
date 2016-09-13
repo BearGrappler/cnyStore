@@ -1,8 +1,9 @@
 var chance = require('chance')(123);
 
-var numUsers = 100;
+var numUsers = 98;
 var emails = chance.unique(chance.email, numUsers);
 
+//generate a single random user obj
 function randUser() {
   var gender = chance.gender();
   return {
@@ -13,8 +14,10 @@ function randUser() {
   };
 }
 
+//create array of 100 users: 2 known, 98 random
 var buildUsers = function() {
 
+  //2 known users
   var users = [{
     name: 'John Doe',
     email: 'testing@fsa.com',
@@ -27,18 +30,14 @@ var buildUsers = function() {
     isAdmin: true
   }];
 
+  //98 random users
   for (var i = 0; i < numUsers; i++) {
     users.push(randUser())
   }
 
-  console.log(users)
-
   return users
-
 }
 
 module.exports = function() {
   return buildUsers()
 }
-
-buildUsers()

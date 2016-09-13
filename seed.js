@@ -24,7 +24,7 @@ var Promise = require('sequelize').Promise;
 
 var seedUsers = function () {
 
-    var users = require('./seed.user.js')()
+    var users = require('./seed.user.js')
 
     var creatingUsers = users.map(function (userObj) {
         return User.create(userObj);
