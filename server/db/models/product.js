@@ -15,7 +15,7 @@ module.exports = db.define('Product', {
         type: Sequelize.INTEGER,
         allowNull: false,
         set: function(msrp) {
-            this.setDataValue(msrp * 100)
+            this.setDataValue('msrp', msrp * 100)
         },
         get: function() {
             var msrp = this.getDataValue('msrp');
@@ -26,11 +26,11 @@ module.exports = db.define('Product', {
         type: Sequelize.INTEGER,
         allowNull: false,
         set: function(price) {
-            this.setDataValue(price * 100)
+            this.setDataValue('price', price * 100)
         },
         get: function() {
             var price = this.getDataValue('price');
-            return price / 100
+            return price / 100;
         }
     },
     description: {
@@ -46,7 +46,6 @@ module.exports = db.define('Product', {
         allowNull: false
     },
     inventory: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     }
 });

@@ -40,4 +40,4 @@ var buildUsers = function() {
 
 module.exports = function() {
   return buildUsers()
-}
+}();

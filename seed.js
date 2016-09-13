@@ -17,45 +17,61 @@ name in the environment files.
 
 */
 
-var chalk = require('chalk');
-var db = require('./server/db');
-var User = db.model('user');
-var Promise = require('sequelize').Promise;
+const chalk = require('chalk');
+const db = require('./server/db');
+const Promise = require('sequelize').Promise;
 
-var seedUsers = function () {
+let seedUsers = function() {
 
-    var users = require('./seed.user.js')
+    let users = require('./seed.user.js')
 
-    var creatingUsers = users.map(userObj => User.create(userObj))
+    let creatingUsers = users.map(userObj => db.model('User').create(userObj))
 
     return Promise.all(creatingUsers);
 };
 
-var seedOrders = function() {
-    var orders = require('./seedOrders');
+let seedOrders = function() {
+    let orders = require('./seedOrders');
 
-    var creatingOrders = orders.map(orderObj => order.create(orderObj))
+    let creatingOrders = orders.map(orderObj => db.model('Order').create(orderObj))
 
     return Promise.all(creatingOrders)
 }
 
-var seedProducts = function() {
-    var products = require('./seedProducts');
+let seedProducts = function() {
+    let products = require('./seedProducts');
 
-    var creatingProducts = products.map(productObj => product.create(productObj))
+    let creatingProducts = products.map(productObj => db.model('Product').create(productObj))
 
-    return promise.all(creatingProducts)
+    return Promise.all(creatingProducts)
+}
+
+let seedAddresses = function() {
+    let addresses = require('./seedAddresses');
+
+    let creatingAddresses = addresses.map(addressObj => db.model('Address').create(addressObj))
+
+    return Promise.all(creatingAddresses)
 }
 
 db.sync({ force: true })
-    .then(function () {
+    .then(function() {
         return seedUsers();
     })
-    .then(function () {
+    .then(() => {
+        return seedOrders();
+    })
+    .then(() => {
+        return seedProducts();
+    })
+    .then(() => {
+        return seedAddresses();
+    })
+    .then(function() {
         console.log(chalk.green('Seed successful!'));
         process.exit(0);
     })
-    .catch(function (err) {
+    .catch(function(err) {
         console.error(err);
         process.exit(1);
     });
