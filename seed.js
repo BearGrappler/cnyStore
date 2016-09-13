@@ -24,21 +24,11 @@ var Promise = require('sequelize').Promise;
 
 var seedUsers = function () {
 
-    var users = [
-        {
-            email: 'testing@fsa.com',
-            password: 'password'
-        },
-        {
-            email: 'obama@gmail.com',
-            password: 'potus'
-        }
-    ];
+    var users = require('./seed.user.js')
 
     var creatingUsers = users.map(userObj => User.create(userObj))
 
     return Promise.all(creatingUsers);
-
 };
 
 var seedOrders = function() {
