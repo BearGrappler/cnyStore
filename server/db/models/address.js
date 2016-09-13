@@ -9,7 +9,10 @@ module.exports = db.define('address', {
     // Country (always require, 2 character ISO code)
     country: {
         type: Sequelize.STRING(2),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isAlpha: true
+        }
     },
     // First Name
     first_name: {
@@ -46,7 +49,12 @@ module.exports = db.define('address', {
     // Zip Code / Postal Code
     postal_code: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            validZip: function(value) {
+                return /(^[0-9]{5}(\-[0-9]{4}$)?)/.test(String(value));
+            }
+        }
     },
     // Street Address
     thoroughfare: {
@@ -70,7 +78,7 @@ module.exports = db.define('address', {
     },
     instanceMethods: {
         print: function() {
-            return {full_name: this.full_name, street_address: this.thoroughfare, unit: this.premise, city: this.locality, state: this.administrative_area, zip_code: this.postal_code, country: this.country};
+            return {fullName: this.full_name, address: this.thoroughfare, apt: this.premise, city: this.locality, state: this.administrative_area, zip: this.postal_code, country: this.country};
         }
     }
 });
