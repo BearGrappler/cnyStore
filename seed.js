@@ -35,13 +35,27 @@ var seedUsers = function () {
         }
     ];
 
-    var creatingUsers = users.map(function (userObj) {
-        return User.create(userObj);
-    });
+    var creatingUsers = users.map(userObj => User.create(userObj))
 
     return Promise.all(creatingUsers);
 
 };
+
+var seedOrders = function() {
+    var orders = require('./seedOrders');
+
+    var creatingOrders = orders.map(orderObj => order.create(orderObj))
+
+    return Promise.all(creatingOrders)
+}
+
+var seedProducts = function() {
+    var products = require('./seedProducts');
+
+    var creatingProducts = products.map(productObj => product.create(productObj))
+
+    return promise.all(creatingProducts)
+}
 
 db.sync({ force: true })
     .then(function () {
