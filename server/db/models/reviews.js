@@ -21,12 +21,6 @@ module.exports = db.define('review', {
             max: 5,
             min: 0
         }
-    },
-    dateWritten: {
-        type: Sequelize.DATE,
-        validate: {
-            isDate: true
-        }
     }
 }
 );
