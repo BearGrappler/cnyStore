@@ -1,8 +1,8 @@
 'use strict';
-var Sequelize = require('sequelize');
-var db = require('../_db');
+const Sequelize = require('sequelize');
+const db = require('../_db');
 
-module.exports = db.define('review', {
+module.exports = db.define('Review', {
     writtenReview: {
         type: Sequelize.STRING(3000),
         allowNull: false,

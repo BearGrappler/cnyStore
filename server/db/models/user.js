@@ -1,11 +1,10 @@
 'use strict';
-var crypto = require('crypto');
-var _ = require('lodash');
-var Sequelize = require('sequelize');
+const crypto = require('crypto');
+const _ = require('lodash');
+const Sequelize = require('sequelize');
+const db = require('../_db');
 
-var db = require('../_db');
-
-module.exports = db.define('user', {
+module.exports = db.define('User', {
     name: {
         type: Sequelize.STRING,
         allowNull: false

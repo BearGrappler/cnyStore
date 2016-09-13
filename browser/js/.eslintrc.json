@@ -1,9 +1,10 @@
 {
-  "env": {
-    "browser": true
-  },
-  "globals": {
-    "app": true,
-    "_": true
-  }
+    "extends": "fullstack",
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "app": true,
+        "_": true
+    }
 }

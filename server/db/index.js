@@ -1,9 +1,36 @@
 'use strict';
-var db = require('./_db');
+const db = require('./_db');
 module.exports = db;
 
 // eslint-disable-next-line no-unused-vars
-var User = require('./models/user');
+const User = require('./models/user');
+const Address = require('./models/address');
+const Option = require('./models/option');
+const Order = require('./models/order');
+const Product = require('./models/product');
+const Review = require('./models/reviews');
+const Cart = require('./models/cart');
 
 // if we had more models, we could associate them in this file
 // e.g. User.hasMany(Reports)
+
+User.Billing = User.belongsToMany(Address, { through: 'Billing', as: 'BillingAddresses' });
+Address.Billing = Address.belongsToMany(User, { through: 'Billing', as: 'Purchasers' });
+
+User.Shipping = User.belongsToMany(Address, { through: 'Shipping', as: 'ShippingAddresses' });
+Address.Shipping = Address.belongsToMany(User, { through: 'Shipping', as: 'Residents' });
+
+User.Review = User.hasMany(Review, { as: 'Reviews' });
+
+User.Cart = User.hasMany(Cart, { as: 'UserCarts' });
+
+User.Order = User.hasMany(Order, { as: 'Purchases' });
+
+Product.Cart = Product.belongsToMany(Cart, { through: 'ProductCart', as: 'Carts' });
+Cart.Product = Cart.belongsToMany(Product, { through: 'ProductCart', as: 'Items' });
+
+Product.Review = Product.hasMany(Review, {as: 'Reviews'});
+
+Product.Order = Product.belongsToMany(Order, {through: 'OrderProduct', as: 'LineItems'});
+Order.Product = Order.belongsToMany(Product, {through: 'OrderProduct', as: 'Orders'});
+
