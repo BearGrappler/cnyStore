@@ -14,6 +14,7 @@ app.factory('ProductFactory', function($http) {
         product.ram = [];
         product.cpu = [];
         product.storage = [];
+        product.gpu = [];
         upgrades.forEach(upgrade => {
           if (upgrade.type === 'ram') {
             product.ram.push(upgrade)
@@ -21,6 +22,8 @@ app.factory('ProductFactory', function($http) {
             product.cpu.push(upgrade)
           } else if (upgrade.type === 'hdd') {
             product.storage.push(upgrade)
+          } else if (upgrade.type === 'gpu') {
+            product.gpu.push(upgrade)
           }
         })
       })

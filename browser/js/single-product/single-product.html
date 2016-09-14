@@ -7,17 +7,25 @@
     <p class="product-description"> {{product.description}} </p>
     <div class="configuration-selector">
         <!-- need a way to indicate a configuration is recommended for the usertype -->
-        <select class="product-ram-upgrade">
+        <select class="product-ram-upgrade" ng-model="ram">
             <option ng-repeat="option in product.ram">{{option.name}} -- {{option.price}}</option>
         </select>
-        <select class="product-cpu-upgrade">
+        <select class="product-cpu-upgrade" ng-model="cpu">
             <option ng-repeat="option in product.cpu">{{option.name}} -- {{option.price}}</option>
         </select>
-        <select class="product-storage-upgrade">
+        <select class="product-storage-upgrade" ng-model="storage">
             <option ng-repeat="option in product.storage">{{option.name}} -- {{option.price}}</option>
         </select>
+        <select ng-show="product.gpu" class="product-gpu-upgrade" ng-model="gpu">
+            <option ng-repeat="option in product.gpu">{{option.name}} -- {{option.price}}</option>
+        </select>
+
+        <pre> {{ram}}</pre>
     </div>
 </section>
+
+
+
 <!--
 - product name
 - product photo(s)
