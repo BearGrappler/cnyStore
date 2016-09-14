@@ -9,6 +9,7 @@ app.config(function($stateProvider) {
 });
 
 app.controller('QuestionCtrl', function($scope, AuthService, QStackFactory) {
+    
     $scope.qstack = QStackFactory.initialize();
     $scope.current = $scope.qstack.advance();
     $scope.selected = new Map($scope.qstack.displayed.map(node => [node, false]));
