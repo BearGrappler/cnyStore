@@ -54,6 +54,14 @@ let seedAddresses = function() {
     return Promise.all(creatingAddresses)
 }
 
+let seedOptions = function() {
+    let options = require('./seedOptions');
+
+    let creatingOptions = options.map(optionObj => db.model('Option').create(optionObj))
+
+    return Promise.all(creatingOptions)
+}
+
 db.sync({ force: true })
     .then(function() {
         return seedUsers();
@@ -66,6 +74,9 @@ db.sync({ force: true })
     })
     .then(() => {
         return seedAddresses();
+    })
+    .then(() => {
+        return seedOptions();
     })
     .then(function() {
         console.log(chalk.green('Seed successful!'));

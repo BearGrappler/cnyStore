@@ -1,0 +1,51 @@
+module.exports = [{
+  baseId: 1,
+  type: 'cpu',
+  upgradeId: 11,
+  defOption: true
+}, {
+  baseId: 1,
+  type: 'cpu',
+  upgradeId: 12,
+  defOption: false
+}, {
+  baseId: 1,
+  type: 'cpu',
+  upgradeId: 13,
+  defOption: false
+}, {
+  baseId: 1,
+  type: 'cpu',
+  upgradeId: 14,
+  defOption: false
+}, {
+  baseId: 1,
+  type: 'ram',
+  upgradeId: 5,
+  default: true
+}, {
+  baseId: 1,
+  type: 'ram',
+  upgradeId: 7,
+  default: false
+}, {
+  baseId: 1,
+  type: 'ram',
+  upgradeId: 9,
+  default: false
+}, {
+  baseId: 1,
+  type: 'hdd',
+  upgradeId: 15,
+  default: true
+}, {
+  baseId: 1,
+  type: 'hdd',
+  upgradeId: 17,
+  default: false
+}, {
+  baseId: 1,
+  type: 'hdd',
+  upgradeId: 19,
+  default: false
+}]
