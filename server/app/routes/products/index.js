@@ -8,12 +8,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/:id/upgrades', function(req, res, next) {
-  return Option.findAll({where: {baseId: req.params.id}})
-  .then(function(options) {
-    let promiseArray = [];
-    options.forEach(option => promiseArray.push(Product.findOne({where: {id: option.upgradeId}})))
-    return Promise.all(promiseArray)
-  })
+  return Option.findAll({where: {baseId: req.params.id}, include: {model: Product, as: 'Upgrades'}})
   .then(options => res.send(options));
 });
 

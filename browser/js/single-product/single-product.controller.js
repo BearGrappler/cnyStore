@@ -14,5 +14,5 @@ app.config(function($stateProvider) {
 })
 
 app.controller('SingleProductCtrl', function($scope, product) {
-  $scope.product = product
+  $scope.product = product;
 })

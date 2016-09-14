@@ -7,7 +7,6 @@ app.factory('ProductFactory', function($http) {
   }
 
   Product.getUpgrades = function(product) {
-    console.log(product)
     return $http.get('/api/products/' + product.id + '/upgrades')
       .then(upgrades => upgrades.data)
       .then(upgrades => {
@@ -16,6 +15,7 @@ app.factory('ProductFactory', function($http) {
         product.storage = [];
         product.gpu = [];
         upgrades.forEach(upgrade => {
+          upgrade = upgrade.Upgrades;
           if (upgrade.type === 'ram') {
             product.ram.push(upgrade)
           } else if (upgrade.type === 'cpu') {
