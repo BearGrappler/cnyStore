@@ -1,4 +1,4 @@
-app.config(function ($stateProvider) {
+app.config(function($stateProvider) {
 
     $stateProvider.state('createUser', {
         url: '/createUser',
@@ -8,22 +8,25 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('CreateUserCtrl', function ($scope, AuthService, $state) {
+app.controller('CreateUserCtrl', function($scope, AuthService, $state) {
 
-    $scope.login = {};
+    $scope.newUser = {};
     $scope.error = null;
 
-    $scope.sendLogin = function (loginInfo) {
+    $scope.createUser = function(newUserInfo) {
+        if (newUserInfo.password !== newUserInfo.confirmPassword) {
+            $scope.error = 'Incorrect Password!';
+            console.log('passwords do not match');
 
-        $scope.error = null;
-        console.log('heres the loginInfo', loginInfo);
-
-        AuthService.login(loginInfo).then(function () {
-            $state.go('home');
-        }).catch(function () {
-            $scope.error = 'Invalid login credentials.';
-        });
-
+        } else {
+            console.log('heres the newUserInfo', newUserInfo)
+            AuthService.createUser(newUserInfo).then(function(){
+                $state.go('home')
+            })
+            .catch(function(){
+                $scope.error = 'Failed to Create the new User'
+            })
+        }
     };
 
 });

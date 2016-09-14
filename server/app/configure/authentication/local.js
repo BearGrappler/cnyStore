@@ -31,6 +31,7 @@ module.exports = function (app, db) {
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {
 
+        console.log('you hit loginRouterPath')
         var authCb = function (err, user) {
 
             if (err) return next(err);
@@ -58,13 +59,36 @@ module.exports = function (app, db) {
 
     // '9/14/16' change by Yi
     //A Post /create route for creating user accounts
-    app.post('/create/user', function (req, res, next) {
+    app.post('/createUser', function (req, res, next) {
 
-        console.log('you hit the /create/user route')
+        var authCb = function (err, user) {
 
+            if (err) return next(err);
 
+            if (!user) {
+                var error = new Error('Invalid login credentials.');
+                error.status = 401;
+                return next(error);
+            }
 
+            // req.logIn will establish our session.
+            req.logIn(user, function (loginErr) {
+                if (loginErr) return next(loginErr);
+                // We respond with a response object that has user with _id and email.
+                res.status(200).send({
+                    user: user.sanitize()
+                });
+            });
 
+        };
+
+        User.findOrCreate({where:{ name: req.body.name, email: req.body.email, password: req.body.password}})
+        .then(function(createdUser){
+            // return createdUser
+            // console.log('created a User and about to login');
+            passport.authenticate('local', authCb)(req,res,next)
+        })
+        .catch(function(err){console.log('ERROR something went wrong trying to create a user', err)})
         //afterwards should redirect to login so that user does not have to log-in again?
     })
 

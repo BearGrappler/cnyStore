@@ -1,16 +1,23 @@
-<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
-
+<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && createUser(newUser)">
     <alert type="danger" ng-show="error">
         {{ error }}
     </alert>
-
+    <div class="form-group">
+        <label for="name">name</label>
+        <input type="text" ng-model="newUser.name" class="form-control" id="name" placeholder="Enter name">
+    </div>
     <div class="form-group">
         <label for="email">Email address</label>
-        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+        <input type="text" ng-model="newUser.email" class="form-control" id="email" placeholder="Enter email">
     </div>
     <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+        <input type="password" ng-model="newUser.password" class="form-control" id="login-password" placeholder="Password">
     </div>
+    <div class="form-group">
+        <label for="login-password">Confirm Password</label>
+        <input type="password" ng-model="newUser.confirmPassword" class="form-control" id="login-password-confirm" placeholder="Confirm Password">
+    </div>
+
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
