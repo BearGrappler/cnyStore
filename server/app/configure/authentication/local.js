@@ -4,7 +4,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function (app, db) {
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     // When passport.authenticate('local') is used, this function will receive
     // the email and password to run the actual authentication logic.
@@ -55,5 +55,17 @@ module.exports = function (app, db) {
         passport.authenticate('local', authCb)(req, res, next);
 
     });
+
+    // '9/14/16' change by Yi
+    //A Post /create route for creating user accounts
+    app.post('/create/user', function (req, res, next) {
+
+        console.log('you hit the /create/user route')
+
+
+
+
+        //afterwards should redirect to login so that user does not have to log-in again?
+    })
 
 };

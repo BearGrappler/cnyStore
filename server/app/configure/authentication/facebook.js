@@ -4,7 +4,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 
 module.exports = function (app, db) {
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     var facebookConfig = app.getValue('env').FACEBOOK;
 

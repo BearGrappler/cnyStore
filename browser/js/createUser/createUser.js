@@ -1,14 +1,14 @@
 app.config(function ($stateProvider) {
 
-    $stateProvider.state('login', {
-        url: '/login',
-        templateUrl: 'js/login/login.html',
-        controller: 'LoginCtrl'
+    $stateProvider.state('createUser', {
+        url: '/createUser',
+        templateUrl: 'js/createUser/createUser.html',
+        controller: 'CreateUserCtrl'
     });
 
 });
 
-app.controller('LoginCtrl', function ($scope, AuthService, $state) {
+app.controller('CreateUserCtrl', function ($scope, AuthService, $state) {
 
     $scope.login = {};
     $scope.error = null;
