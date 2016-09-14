@@ -10,9 +10,9 @@ module.exports = db.define('Option', {
         allowNull: false
     },
 
-    // Upgrade option type 
+    // Upgrade option type
     type: {
-        type: Sequelize.ENUM('cpu, ram', 'hdd', 'gpu'),
+        type: Sequelize.ENUM('cpu', 'ram', 'hdd', 'gpu'),
         allowNull: false
     },
 
