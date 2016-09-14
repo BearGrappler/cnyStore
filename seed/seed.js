@@ -18,12 +18,12 @@ name in the environment files.
 */
 
 const chalk = require('chalk');
-const db = require('./server/db');
+const db = require('../server/db');
 const Promise = require('sequelize').Promise;
 
 let seedUsers = function() {
 
-    let users = require('./seed.user.js')
+    let users = require('./seedUsers.js')
 
     let creatingUsers = users.map(userObj => db.model('User').create(userObj))
 
