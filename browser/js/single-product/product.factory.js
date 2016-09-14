@@ -2,11 +2,14 @@ app.factory('ProductFactory', function($http) {
   let Product = {};
 
   Product.getOne = function(productId) {
-    return $http.get('/products/' + productId);
+    return $http.get('/api/products/' + productId)
+    .then(product => product.data)
   }
 
   Product.getUpgrades = function(product) {
-    return $http.get('/products/' + product.id + '/upgrades')
+    console.log(product)
+    return $http.get('/api/products/' + product.id + '/upgrades')
+      .then(upgrades => upgrades.data)
       .then(upgrades => {
         product.ram = [];
         product.cpu = [];
@@ -16,10 +19,12 @@ app.factory('ProductFactory', function($http) {
             product.ram.push(upgrade)
           } else if (upgrade.type === 'cpu') {
             product.cpu.push(upgrade)
-          } else if (upgrade.type === 'storage') {
+          } else if (upgrade.type === 'hdd') {
             product.storage.push(upgrade)
           }
         })
+      })
+      .then(function() {
         return product
       })
   }

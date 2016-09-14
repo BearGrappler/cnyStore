@@ -3,7 +3,7 @@ app.config(function($stateProvider) {
     .state('single-product', {
       url: '/product/:id',
       controller: 'SingleProductCtrl',
-      templateUrl: './single-product/single-product.html',
+      templateUrl: 'js/single-product/single-product.html',
       resolve: {
         product: function(ProductFactory, $stateParams) {
           return ProductFactory.getOne($stateParams.id)
@@ -13,6 +13,6 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope) {
-
+app.controller('SingleProductCtrl', function($scope, product) {
+  $scope.product = product
 })
