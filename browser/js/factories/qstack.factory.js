@@ -1,5 +1,20 @@
-app.factory('QuestionFactory', function($http) {
+app.factory('QStackFactory', function($http, QTreeFactory) {
 
+    let defaultFilters = {
+        computer: [],
+        type: [],
+        price: [],
+        priority: [],
+        processor: [],
+        ram: [],
+        hdd: [],
+        cpu: [],
+        gpu: []
+    };
+
+    let Questionnaire = QTreeFactory.bind(QTreeFactory);
+
+    // Probably should move to a database at some point in the future timeline...
     let questions = {
         home: new Questionnaire(0, 'Home', 'Which type of computer are you looking for?', {}),
         desktop: new Questionnaire(1, 'Desktop', 'Which type of user are you?', { computer: 'desktop' }),
@@ -29,54 +44,6 @@ app.factory('QuestionFactory', function($http) {
         space: new Questionnaire(21, 'Space', '', { hdd: '5', price: '3' }),
         rounded: new Questionnaire(22, 'Well-Rounded', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
     };
-
-    let defaultFilters = {
-        computer: [],
-        type: [],
-        price: [],
-        priority: [],
-        processor: [],
-        ram: [],
-        hdd: [],
-        cpu: [],
-        gpu: []
-    };
-
-    /**
-     * Questionnaire Tree Constructor
-     * @param {[Number]} id         [Integer key for the node (enables lookup)]
-     * @param {[String]} label      [Descriptor to display on selector element]
-     * @param {[String]} question   [Question to display to user (answer selectors are in this.answers)]
-     * @param {[Object]} filtersObj [Filters to apply based on answer choice]
-     */
-    function Questionnaire(id, label, question, filtersObj) {
-        this.id = id;
-        this.question = question;
-        this.label = label;
-        this.filters = filtersObj
-        this.answers = [];
-        this.parent = null;
-        this.selected = false;
-    }
-
-    Questionnaire.prototype.addAnswer = function(node) {
-        node.parent = this;
-        this.answers.push(node);
-        return this;
-
-    }
-
-    Questionnaire.prototype.chainAnswer = function(node) {
-        this.answers.forEach(answer => {
-            answer.addAnswer(node)
-        });
-        return this;
-    }
-
-    Questionnaire.prototype.selectNode = function() {
-        this.selected = !this.selected;
-        console.log(this.label, this.selected ? 'on' : 'off');
-    }
 
     /**
      * QuestionStack Stack Constructor
@@ -115,7 +82,6 @@ app.factory('QuestionFactory', function($http) {
         })
         let nextNode = this.stack.length > 0 ? this.stack.pop() : null;
         this.displayed = nextNode ? nextNode.answers : [];
-        this.selected = [];
         return nextNode;
     }
 

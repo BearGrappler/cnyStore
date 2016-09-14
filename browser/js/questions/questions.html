@@ -13,10 +13,11 @@
                 <button ng-click="advance()" type="button" class="btn btn-default">Submit</button>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="text-align:left">
+            <h4>Filter Rules to be Passed to Store Page (All Products)</h4>
             <ul class="list-group">
                 <li ng-repeat="(key, value) in qstack.currentFilters" class="list-group-item">
-                    <sm>{{key}}|: {{value}}</sm>
+                    <b>{{key}}:</b> <span ng-repeat="val in value" style="color:red">{{val}} </span>
                 </li>
             </ul>
         </div>
