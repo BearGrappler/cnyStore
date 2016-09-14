@@ -9,12 +9,12 @@ module.exports = db.define('Cart', {
         type: Sequelize.INTEGER,
         defaultValue: 1
     },
-    computer: Sequelize.INTEGER,
-    type: Sequelize.STRING,
-    price: Sequelize.INTEGER,
-    priority: Sequelize.INTEGER,
-    processor: Sequelize.INTEGER,
-    ram: Sequelize.INTEGER,
-    hdd: Sequelize.INTEGER
+    computer: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    price: Sequelize.ARRAY(Sequelize.INTEGER),
+    priority: Sequelize.ARRAY(Sequelize.STRING),
+    processor: Sequelize.ARRAY(Sequelize.INTEGER),
+    ram: Sequelize.ARRAY(Sequelize.INTEGER),
+    hdd: Sequelize.ARRAY(Sequelize.INTEGER)
 
 });
