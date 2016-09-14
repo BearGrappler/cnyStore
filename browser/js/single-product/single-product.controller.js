@@ -1,3 +1,4 @@
-app.controller('SingleProductCtrl', function($scope) {
-  // $scope.product = product that was clicked on
+app.controller('SingleProductCtrl', function($scope, ProductFactory) {
+  // $scope.product is resolved in the $stateProvider
+
 })
