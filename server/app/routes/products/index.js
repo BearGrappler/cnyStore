@@ -22,7 +22,7 @@ router.get('/type/:type', function(req, res, next) {
 
 
 router.get('/:id/upgrades', function(req, res, next) {
-  return Option.findAll({ where: { baseId: req.params.id }, include: { model: Product, as: 'Upgrades' } })
+  return Option.findAll({ where: { baseId: req.params.id }, include: [{ model: Product, as: 'Upgrades' }, {model: Product, as: 'BaseModels'}] })
     .then(options => {
       options.forEach(option => {
         if (option.defOption) {
