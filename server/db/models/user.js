@@ -60,7 +60,6 @@ module.exports = db.define('User', {
     },
     hooks: {
         beforeValidate: function (user) {
-            console.log('Hey there:', user);
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
