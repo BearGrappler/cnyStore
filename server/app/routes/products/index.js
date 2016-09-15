@@ -21,13 +21,18 @@ router.get('/:id/upgrades', function(req, res, next) {
   .then(options => res.send(options));
 });
 
-
 router.put('/:id', function(req, res, next) {
   //need admin authentication check
   //NEED TO SANITIZE
   Product.findOne({where: {id: req.params.id}})
   .then(product => product.update(req.body))
   .then(product => res.send(product))
-})
+});
+
+router.delete('/:id', function(req, res, next) {
+  Product.findOne({where: {id: req.params.id}})
+  .then(product => product.destroy())
+  .then(() => res.sendStatus(204))
+});
 
 module.exports = router;
