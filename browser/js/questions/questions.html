@@ -18,7 +18,7 @@
             <h4>Filter Rules to be Passed to Store Page (All Products)</h4>
             <ul class="list-group">
                 <li ng-repeat="(key, value) in qstack.currentFilters" class="list-group-item">
-                    <b>{{key}}:</b> <span ng-repeat="val in value track by $index" style="color:red">{{val}} </span>
+                    <b>{{key}}:</b><span style="color:red"> {{value}} </span>
                 </li>
             </ul>
         </div>
