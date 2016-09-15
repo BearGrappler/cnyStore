@@ -26,8 +26,7 @@ module.exports = db.define('Option', {
     // The option is recommended for the Gamer user type
     recGamer: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
+        defaultValue: false
     },
 
     // The option is recommended for the Artist user type

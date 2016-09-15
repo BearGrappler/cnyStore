@@ -1,0 +1,49 @@
+<section class="single-product">
+    <div class="single-product-info">
+        <div class="images">
+            <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
+        </div>
+        <h1 class="product-name"> {{product.name}} </h1>
+        <h3 class="product-price"> ${{price}} </h3>
+        <p class="product-description"> {{product.description}} </p>
+    </div>
+    <div class="configuration-selector">
+        <!-- need a way to indicate a configuration is recommended for the usertype
+          * could have a div on the side with buttons for each usertype that will change the currentConfig
+        -->
+        <!-- need to automatically show the default options in the selects -->
+        <h2> Upgrade Options: </h2>
+        <div class="ram-upgrade" ng-show="product.ram.length >= 1">
+            <label>RAM</label>
+            <select ng-change="calculatePrice()" ng-init="selectedRam = product.ram[0]" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
+        </div>
+        <div class="cpu-upgrade" ng-show="product.cpu.length >= 1">
+            <label>CPU</label>
+            <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
+        </div>
+        <div class="storage-upgrade" ng-show="product.storage.length >= 1">
+            <label>Storage</label>
+            <select ng-change="calculatePrice()" ng-init="selectedStorage = product.storage[0]" ng-options="item.name for item in product.storage" ng-model="selectedStorage"></select>
+        </div>
+        <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
+            <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
+        </div>
+    </div>
+    <div class="currentConfiguration">
+        <h3>Current Configuration:</h3>
+        <ul>
+            <li>{{product.name}} - ${{basePrice}}</li>
+            <li ng-show="product.ram.length >= 1">{{selectedRam.name}} - ${{selectedRam.price}}</li>
+            <li ng-show="product.cpu.length >= 1">{{selectedCpu.name}} - ${{selectedCpu.price}}</li>
+            <li ng-show="product.storage.length >= 1">{{selectedStorage.name}} - ${{selectedStorage.price}}</li>
+            <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
+        </ul>
+    </div>
+</section>
+<!--
+- product name
+- product photo(s)
+- product description
+- configuration selector
+- recommended configurations
+-->
