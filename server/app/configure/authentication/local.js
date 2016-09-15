@@ -44,10 +44,8 @@ module.exports = function(app, db) {
 
             // req.logIn will establish our session.
             req.logIn(user, function(loginErr) {
-                console.log('AAA');
 
                 let sendRes = function(obj) {
-                    console.log('RRR');
                     res.status(200).send({
                         user: obj.sanitize()
                     });
@@ -57,25 +55,19 @@ module.exports = function(app, db) {
                     return next(loginErr);
                     // We respond with a response object that has user with _id and email.
                 } else {
-                    console.log('BBB');
                     if (!req.session.hasOwnProperty('CartId')) return sendRes(user);
-                    console.log('CCC');
                     Cart.findOne({
                             where: {
                                 id: req.session.CartId
                             },
                             include: [{ association: Cart.Product }]
                         }).then(cart => {
-                            console.log('DDD');
                             if (!cart) return sendRes(user);
-                            console.log('EEE');
                             if (!cart.Items.length) {
-                                console.log('CAN I DESTROY THIS')
                                 cart.destroy().then(() => {
                                     return sendRes(user);
                                 })
                             } else {
-                                console.log('FFF');
                                 cart.update({ UserId: req.user.id }).then(() => {
                                     return sendRes(user);
                                 })

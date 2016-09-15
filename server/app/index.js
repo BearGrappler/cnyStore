@@ -15,13 +15,10 @@ module.exports = function(db) {
             Cart.create()
                 .then(cart => {
                     if (cart) req.session.CartId = cart.id;
-                    console.log('Made you a cart, buddy!', req.session);
                     next();
                 })
                 .catch(next);
         } else {
-            console.log('Found your cart, buddy!', req.session);
-            // console.log("Here's the req.user, buddy!", req.user);
             next();
         }
     });

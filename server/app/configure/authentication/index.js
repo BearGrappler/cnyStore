@@ -51,7 +51,6 @@ module.exports = function(app, db) {
                 include: [{ association: User.Cart }]
             })
             .then(function(user) {
-                console.log('THIS IS ME', user);
                 done(null, user);
             })
             .catch(done);
