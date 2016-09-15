@@ -70,6 +70,9 @@ module.exports = db.define('User', {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
             }
+        },
+        afterCreate: function (user) {
+            db.model('Cart').create({UserId: user.id});
         }
     }
 });
