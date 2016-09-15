@@ -8,7 +8,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/:id/upgrades', function(req, res, next) {
-  return Option.findAll({where: {baseId: req.params.id}, include: {model: Product, as: 'Upgrades'}})
+  Option.findAll({where: {baseId: req.params.id}, include: {model: Product, as: 'Upgrades'}})
   .then(options => {
     options.forEach(option => {
       if (option.defOption) {
@@ -20,5 +20,14 @@ router.get('/:id/upgrades', function(req, res, next) {
   })
   .then(options => res.send(options));
 });
+
+
+router.put('/:id', function(req, res, next) {
+  //need admin authentication check
+  //NEED TO SANITIZE
+  Product.findOne({where: {id: req.params.id}})
+  .then(product => product.update(req.body))
+  .then(product => res.send(product))
+})
 
 module.exports = router;
