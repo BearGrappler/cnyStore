@@ -1,7 +1,7 @@
 app.factory('QTreeFactory', function() {
 
 	/**
-     * Questionnaire Tree Constructor
+     * Questionnaire Tree (also QTree or Node) Constructor
      * @param {[Number]} id         [Integer key for the node (enables lookup)]
      * @param {[String]} label      [Descriptor to display on selector element]
      * @param {[String]} question   [Question to display to user (answer selectors are in this.answers)]
@@ -17,6 +17,11 @@ app.factory('QTreeFactory', function() {
         this.selected = false;
     }
 
+    /**
+     * Adds a given question node to the base node (this)'s answer list.
+     * @param {[Object]} node [QTree]
+     * @returns {[Object]} [Returns original base node to facilitate chaining]
+     */
     Questionnaire.prototype.addAnswer = function(node) {
         node.parent = this;
         this.answers.push(node);
@@ -24,6 +29,11 @@ app.factory('QTreeFactory', function() {
 
     }
 
+    /**
+     * Adds a given question node as an answer to ALL ANSWER NODES of the base node (this)'s answer list.
+     * @param {[Object]} node [QTree]
+     * @returns {[Object]} [Returns original base node to facilitate chaining]
+     */
     Questionnaire.prototype.chainAnswer = function(node) {
         this.answers.forEach(answer => {
             answer.addAnswer(node)
@@ -31,9 +41,12 @@ app.factory('QTreeFactory', function() {
         return this;
     }
 
+    /**
+     * Toggles the node's selected property;
+     * @return {[type]} [description]
+     */
     Questionnaire.prototype.selectNode = function() {
         this.selected = !this.selected;
-        console.log(this.label, this.selected ? 'on' : 'off');
     }
 
     return Questionnaire;
