@@ -1,4 +1,4 @@
-<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+<form id="login-form" name="loginForm" ng-submit="sendLogin(login)" novalidate>
 
     <alert type="danger" ng-show="error">
         {{ error }}
@@ -6,11 +6,11 @@
 
     <div class="form-group">
         <label for="email">Email address</label>
-        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+        <input type="email" ng-model="login.email" class="form-control" id="email" placeholder="Enter email" required>
     </div>
     <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password" ng-minlength= "5" ng-maxlength="16" required>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default" ng-disabled= "loginForm.$invalid">Submit</button>
 </form>

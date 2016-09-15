@@ -51,8 +51,6 @@
     app.service('AuthService', function($http, Session, $rootScope, AUTH_EVENTS, $q) {
 
         function onSuccessfulLogin(response) {
-            console.log('you in onSuccessfulLogin')
-            console.log('response', response)
             var user = response.data.user;
             Session.create(user);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
