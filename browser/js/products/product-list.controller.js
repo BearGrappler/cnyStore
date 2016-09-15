@@ -19,13 +19,17 @@ app.controller('ProductListController', function($scope, products) {
   let filters = { manufacturer: new Set([]) };
 
   $scope.filterManufacturer = function(manufacturer) {
-
     if (filters.manufacturer.has(manufacturer)) {
       filters.manufacturer.delete(manufacturer)
     } else {
       filters.manufacturer.add(manufacturer)
     }
     filter(filters)
+  }
+
+  $scope.filterPrice = function(price) {
+    filters.price = price;
+    filter(filters);
   }
 
   function filter(filterObj) {
@@ -36,10 +40,13 @@ app.controller('ProductListController', function($scope, products) {
           if (product.manufacturer === manufacturer) newProducts.push(product)
         })
       })
-      $scope.filteredProducts = newProducts;
     } else {
-      $scope.filteredProducts = $scope.allProducts;
+      newProducts = $scope.allProducts;
     }
+    if (filterObj.price) {
+      newProducts = newProducts.filter(product => product.price <= filterObj.price)
+    }
+    $scope.filteredProducts = newProducts;
   }
 
 })
