@@ -1,6 +1,6 @@
 // All used modules.
 var gulp = require('gulp');
-// var babel = require('gulp-babel');
+var babel = require('gulp-babel');
 var runSeq = require('run-sequence');
 var plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
@@ -46,15 +46,15 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
-        // .pipe(babel({
-        //     presets: ['es2015']
-        // }))
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });
 
 gulp.task('testServerJS', function () {
-    // require('babel-register');
+    require('babel-register');
     //testing environment variable
     process.env.NODE_ENV = 'testing';
 	return gulp.src('./tests/server/**/*.js', {
@@ -120,9 +120,9 @@ gulp.task('buildCSSProduction', function () {
 gulp.task('buildJSProduction', function () {
     return gulp.src(['./browser/js/app.js', './browser/js/**/*.js'])
         .pipe(concat('main.js'))
-        // .pipe(babel({
-        //     presets: ['es2015']
-        // }))
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(gulp.dest('./public'));
