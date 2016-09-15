@@ -1,119 +1,44 @@
-module.exports = [{
-    baseId: 1,
-    type: 'cpu',
-    upgradeId: 11,
-    defOption: true
-  }, {
-    baseId: 1,
-    type: 'cpu',
-    upgradeId: 12,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'cpu',
-    upgradeId: 13,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'cpu',
-    upgradeId: 14,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'ram',
-    upgradeId: 5,
-    defOption: true
-  }, {
-    baseId: 1,
-    type: 'ram',
-    upgradeId: 7,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'ram',
-    upgradeId: 9,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'hdd',
-    upgradeId: 16,
-    defOption: true
-  }, {
-    baseId: 1,
-    type: 'hdd',
-    upgradeId: 17,
-    defOption: false
-  }, {
-    baseId: 1,
-    type: 'hdd',
-    upgradeId: 19,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'cpu',
-    upgradeId: 12,
-    defOption: true
-  }, {
-    baseId: 2,
-    type: 'cpu',
-    upgradeId: 13,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'cpu',
-    upgradeId: 14,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'ram',
-    upgradeId: 6,
-    defOption: true
-  }, {
-    baseId: 2,
-    type: 'ram',
-    upgradeId: 8,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'ram',
-    upgradeId: 10,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'hdd',
-    upgradeId: 16,
-    defOption: true
-  }, {
-    baseId: 2,
-    type: 'hdd',
-    upgradeId: 17,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'hdd',
-    upgradeId: 18,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'hdd',
-    upgradeId: 19,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'gpu',
-    upgradeId: 20,
-    defOption: true
-  }, {
-    baseId: 2,
-    type: 'gpu',
-    upgradeId: 23,
-    defOption: false
-  }, {
-    baseId: 2,
-    type: 'gpu',
-    upgradeId: 21,
-    defOption: false
-  }
+var baseArray = [1, 2, 3, 4];
+var ramArray = [5, 6, 7, 8, 9, 10];
+var cpuArray = [11, 12, 13, 14, 15];
+var storageArray = [16, 17, 18, 19];
+var gpuArray = [20, 21, 22, 23];
 
+seedArray = [];
 
-]
+baseArray.forEach(base => {
+    ramArray.forEach((ram, index) => {
+        seedArray.push({
+            baseId: base,
+            type: 'ram',
+            upgradeId: ram,
+            defOption: index === 0
+        })
+    });
+    cpuArray.forEach((cpu, index) => {
+        seedArray.push({
+            baseId: base,
+            type: 'cpu',
+            upgradeId: cpu,
+            defOption: index === 0
+        })
+    });
+    storageArray.forEach((storage, index) => {
+        seedArray.push({
+            baseId: base,
+            type: 'hdd',
+            upgradeId: storage,
+            defOption: index === 0
+        })
+    });
+    gpuArray.forEach((gpu, index) => {
+        seedArray.push({
+            baseId: base,
+            type: 'gpu',
+            upgradeId: gpu,
+            defOption: index === 0
+        })
+    });
+})
+
+module.exports = seedArray;
