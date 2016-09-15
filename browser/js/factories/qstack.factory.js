@@ -50,11 +50,8 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @param {[Questionnaire]} rootNode [The root node of the question tree (should be 'home' node - ID: 1)]
      * @param {[Object]}        filters  [Filters to load - can retrieve filters from Cart entry in DB]
      */
-    function QuestionStack(rootNode, filters) {
-        this.stack = [];
-        this.displayed = [];
-        this.selected = [];
-        this.currentFilters = Object.assign({}, defaultFilters, filters);
+    function QuestionStack(rootNode, filters = {}) {
+        this.filters = filters;
         this.rootNode = rootNode;
     }
 
@@ -64,6 +61,11 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         } else { this.stack.push(nodes); }
     }
 
+    /**
+     * Puts filter parameters from an object into the 'this.currentFilter' property
+     * @param  {[object]} obj [filter parameter(s) taken from QTree node]
+     * @return {[undefined]}     [side effect only]
+     */
     QuestionStack.prototype.assign = function(obj) {
         let keys = Object.keys(obj);
         keys.forEach(key => {
@@ -73,9 +75,13 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         })
     }
 
+    /**
+     * This method handles moving down a node in the question tree by wiring QTree/QStack moving parts
+     * @return {[QTree]} [The next QTree node to display to the user]
+     */
     QuestionStack.prototype.advance = function() {
-        this.selected = this.displayed.filter(node => node.selected);
-        this.selected.forEach(node => {
+        let selected = this.displayed.filter(node => node.selected);
+        selected.forEach(node => {
             node.selected = false;
             if (node.answers.length) this.add(node);
             this.assign(node.filters);
@@ -85,6 +91,11 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         return nextNode;
     }
 
+    /**
+     * Sets the QStack 'stack' property (all the "queued-up" questions)
+     * @param {[Object || Array]} obj     [Either a QTree or array of QTrees]
+     * @param {Object} filters [A set of filters to apply to the Qstack 'currentFilter' property]
+     */
     QuestionStack.prototype.setStack = function(obj, filters = {}) {
         if (Array.isArray(obj)) this.stack = obj;
         else this.stack = [obj];
@@ -92,9 +103,15 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         this.assign(filters);
     }
 
+    /**
+     * Finds a node in the tree by id and sets it as the current node.
+     * @param  {[Object]} node [QTree node to start the search]
+     * @param  {[Number]} id   [Integer id number corresponding to QTree node]
+     * @return {[undefined]}      [just used for side effects]
+     */
     QuestionStack.prototype.findNodeById = function(node, id) {
         if (!node) node = this.rootNode;
-        if (node.id === id) this.setStack(node);
+        if (node.id === id) return this.setStack(node);
         else node.answers.forEach(answer => Questionnaire.findNodeById(answer, id));
     }
 
@@ -164,10 +181,26 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
 
 
         this.setStack(this.rootNode);
+        this.start();
 
         return this;
     }
 
-    return new QuestionStack(questions.home);
+    /**
+     * Starts a new Question Tree process by assigning a new stack, clearing any displaying nodes, etc.
+     * @return {[Object]} [Returns a QuestionStack object to facilitate chaining]
+     */
+    QuestionStack.prototype.start = function() {
+        this.displayed.forEach(node => {
+            node.selected = false
+        })
+        this.stack = [];
+        this.displayed = [];
+        this.currentFilters = Object.assign({}, JSON.parse(JSON.stringify(defaultFilters)), this.filters);
+        this.setStack(this.rootNode);
+        return this;
+    }
+
+    return new QuestionStack(questions.home).initialize();
 
 });
