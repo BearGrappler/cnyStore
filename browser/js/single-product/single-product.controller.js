@@ -15,32 +15,20 @@ app.config(function($stateProvider) {
 
 app.controller('SingleProductCtrl', function($scope, product) {
   $scope.product = product;
-  $scope.defaultConfiguration = {};
-  product.ram.forEach(option => {
-    if (option.defOption) {
-      $scope.defaultConfiguration.ram = option;
-    }
-  })
-  product.cpu.forEach(option => {
-    if (option.defOption) {
-      $scope.defaultConfiguration.cpu = option;
-    }
-  })
-  product.storage.forEach(option => {
-    if (option.defOption) {
-      $scope.defaultConfiguration.storage = option;
-    }
-  })
-  product.gpu.forEach(option => {
-    if (option.defOption) {
-      $scope.defaultConfiguration.gpu = option;
-    }
-  })
+  findDefaultConfiguration();
+  $scope.currentConfiguration = {
+    base: $scope.product,
+    ram: $scope.selectedRam,
+    cpu: $scope.selectedCpu,
+    storage: $scope.selectedStorage,
+    gpu: $scope.selectedGpu
+  }
   $scope.price = product.price;
 
   $scope.calculatePrice = function() {
     let price = product.price;
-    Object.keys($scope.defaultConfiguration).forEach(key => {price -= $scope.defaultConfiguration[key].price})
+    Object.keys($scope.defaultConfiguration).forEach(key => { price -= $scope.defaultConfiguration[key].price })
+    $scope.basePrice = price;
     if ($scope.selectedCpu) {
       price += $scope.selectedCpu.price
     }
@@ -54,5 +42,29 @@ app.controller('SingleProductCtrl', function($scope, product) {
       price += $scope.selectedGpu.price
     }
     $scope.price = price
+  }
+
+  function findDefaultConfiguration() {
+    $scope.defaultConfiguration = {};
+    product.ram.forEach(option => {
+      if (option.defOption) {
+        $scope.defaultConfiguration.ram = option;
+      }
+    })
+    product.cpu.forEach(option => {
+      if (option.defOption) {
+        $scope.defaultConfiguration.cpu = option;
+      }
+    })
+    product.storage.forEach(option => {
+      if (option.defOption) {
+        $scope.defaultConfiguration.storage = option;
+      }
+    })
+    product.gpu.forEach(option => {
+      if (option.defOption) {
+        $scope.defaultConfiguration.gpu = option;
+      }
+    })
   }
 })
