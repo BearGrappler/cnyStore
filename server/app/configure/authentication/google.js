@@ -5,7 +5,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 module.exports = function (app, db) {
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     var googleConfig = app.getValue('env').GOOGLE;
 

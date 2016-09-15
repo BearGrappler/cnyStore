@@ -17,7 +17,7 @@ module.exports = function (app, db) {
         db: db
     });
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     dbStore.sync();
 

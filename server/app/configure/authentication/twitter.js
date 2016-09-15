@@ -5,7 +5,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 
 module.exports = function (app, db) {
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     var twitterConfig = app.getValue('env').TWITTER;
 

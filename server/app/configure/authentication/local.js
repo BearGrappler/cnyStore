@@ -4,7 +4,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function (app, db) {
 
-    var User = db.model('user');
+    var User = db.model('User');
 
     // When passport.authenticate('local') is used, this function will receive
     // the email and password to run the actual authentication logic.
