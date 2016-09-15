@@ -15,4 +15,44 @@ app.config(function($stateProvider) {
 
 app.controller('SingleProductCtrl', function($scope, product) {
   $scope.product = product;
+  $scope.defaultConfiguration = {};
+  product.ram.forEach(option => {
+    if (option.defOption) {
+      $scope.defaultConfiguration.ram = option;
+    }
+  })
+  product.cpu.forEach(option => {
+    if (option.defOption) {
+      $scope.defaultConfiguration.cpu = option;
+    }
+  })
+  product.storage.forEach(option => {
+    if (option.defOption) {
+      $scope.defaultConfiguration.storage = option;
+    }
+  })
+  product.gpu.forEach(option => {
+    if (option.defOption) {
+      $scope.defaultConfiguration.gpu = option;
+    }
+  })
+  $scope.price = product.price;
+
+  $scope.calculatePrice = function() {
+    let price = product.price;
+    Object.keys($scope.defaultConfiguration).forEach(key => {price -= $scope.defaultConfiguration[key].price})
+    if ($scope.selectedCpu) {
+      price += $scope.selectedCpu.price
+    }
+    if ($scope.selectedRam) {
+      price += $scope.selectedRam.price
+    }
+    if ($scope.selectedStorage) {
+      price += $scope.selectedStorage.price
+    }
+    if ($scope.selectedGpu) {
+      price += $scope.selectedGpu.price
+    }
+    $scope.price = price
+  }
 })

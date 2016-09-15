@@ -6,17 +6,13 @@
         <!-- need a way to indicate a configuration is recommended for the usertype -->
         <!-- need to automatically show the default options in the selects -->
         <h2> Upgrade Options: </h2>
-        <select ng-show="product.ram.length >= 1" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
-        <select ng-show="product.cpu.length >= 1" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
-        <select ng-show="product.storage.length >= 1" ng-options="item.name for item in product.storage" ng-model="selectedStorage"></select>
-        <select ng-show="product.gpu.length >= 1" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
-        <!-- <pre>{{defaults.ram}}</pre>
-        <pre>{{selectedCpu.price}}</pre>
-        <pre>{{selectedStorage.price}}</pre>
-        <pre>{{selectedGpu.price}}</pre> -->
+        <select ng-change="calculatePrice()" ng-init="selectedRam = product.ram[0]" ng-show="product.ram.length >= 1" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
+        <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-show="product.cpu.length >= 1" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
+        <select ng-change="calculatePrice()" ng-init="selectedStorage = product.storage[0]" ng-show="product.storage.length >= 1" ng-options="item.name for item in product.storage" ng-model="selectedStorage"></select>
+        <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-show="product.gpu.length >= 1" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
     </div>
     <h1 class="product-name"> {{product.name}} </h1>
-    <h3 class="product-price"> {{product.price}} </h3>
+    <h3 class="product-price"> {{price}} </h3>
     <p class="product-description"> {{product.description}} </p>
 </section>
 <!--
