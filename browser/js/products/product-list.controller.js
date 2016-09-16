@@ -12,7 +12,7 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('ProductListController', function($scope, products) {
+app.controller('ProductListController', function($scope, products, ProductFactory) {
   $scope.allProducts = products;
   $scope.filteredProducts = products;
 
@@ -24,29 +24,11 @@ app.controller('ProductListController', function($scope, products) {
     } else {
       filters.manufacturer.add(manufacturer)
     }
-    filter(filters)
+    $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
   }
 
   $scope.filterPrice = function(price) {
     filters.price = price;
-    filter(filters);
+    $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
   }
-
-  function filter(filterObj) {
-    let newProducts = [];
-    if (filterObj.manufacturer.size > 0) {
-      filterObj.manufacturer.forEach(manufacturer => {
-        $scope.allProducts.forEach(product => {
-          if (product.manufacturer === manufacturer) newProducts.push(product)
-        })
-      })
-    } else {
-      newProducts = $scope.allProducts;
-    }
-    if (filterObj.price) {
-      newProducts = newProducts.filter(product => product.price <= filterObj.price)
-    }
-    $scope.filteredProducts = newProducts;
-  }
-
 })
