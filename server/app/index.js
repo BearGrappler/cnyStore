@@ -1,13 +1,27 @@
 'use strict';
-var path = require('path');
-var express = require('express');
-var app = express();
+const path = require('path');
+const express = require('express');
+const app = express();
+const Cart = require('../db').model('Cart')
 
-module.exports = function (db) {
+module.exports = function(db) {
 
     // Pass our express application pipeline into the configuration
     // function located at server/app/configure/index.js
     require('./configure')(app, db);
+
+    app.use(function(req, res, next) {
+        if (!req.user && !req.session.hasOwnProperty('cart')) {
+            Cart.create()
+                .then(cart => {
+                    if (cart) req.session.CartId = cart.id;
+                    next();
+                })
+                .catch(next);
+        } else {
+            next();
+        }
+    });
 
     // Routes that will be accessed via AJAX should be prepended with
     // /api so they are isolated from our GET /* wildcard.
@@ -20,7 +34,7 @@ module.exports = function (db) {
      This allows for proper 404s instead of the wildcard '/*' catching
      URLs that bypass express.static because the given file does not exist.
      */
-    app.use(function (req, res, next) {
+    app.use(function(req, res, next) {
 
         if (path.extname(req.path).length > 0) {
             res.status(404).end();
@@ -30,12 +44,12 @@ module.exports = function (db) {
 
     });
 
-    app.get('/*', function (req, res) {
+    app.get('/*', function(req, res) {
         res.sendFile(app.get('indexHTMLPath'));
     });
 
     // Error catching endware.
-    app.use(function (err, req, res, next) {
+    app.use(function(err, req, res, next) {
         console.error(err);
         console.error(err.stack);
         res.status(err.status || 500).send(err.message || 'Internal server error.');
@@ -44,4 +58,3 @@ module.exports = function (db) {
     return app;
 
 };
-

@@ -3,7 +3,7 @@ app.config(function($stateProvider) {
     .state('single-product', {
       url: '/product/:id',
       controller: 'SingleProductCtrl',
-      templateUrl: 'js/single-product/single-product.html',
+      templateUrl: 'js/products/single-product.html',
       resolve: {
         product: function(ProductFactory, $stateParams) {
           return ProductFactory.getOne($stateParams.id)
@@ -20,7 +20,7 @@ app.controller('SingleProductCtrl', function($scope, product) {
     base: $scope.product,
     ram: $scope.selectedRam,
     cpu: $scope.selectedCpu,
-    storage: $scope.selectedStorage,
+    hdd: $scope.selectedHdd,
     gpu: $scope.selectedGpu
   }
   $scope.price = product.price;
@@ -35,8 +35,8 @@ app.controller('SingleProductCtrl', function($scope, product) {
     if ($scope.selectedRam) {
       price += $scope.selectedRam.price
     }
-    if ($scope.selectedStorage) {
-      price += $scope.selectedStorage.price
+    if ($scope.selectedHdd) {
+      price += $scope.selectedHdd.price
     }
     if ($scope.selectedGpu) {
       price += $scope.selectedGpu.price
@@ -56,9 +56,9 @@ app.controller('SingleProductCtrl', function($scope, product) {
         $scope.defaultConfiguration.cpu = option;
       }
     })
-    product.storage.forEach(option => {
+    product.hdd.forEach(option => {
       if (option.defOption) {
-        $scope.defaultConfiguration.storage = option;
+        $scope.defaultConfiguration.hdd = option;
       }
     })
     product.gpu.forEach(option => {

@@ -1,53 +1,51 @@
 app.factory('QStackFactory', function($http, QTreeFactory) {
 
     let defaultFilters = {
-        computer: [],
         type: [],
-        price: [],
-        priority: [],
-        processor: [],
-        ram: [],
-        hdd: [],
-        cpu: [],
-        gpu: []
+        computer: [],
+        cpu: 0,
+        gpu: 0,
+        ram: 0,
+        hdd: 0,
+        size: 0
     };
 
-    let Questionnaire = QTreeFactory.bind(QTreeFactory);
+    let QTree = QTreeFactory.bind(QTreeFactory);
 
-    // Probably should move to a database at some point in the future timeline...
+    // Probably should move to a database at some point in the future timeline which will totally happen...
     let questions = {
-        home: new Questionnaire(0, 'Home', 'Which type of computer are you looking for?', {}),
-        desktop: new Questionnaire(1, 'Desktop', 'Which type of user are you?', { computer: 'desktop' }),
-        laptop: new Questionnaire(2, 'Laptop', 'Which type of user are you?', { computer: 'laptop' }),
-        gamer: new Questionnaire(3, 'Gamer', 'Select your favorite genres', { type: 'gamer' }),
-        artist: new Questionnaire(4, 'Artist', 'Do you work with audio? Video? More creative media?', { type: 'artist' }),
-        student: new Questionnaire(5, 'Student', 'What are you studying?', { type: 'student' }),
-        casual: new Questionnaire(6, 'Casual', "What's important to you?", { type: 'casual' }),
+        home: new QTree(0, 'Home', 'Which type of computer are you looking for?', {}),
+        desktop: new QTree(1, 'Desktop', 'Which type of user are you?', { computer: 'desktop' }),
+        laptop: new QTree(2, 'Laptop', 'Which type of user are you?', { computer: 'laptop' }),
+        gamer: new QTree(3, 'Gamer', 'Select your favorite genres', { type: 'gamer' }),
+        artist: new QTree(4, 'Artist', 'Do you work with audio? Video? More creative media?', { type: 'artist' }),
+        student: new QTree(5, 'Student', 'What are you studying?', { type: 'student' }),
+        casual: new QTree(6, 'Casual', "What's important to you?", { type: 'casual' }),
 
-        gamerGenreRTS: new Questionnaire(7, 'Strategy', "What's important to you?", { cpu: '4', ram: '4', gpu: '2' }),
-        gamerGenreRPG: new Questionnaire(8, 'Role Playing Games', "What's important to you?", { cpu: '4', ram: '3', gpu: '4' }),
-        gamerGenreFPS: new Questionnaire(9, 'FPS/Action', "What's important to you?", { cpu: '4', ram: '3', gpu: '4' }),
-        gamerGenreINDIE: new Questionnaire(10, 'Indie', "What's important to you?", { cpu: '2', ram: '2', gpu: '2' }),
+        gamerGenreRTS: new QTree(7, 'Strategy', "What's important to you?", { cpu: 4, ram: 4, gpu: 2 }),
+        gamerGenreRPG: new QTree(8, 'Role Playing Games', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
+        gamerGenreFPS: new QTree(9, 'FPS/Action', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
+        gamerGenreINDIE: new QTree(10, 'Indie', "What's important to you?", { cpu: 2, ram: 2, gpu: 2 }),
 
-        artistGenreAudio: new Questionnaire(11, 'Audio', "What's important to you?", { cpu: '4', ram: '3', gpu: '0' }),
-        artistGenreVideo: new Questionnaire(12, 'Video', "What's important to you?", { cpu: '4', ram: '3', gpu: '1' }),
-        artistGenrePhoto: new Questionnaire(13, 'Photo', "What's important to you?", { cpu: '3', ram: '2', gpu: '0' }),
+        artistGenreAudio: new QTree(11, 'Audio', "What's important to you?", { cpu: 4, ram: 3, gpu: '0' }),
+        artistGenreVideo: new QTree(12, 'Video', "What's important to you?", { cpu: '4', ram: '3', gpu: '1' }),
+        artistGenrePhoto: new QTree(13, 'Photo', "What's important to you?", { cpu: '3', ram: '2', gpu: '0' }),
 
-        studentMajorSTEM: new Questionnaire(14, 'Science/Technology/Math', "What's important to you?", { cpu: '3', ram: '2', gpu: '1' }),
-        studentMajorTrade: new Questionnaire(15, 'Trade School', "What's important to you?", { cpu: '1', ram: '1', gpu: '0' }),
-        studentMajorLibArts: new Questionnaire(16, 'Liberal Arts', "What's important to you?", { cpu: '2', ram: '2', gpu: '0' }),
-        studentMajorSports: new Questionnaire(17, 'Sports', "What's important to you?", { cpu: '1', ram: '2', gpu: '0' }),
+        studentMajorSTEM: new QTree(14, 'Science/Technology/Math', "What's important to you?", { cpu: '3', ram: '2', gpu: '1' }),
+        studentMajorTrade: new QTree(15, 'Trade School', "What's important to you?", { cpu: '1', ram: '1', gpu: '0' }),
+        studentMajorLibArts: new QTree(16, 'Liberal Arts', "What's important to you?", { cpu: '2', ram: '2', gpu: '0' }),
+        studentMajorSports: new QTree(17, 'Sports', "What's important to you?", { cpu: '1', ram: '2', gpu: '0' }),
 
-        price: new Questionnaire(18, 'Price', '', { price: '1' }),
-        speed: new Questionnaire(19, 'Speed', '', { cpu: '3', ram: '2', gpu: '0', hdd: '4', price: '5' }),
-        graphics: new Questionnaire(20, 'Graphics', '', { gpu: '5', price: '4' }),
-        space: new Questionnaire(21, 'Space', '', { hdd: '5', price: '3' }),
-        rounded: new Questionnaire(22, 'Well-Rounded', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
+        price: new QTree(18, 'Price', '', { price: '1' }),
+        speed: new QTree(19, 'Speed', '', { cpu: '3', ram: '2', gpu: '0', hdd: '4', price: '5' }),
+        graphics: new QTree(20, 'Graphics', '', { gpu: '5', price: '4' }),
+        space: new QTree(21, 'Space', '', { hdd: '5', price: '3' }),
+        rounded: new QTree(22, 'Well-Rounded', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
     };
 
     /**
      * QuestionStack Stack Constructor
-     * @param {[Questionnaire]} rootNode [The root node of the question tree (should be 'home' node - ID: 1)]
+     * @param {[QTree]} rootNode [The root node of the question tree (should be 'home' node - ID: 1)]
      * @param {[Object]}        filters  [Filters to load - can retrieve filters from Cart entry in DB]
      */
     function QuestionStack(rootNode, filters = {}) {
@@ -68,9 +66,20 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      */
     QuestionStack.prototype.assign = function(obj) {
         let keys = Object.keys(obj);
+        let filters = this.currentFilters;
         keys.forEach(key => {
-            if (this.currentFilters.hasOwnProperty(key)) {
-                this.currentFilters[key].push(obj[key]);
+            switch (key) {
+                case 'computer':
+                    filters.computer.push(obj[key])
+                    break;
+                case 'type':
+                    filters.type.push(obj[key])
+                    break;
+                default:
+                    {
+                        if (filters.hasOwnProperty(key)) filters[key] = +filters[key] + +obj[key];
+                    }
+                    break;
             }
         })
     }
@@ -112,11 +121,11 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
     QuestionStack.prototype.findNodeById = function(node, id) {
         if (!node) node = this.rootNode;
         if (node.id === id) return this.setStack(node);
-        else node.answers.forEach(answer => Questionnaire.findNodeById(answer, id));
+        else node.answers.forEach(answer => QTree.findNodeById(answer, id));
     }
 
     /**
-     * Initializes tree structure/associations for questionnaire.
+     * Initializes tree structure/associations for QTree.
      * @return {[undefined]} [Nothing returned]
      */
     QuestionStack.prototype.initialize = function() {
@@ -181,10 +190,15 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
 
 
         this.setStack(this.rootNode);
-        this.start();
 
         return this;
     }
+
+    // QuestionStack.prototype.applyFilters = function (id) {
+    //     if (typeof id === 'Number') {
+    //         return $http.get('/api/')
+    //     }
+    // }
 
     /**
      * Starts a new Question Tree process by assigning a new stack, clearing any displaying nodes, etc.
@@ -201,6 +215,6 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         return this;
     }
 
-    return new QuestionStack(questions.home).initialize();
+    return new QuestionStack(questions.home).initialize().start();
 
 });
