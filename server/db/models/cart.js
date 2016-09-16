@@ -4,6 +4,12 @@ const db = require('../_db');
 
 module.exports = db.define('Cart', {
 
+    active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+    },
+
     //Current question node and filter scalars
     nodeId: {
         type: Sequelize.INTEGER,
@@ -32,4 +38,22 @@ module.exports = db.define('Cart', {
         defaultValue: 0
     }
 
+}, {
+    hooks: {
+        afterUpdate: function(cart) {
+            db.model('Cart').findAll({ where: { UserId: cart.UserId, id: { $ne: cart.id } } }).then(carts => {
+                if (!carts.length) {
+                    return;
+                } else {
+                    return Promise.all(carts.map(oldCart => {
+                        return oldCart.update({ active: false }, { returning: true })
+                            .then(array => {
+                                return array[0].length ? array[1] : null
+                            })
+                            .catch(console.log);
+                    }));
+                }
+            })
+        }
+    }
 });
