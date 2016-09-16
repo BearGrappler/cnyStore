@@ -4,14 +4,18 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
     restrict: 'E',
     scope: {},
     templateUrl: 'js/common/directives/navbar/navbar.html',
-    link: function(scope) {
+    link: function(scope, ProductFactory) {
+
+      scope.search = function(input) {
+        console.log(input);
+      }
+
+      scope.searchOptions = ['model', 'cpu', 'ram', 'hdd', 'gpu'];
 
       scope.items = [
-        { label: 'Home', state: 'home' },
-        { label: 'About', state: 'about' },
-        { label: 'Documentation', state: 'docs' },
+        { label: 'Answer Questions', state: 'home' },
         { label: 'Products', state: 'product-list' },
-        { label: 'Members Only', state: 'membersOnly', auth: true }
+        { label: 'Admins Only', state: 'membersOnly', auth: true }
       ];
 
       scope.user = null;

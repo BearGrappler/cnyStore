@@ -3,16 +3,25 @@
         <div class="navbar-header">
             <fullstack-logo></fullstack-logo>
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
+            <ul class="nav navbar-nav">
+                <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
+                    <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
+                </li>
+            </ul>
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="createUser" class="btn createUser-button">Create </button>
         <div ng-show="user" class="welcome">
             <span>Welcome, {{ user.email }}!</span>
             <a ng-click="logout()">Logout</a>
+        </div>
+        <div style="text-align: center; margin: 15px 20px 15px auto; float: right">
+        <select ng-model="key">
+            <option>Search by:</option>
+            <option ng-repeat="option in searchOptions">{{option}}</option>
+        </select>
+
+        <input type="text" placeholder="search" ng-model="value">
+        <button ng-click="search({filter: {key: value}})">Search</button>
         </div>
     </div>
 </nav>
