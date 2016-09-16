@@ -35,7 +35,6 @@ router.post('/', (req, res, next) => {
                 }
             })
             .then(() => {
-                console.log('doneOrder', trackOrder);
                 res.send(trackOrder);
             })
             .catch(next);
