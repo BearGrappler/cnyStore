@@ -51,5 +51,26 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
+  Product.findByFilter = function(filterObj) {
+
+  }
+
+  Product.filter = function(filterObj, allProducts) {
+    let newProducts = [];
+    if (filterObj.manufacturer.size > 0) {
+      filterObj.manufacturer.forEach(manufacturer => {
+        allProducts.forEach(product => {
+          if (product.manufacturer === manufacturer) newProducts.push(product)
+        })
+      })
+    } else {
+      newProducts = allProducts;
+    }
+    if (filterObj.price) {
+      newProducts = newProducts.filter(product => product.price <= filterObj.price)
+    }
+    return newProducts;
+  }
+
   return Product
 })
