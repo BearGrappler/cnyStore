@@ -43,6 +43,7 @@ module.exports = db.define('User', {
         sanitize: function () {
             return _.omit(this.toJSON(), ['password', 'salt']);
         },
+
         correctPassword: function (candidatePassword) {
             return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
         }
