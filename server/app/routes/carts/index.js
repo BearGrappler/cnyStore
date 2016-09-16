@@ -3,18 +3,13 @@ const router = require('express').Router(); // eslint-disable-line new-cap
 const Cart = require('../../../db').model('Cart');
 
 router.get('/', (req, res, next) => {
-    Cart.findAll({
-            where: {
-                UserId: req.user.id
-            }
-        })
+    req.user.getCarts()
         .then(carts => {
             if (!carts.length) {
                 return res.sendStatus(404);
             } else {
                 return res.send(carts);
             }
-
         })
         .catch(next);
 });
@@ -38,14 +33,18 @@ router.put('/:id', (req, res, next) => {
             if (!cart) {
                 return res.sendStatus(404);
             } else {
-                return res.send(cart);
+                if (req.user.id !== cart.UserId) {
+                    return res.sendStatus(401);
+                } else {
+                    return res.send(cart);
+                }
             }
         })
         .catch(next);
 });
 
 router.delete('/:id', (req, res, next) => {
-    Cart.destroy({ where: { id: req.params.id } })
+    Cart.destroy({ where: { id: req.params.id, UserId: req.user.id } })
         .then(() => res.sendStatus(200))
         .catch(next);
 });

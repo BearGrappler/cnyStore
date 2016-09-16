@@ -15,11 +15,11 @@ module.exports = db.define('Cart', {
         type: Sequelize.INTEGER,
         defaultValue: 1
     },
-    computer: {
+    formFactor: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []
     },
-    type: {
+    persona: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []
     },

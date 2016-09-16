@@ -81,7 +81,7 @@ module.exports = db.define('Address', {
     },
     instanceMethods: {
         print: function() {
-            return {fullName: this.full_name, address: this.thoroughfare, apt: this.premise, city: this.locality, state: this.administrative_area, zip: this.postal_code, country: this.country};
+            return { fullName: this.full_name, address: this.thoroughfare, apt: this.premise, city: this.locality, state: this.administrative_area, zip: this.postal_code, country: this.country };
         }
     }
 });
