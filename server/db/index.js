@@ -17,7 +17,7 @@ Address.Shipping = Address.belongsToMany(User, { through: 'Shipping', as: 'Resid
 
 User.Review = User.hasMany(Review, { as: 'Reviews' });
 
-User.Cart = User.hasMany(Cart, { as: 'UserCarts' });
+User.Cart = User.hasMany(Cart);
 
 User.Order = User.hasMany(Order, { as: 'Purchases' });
 

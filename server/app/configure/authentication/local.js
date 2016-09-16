@@ -68,11 +68,10 @@ module.exports = function(app, db) {
                                     return sendRes(user);
                                 })
                             } else {
-                                cart.update({ UserId: req.user.id }).then(() => {
-                                    return sendRes(user);
-                                })
+                                return cart.update({ UserId: req.user.id });
                             }
                         })
+                        .then(() => sendRes(user))
                         .catch(next)
                 }
             });

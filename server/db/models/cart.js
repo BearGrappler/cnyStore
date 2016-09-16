@@ -39,19 +39,29 @@ module.exports = db.define('Cart', {
     }
 
 }, {
+    instanceMethods: {
+        /**
+         * Creates an Order instance, associates all cart items to it, and deletes the cart.
+         * @return {[Promise]}
+         */
+        purchase: function() {
+            let lineItems;
+            return this.getItems()
+                .then(items => {
+                    lineItems = items;
+                    return db.model('Order').create();
+                })
+                .then(newOrder => newOrder.addProducts(lineItems))
+                .then(() => this.destroy())
+                .catch(console.log);
+        }
+    },
     hooks: {
         afterUpdate: function(cart) {
-            db.model('Cart').findAll({ where: { UserId: cart.UserId, id: { $ne: cart.id } } }).then(carts => {
-                if (!carts.length) {
-                    return;
-                } else {
-                    return Promise.all(carts.map(oldCart => {
-                        return oldCart.update({ active: false }, { returning: true })
-                            .then(cart => cart ? cart : null)
-                            .catch(console.log);
-                    }));
-                }
-            })
+            return db.model('Cart').update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } } });
+        },
+        afterCreate: function(cart) {
+            return db.model('Cart').update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } } });
         }
     }
 });
