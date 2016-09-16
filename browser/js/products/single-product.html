@@ -21,9 +21,9 @@
             <label>CPU</label>
             <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
         </div>
-        <div class="storage-upgrade" ng-show="product.storage.length >= 1">
-            <label>Storage</label>
-            <select ng-change="calculatePrice()" ng-init="selectedStorage = product.storage[0]" ng-options="item.name for item in product.storage" ng-model="selectedStorage"></select>
+        <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
+            <label>hdd</label>
+            <select ng-change="calculatePrice()" ng-init="selectedHdd = product.hdd[0]" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
         </div>
         <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
             <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
@@ -35,7 +35,7 @@
             <li>{{product.name}} - ${{basePrice}}</li>
             <li ng-show="product.ram.length >= 1">{{selectedRam.name}} - ${{selectedRam.price}}</li>
             <li ng-show="product.cpu.length >= 1">{{selectedCpu.name}} - ${{selectedCpu.price}}</li>
-            <li ng-show="product.storage.length >= 1">{{selectedStorage.name}} - ${{selectedStorage.price}}</li>
+            <li ng-show="product.hdd.length >= 1">{{selectedHdd.name}} - ${{selectedHdd.price}}</li>
             <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
         </ul>
     </div>

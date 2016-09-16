@@ -1,0 +1,20 @@
+<div class="product-list-filter">
+    <form class="filter-form">
+        <label>Manufacturer</label>
+        <br>
+        <span ng-repeat="product in allProducts"> <input ng-model="manufacturer" type="checkbox" ng-change="filterManufacturer(product.manufacturer)" checked>{{product.manufacturer}} <br> </span>
+        <label>Max Price</label>
+        <br>
+        <input type="range" min="500" max="1500" value="1500" step="100" ng-model="price" ng-change="filterPrice(price)" />
+    </form>
+    <pre>{{price}}</pre>
+</div>
+<section class="product-list">
+    <div class="product-in-list" ng-repeat="product in filteredProducts">
+        <img class="product-list-image" src="{{product.imageUrls[0]}}">
+        <a ui-sref="single-product({id: product.id})">
+            <h2 class="product-list-name">{{product.name}}</h2>
+            <h4 class="product-list-price">${{product.price}}</h4>
+        </a>
+    </div>
+</section>
