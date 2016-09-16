@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/:id', function(req, res, next) {
-  Product.findOne({ where: { id: req.params.id } })
-    .then(product => res.send(product))
+   Product.findOne({where: {id: req.params.id}, include: [{association: Product.Review}]})
+  .then(product => res.send(product))
 });
 
 //type must be: 'recGamer', 'recArtist', 'recStudent', etc..
