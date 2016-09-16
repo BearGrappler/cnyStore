@@ -47,9 +47,7 @@ module.exports = db.define('Cart', {
                 } else {
                     return Promise.all(carts.map(oldCart => {
                         return oldCart.update({ active: false }, { returning: true })
-                            .then(array => {
-                                return array[0].length ? array[1] : null
-                            })
+                            .then(cart => cart ? cart : null)
                             .catch(console.log);
                     }));
                 }
