@@ -14,14 +14,14 @@
             <span>Welcome, {{ user.email }}!</span>
             <a ng-click="logout()">Logout</a>
         </div>
-        <div style="text-align: center; margin: 15px 20px 15px auto; float: right">
+        <div class="search-bar">
         <select ng-model="key">
-            <option>Search by:</option>
+            <option value="">Search by:</option>
             <option ng-repeat="option in searchOptions">{{option}}</option>
         </select>
 
         <input type="text" placeholder="search" ng-model="value">
-        <button ng-click="search({filter: {key: value}})">Search</button>
+        <button ng-click="search({key: key, value: value})">Search</button>
         </div>
     </div>
 </nav>
