@@ -1,3 +1,4 @@
+'use strict'
 let router = require('express').Router(); // eslint-disable-line new-cap
 let Product = require('../../../db').model('Product')
 let Option = require('../../../db').model('Option')
