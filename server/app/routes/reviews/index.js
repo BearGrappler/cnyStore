@@ -6,19 +6,39 @@ router.param('id', (req, res, next, id) => {
     next();
 })
 
+router.get('/all/:id', (req, res, next) => {
+    Review.findAll({ where: { ProductId: req.params.id } })
+        .then(reviews => {
+            if (!reviews.length) {
+                return res.sendStatus(404);
+            } else {
+                return res.send(reviews);
+            }
+        })
+        .catch(next);
+})
+
 router.get('/:id', (req, res, next) => {
     Review.findById(req.params.id)
         .then(review => {
-            if (review) return res.send(review);
-            else return res.sendStatus(404);
+            if (!review) {
+                return res.sendStatus(404);
+            } else {
+                return res.send(review);
+            }
         })
         .catch(next);
 })
 
 router.delete(':/id', (req, res, next) => {
     Review.findById(req.params.id).then(review => {
-        if (!review) return res.sendStatus(204);
-        else review.destroy().then(() => res.sendStatus(200))
+        if (!review) {
+            return res.sendStatus(204);
+        } else {
+            review.destroy()
+                .then(() => res.sendStatus(200))
+                .catch(next);
+        }
     })
 })
 
@@ -35,7 +55,13 @@ router.post('/:id', (req, res, next) => {
                 UserId: req.user.id,
                 ProductId: req.params.id
             }
-        }).then(review => res.send(review))
+        }).then(review => {
+            if (!review) {
+                return res.sendStatus(500);
+            } else {
+                return res.send(review);
+            }
+        })
         .catch(next);
 })
 
@@ -50,8 +76,11 @@ router.put('/:id', (req, res, next) => {
             returning: true
         })
         .then(array => {
-            if (array[0] !== 1) return res.sendStatus(204);
-            else return res.send(array[1]);
+            if (array[0] !== 1) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(array[1]);
+            }
         })
         .catch(next)
 })
