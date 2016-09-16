@@ -40,7 +40,7 @@ router.get('/:id/upgrades', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
   if (req.user && req.user.isAdmin) {
-    Product.findOne({ where: { id: req.params.id } })
+    Product.findById(req.params.id)
       .then(product => product.update({
         name: req.body.name,
         manufacturer: req.body.manufacturer,
@@ -61,7 +61,7 @@ router.put('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
   if (req.user && req.user.isAdmin) {
-    Product.findOne({ where: { id: req.params.id } })
+    Product.findById(req.params.id)
       .then(product => product.destroy())
       .then(() => res.sendStatus(204))
       .catch(() => res.sendStatus(500));
