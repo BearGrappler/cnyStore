@@ -26,13 +26,12 @@ Cart.Product = Cart.belongsToMany(Product, { through: 'ProductCart', as: 'Items'
 
 Product.Review = Product.hasMany(Review, { as: 'Reviews' });
 
-Product.Order = Product.belongsToMany(Order, { through: 'OrderProduct', as: 'LineItems' });
-Order.Product = Order.belongsToMany(Product, { through: 'OrderProduct', as: 'Orders' });
+Product.Order = Product.belongsToMany(Order, { through: 'OrderProduct' });
+Order.Product = Order.belongsToMany(Product, { through: 'OrderProduct' });
 
 Option.Base = Option.belongsTo(Product, { as: 'BaseModels', foreignKey: 'baseId' });
 Option.Upgrade = Option.belongsTo(Product, { as: 'Upgrades', foreignKey: 'upgradeId' });
 
-Address.Order = Address.hasMany(Order, {as: 'Purchases'});
+Address.Order = Address.hasMany(Order, { as: 'Purchases' });
 
 module.exports = db;
-
