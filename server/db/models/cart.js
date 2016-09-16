@@ -15,8 +15,14 @@ module.exports = db.define('Cart', {
         type: Sequelize.INTEGER,
         defaultValue: 1
     },
-    computer: Sequelize.ARRAY(Sequelize.STRING),
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    computer: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: []
+    },
+    type: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: []
+    },
     cpu: {
         type: Sequelize.INTEGER,
         defaultValue: 0
@@ -54,14 +60,15 @@ module.exports = db.define('Cart', {
                 .then(newOrder => newOrder.addProducts(lineItems))
                 .then(() => this.destroy())
                 .catch(console.log);
+        },
+        makePrimary: function() {
+            return db.model('Cart')
+                .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } } })
+                .catch(console.log);
         }
     },
     hooks: {
-        afterUpdate: function(cart) {
-            return db.model('Cart').update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } } });
-        },
-        afterCreate: function(cart) {
-            return db.model('Cart').update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } } });
-        }
+        afterUpdate: (cart) => cart.makePrimary(),
+        afterCreate: (cart) => cart.makePrimary()
     }
 });
