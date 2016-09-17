@@ -16,19 +16,18 @@ app.controller('CreateUserCtrl', function($scope, AuthService, $state) {
 
     $scope.createUser = function(newUserInfo) {
 
-        if($scope.loginForm.$valid){
+        if ($scope.loginForm.$valid) {
             if (newUserInfo.password !== newUserInfo.confirmPassword) {
                 $scope.error = 'Incorrect Password!';
             } else {
-                AuthService.createUser(newUserInfo).then(function(){
-                    $state.go('home')
-                })
-                .catch(function(){
-                    $scope.error = 'Failed to Create the new User'
-                })
+                AuthService.createUser(newUserInfo).then(function() {
+                        $state.go('home')
+                    })
+                    .catch(function() {
+                        $scope.error = 'Failed to Create the new User'
+                    })
             }
-        }
-        else{
+        } else {
             $scope.error = 'Not valid input! Please correct.'
         }
     }

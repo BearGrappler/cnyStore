@@ -2,12 +2,9 @@
 var router = require('express').Router(); // eslint-disable-line new-cap
 module.exports = router;
 var _ = require('lodash');
-var User = require
 
 var ensureAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
-
-
         next();
     } else {
         res.status(401).end();

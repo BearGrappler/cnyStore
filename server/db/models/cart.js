@@ -16,11 +16,11 @@ module.exports = db.define('Cart', {
         defaultValue: 1
     },
     formFactor: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
         defaultValue: []
     },
     persona: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
         defaultValue: []
     },
     cpu: {
@@ -62,6 +62,7 @@ module.exports = db.define('Cart', {
                 .catch(console.log);
         },
         makePrimary: function() {
+            if (!this.active) return;
             return db.model('Cart')
                 .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } } })
                 .catch(console.log);

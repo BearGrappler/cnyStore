@@ -19,7 +19,7 @@ module.exports = function (app, db) {
 
         User.findOne({
                 where: {
-                    google_id: profile.id
+                    googleId: profile.id
                 }
             })
             .then(function (user) {
@@ -27,7 +27,7 @@ module.exports = function (app, db) {
                     return user;
                 } else {
                     return User.create({
-                        google_id: profile.id
+                        googleId: profile.id
                     });
                 }
             })

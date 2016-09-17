@@ -17,7 +17,7 @@ module.exports = db.define('User', {
         }
     },
     password: {
-        type: Sequelize.STRING(1024), //since we are encrypting with SHA-512
+        type: Sequelize.STRING(1024), // eslint-disable-line new-cap
         allowNull: false
     },
     isAdmin: {
@@ -29,13 +29,13 @@ module.exports = db.define('User', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    twitter_id: {
+    twitterId: {
         type: Sequelize.STRING
     },
-    facebook_id: {
+    facebookId: {
         type: Sequelize.STRING
     },
-    google_id: {
+    googleId: {
         type: Sequelize.STRING
     }
 }, {

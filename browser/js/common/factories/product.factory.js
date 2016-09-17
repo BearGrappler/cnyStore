@@ -51,9 +51,9 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
-  Product.findByFilter = function(filterObj) {
+  // Product.findByFilter = function(filterObj) {
 
-  }
+  // }
 
   Product.filter = function(filterObj, allProducts) {
     let newProducts = [];

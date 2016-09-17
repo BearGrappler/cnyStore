@@ -5,49 +5,35 @@ const db = require('../_db');
 module.exports = db.define('Address', {
     // Country (always require, 2 character ISO code)
     country: {
-        type: Sequelize.STRING(2),
+        type: Sequelize.STRING(2), // eslint-disable-line new-cap
         allowNull: false,
         validate: {
             isAlpha: true
         }
     },
-    // First Name
-    first_name: {
+    firstName: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    // Last Name
-    last_name: {
+    lastName: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    // Company
-    organisation_name: {
+    company: {
         type: Sequelize.STRING
     },
-    // State / Province / Region
-    administrative_area: {
+    state: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
             isAlpha: true
         }
     },
-    // County / District (Unused)
-    sub_administrative_area: {
-        type: Sequelize.STRING
-    },
-    // City / Town
-    locality: {
+    city: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    // Dependent Locality (unused)
-    dependent_locality: {
-        type: Sequelize.STRING
-    },
-    // Zip Code / Postal Code
-    postal_code: {
+    zipCode: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
@@ -56,7 +42,7 @@ module.exports = db.define('Address', {
             }
         },
         set: function(val) {
-            this.setDataValue('postal_code', String(val));
+            this.setDataValue('zipCode', String(val));
         }
     },
     // Street Address
@@ -65,23 +51,14 @@ module.exports = db.define('Address', {
         allowNull: false
     },
     // Apartment, Suite, Box number, etc.
-    premise: {
-        type: Sequelize.STRING
-    },
-    // Sub premise (unused)
-    sub_premise: {
+    apartment: {
         type: Sequelize.STRING
     }
 
 }, {
     getterMethods: {
-        full_name: function() {
-            return this.first_name + ' ' + this.last_name;
-        }
-    },
-    instanceMethods: {
-        print: function() {
-            return { fullName: this.full_name, address: this.thoroughfare, apt: this.premise, city: this.locality, state: this.administrative_area, zip: this.postal_code, country: this.country };
+        fullName: function() {
+            return this.firstName + ' ' + this.lastName;
         }
     }
 });

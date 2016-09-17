@@ -38,11 +38,11 @@ module.exports = db.define('Product', {
         allowNull: false
     },
     imageUrls: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
         allowNull: false
     },
     type: {
-        type: Sequelize.ENUM('base', 'ram', 'hdd', 'cpu', 'gpu'),
+        type: Sequelize.ENUM('base', 'ram', 'hdd', 'cpu', 'gpu'), // eslint-disable-line new-cap
         allowNull: false
     },
     inventory: {

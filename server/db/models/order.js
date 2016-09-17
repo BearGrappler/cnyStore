@@ -16,7 +16,7 @@ module.exports = db.define('Order', {
         allowNull: true
     },
     currentStatus: {
-        type: Sequelize.ENUM('processing', 'shipped', 'delivered'),
+        type: Sequelize.ENUM('processing', 'shipped', 'delivered'), // eslint-disable-line new-cap
         defaultValue: 'processing',
         allowNull: false
     }
