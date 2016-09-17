@@ -46,7 +46,7 @@ module.exports = function(app, db) {
             req.logIn(user, function(loginErr) {
 
                 let sendRes = function(obj) {
-                    res.status(200).send({
+                    return res.status(200).send({
                         user: obj.sanitize()
                     });
                 }
@@ -62,11 +62,9 @@ module.exports = function(app, db) {
                             },
                             include: [{ association: Cart.Product }]
                         }).then(cart => {
-                            if (!cart) return sendRes(user);
+                            if (!cart) return;
                             if (!cart.Items.length) {
-                                cart.destroy().then(() => {
-                                    return sendRes(user);
-                                })
+                                return cart.destroy();
                             } else {
                                 return cart.update({ UserId: req.user.id });
                             }

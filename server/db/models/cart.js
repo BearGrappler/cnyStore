@@ -50,26 +50,38 @@ module.exports = db.define('Cart', {
          * Creates an Order instance, associates all cart items to it, and deletes the cart.
          * @return {[Promise]}
          */
-        purchase: function() {
-            let lineItems;
+        purchase: function(AddressId, user) {
+            let order;
             return this.getItems()
                 .then(items => {
-                    lineItems = items;
-                    return db.model('Order').create();
+                    if (!items.length) {
+                        return;
+                    } else {
+                        return db.model('Order').create()
+                            .then(newOrder => {
+                                order = newOrder;
+                                return order.addProducts(items)
+                            })
+                            .then(() => db.model('Address').findById(AddressId))
+                            .then(address => address.addReceipt(order))
+                            .then(() => user.addPurchase(order))
+                            .then(() => this.destroy())
+                            .then(() => order)
+                            .catch(console.log);
+                    }
                 })
-                .then(newOrder => newOrder.addProducts(lineItems))
-                .then(() => this.destroy())
                 .catch(console.log);
+
         },
         makePrimary: function() {
             if (!this.active) return;
             return db.model('Cart')
-                .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } } })
+                .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } }, returning: true })
                 .catch(console.log);
         }
     },
     hooks: {
-        afterUpdate: (cart) => cart.makePrimary(),
+        beforeValidate: (cart) => cart.makePrimary(),
         afterCreate: (cart) => cart.makePrimary()
     }
 });

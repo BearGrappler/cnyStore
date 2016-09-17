@@ -1,6 +1,7 @@
 'use strict'
 const router = require('express').Router(); // eslint-disable-line new-cap
 const Order = require('../../../db').model('Order');
+const Cart = require('../../../db').model('Cart');
 
 router.param('id', (req, res, next, id) => {
     if (/[^0-9]/.test(String(id))) {
@@ -21,25 +22,33 @@ router.get('/:id', (req, res, next) => {
         .catch(next);
 });
 
-router.post('/', (req, res, next) => {
+router.use((req, res, next) => {
     if (!(req.body.hasOwnProperty('CartId') && req.body.hasOwnProperty('AddressId'))) {
-        res.sendStatus(400);
+        return res.sendStatus(400);
     } else {
-        let trackOrder;
-        Order.create({ UserId: req.user.id, AddressId: req.body.AddressId })
-            .then(order => {
-                if (!order) {
+        if (!req.user) return res.sendStatus(401);
+        Cart.findById(req.body.CartId).then(cart => {
+                if (!cart) {
                     return res.sendStatus(404);
                 } else {
-                    trackOrder = order;
-                    return order.transfer(req.body.CartId);
+                    req.cart = cart;
+                    next();
                 }
-            })
-            .then(() => {
-                res.send(trackOrder);
             })
             .catch(next);
     }
+});
+
+router.post('/', (req, res, next) => {
+    return req.cart.purchase(req.body.AddressId, req.user)
+        .then(order => {
+            if (!order) {
+                return res.sendStatus(500);
+            } else {
+                return res.send(order);
+            }
+        })
+        .catch(next);
 });
 
 module.exports = router;

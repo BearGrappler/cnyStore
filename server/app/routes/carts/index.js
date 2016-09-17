@@ -22,7 +22,7 @@ router.post('/', (req, res, next) => {
             .then(newCart => {
                 return req.user.addCart(newCart);
             })
-            .then(cart => res.send(cart))
+            .then(user => res.send(user.sanitize()))
             .catch(next);
     }
 });
@@ -50,11 +50,15 @@ router.use((req, res, next) => {
     if (!req.user) {
         return res.sendStatus(401);
     } else {
+
         Cart.findOne({
                 where: {
                     UserId: req.user.id,
-                    status: 'active'
-                }
+                    active: true
+                },
+                include: [{
+                    association: Cart.Product
+                }]
             })
             .then(cart => {
                 if (!cart) {
