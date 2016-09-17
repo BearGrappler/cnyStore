@@ -11,7 +11,8 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
         { label: 'About', state: 'about' },
         { label: 'Documentation', state: 'docs' },
         { label: 'Products', state: 'product-list' },
-        { label: 'Members Only', state: 'membersOnly', auth: true }
+        { label: 'Members Only', state: 'membersOnly', auth: true },
+        { label: 'Admins Only', state: 'adminsOnly', userType: 'admin' }
       ];
 
       scope.user = null;
@@ -35,6 +36,28 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
       var removeUser = function() {
         scope.user = null;
       };
+
+
+      scope.showNavItem = function(item) {
+
+                if (item.userType) {
+                    if (scope.user) {
+                        if (scope.user.isAdmin) {
+                            return true
+                        } else if (item.userType === 'member') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+
+            };
 
       setUser();
 
