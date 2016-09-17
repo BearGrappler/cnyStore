@@ -58,7 +58,6 @@ module.exports = function(app, db) {
                         return next(loginErr);
                         // We respond with a response object that has user with _id and email.
                     } else {
-                        console.log('SESSION:', req.session);
                         if (!req.session.hasOwnProperty('CartId')) return sendRes(user);
                         Cart.findOne({
                                 where: {

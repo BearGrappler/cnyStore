@@ -62,27 +62,28 @@ let seedOptions = function() {
     return Promise.all(creatingOptions)
 }
 
-db.sync({ force: true })
-    .then(function() {
-        return seedUsers();
-    })
-    .then(() => {
-        return seedOrders();
-    })
-    .then(() => {
-        return seedProducts();
-    })
-    .then(() => {
-        return seedAddresses();
-    })
-    .then(() => {
-        return seedOptions();
-    })
-    .then(function() {
-        console.log(chalk.green('Seed successful!'));
-        process.exit(0);
-    })
-    .catch(function(err) {
-        console.error(err);
-        process.exit(1);
-    });
+module.exports = (function() {
+    return db.sync({ force: true })
+        .then(function() {
+            return seedUsers();
+        })
+        .then(() => {
+            return seedOrders();
+        })
+        .then(() => {
+            return seedProducts();
+        })
+        .then(() => {
+            return seedAddresses();
+        })
+        .then(() => {
+            return seedOptions();
+        })
+        .then(function() {
+            return console.log(chalk.green('Seed successful!'));
+        })
+        .catch(function(err) {
+            console.error(err);
+            process.exit(1);
+        });
+}());

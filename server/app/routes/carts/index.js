@@ -1,6 +1,7 @@
 'use strict'
 const router = require('express').Router(); // eslint-disable-line new-cap
 const Cart = require('../../../db').model('Cart');
+const User = require('../../../db').model('User');
 
 router.get('/', (req, res, next) => {
 
@@ -35,9 +36,15 @@ router.post('/', (req, res, next) => {
     if (!req.user) {
         return res.sendStatus(401);
     } else {
-        Cart.create()
-            .then(newCart => {
-                return req.user.addCart(newCart);
+        Cart.create({ UserId: req.user.id })
+            .then(() => {
+                // This serves to refresh the user associations.
+                return User.findOne({
+                    where: {
+                        id: req.user.id
+                    },
+                    include: [{ association: User.Cart }]
+                })
             })
             .then(user => res.send(user.sanitize()))
             .catch(next);
@@ -45,26 +52,16 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    // console.log('AAAA');
     if (!req.user) {
-        // console.log('BBBB');
         return res.sendStatus(401);
     } else {
-        // console.log('CCCC');
-        Cart.update({ active: true }, { where: { id: req.params.id, UserId: req.user.id }, returning: true })
+        Cart.update({ active: true }, { where: { id: req.params.id, UserId: req.user.id }, returning: true, individualHooks: true })
             .then(cart => {
-                // console.log('DDDD');
                 if (!cart[0]) {
-                    // console.log('EEEE');
                     return res.sendStatus(404);
                 } else {
-                    // console.log('FFFF');
-                    console.log('cart', cart[1]);
-                    console.log('req.user.id', req.user.id);
-                    console.log('cart.UserId', cart[1].UserId);
                     if (String(req.user.id) !== String(cart[1][0].UserId)) return res.sendStatus(401);
-                    // console.log('GGGG');
-                    return res.send(cart);
+                    return res.send(cart[1][0]);
                 }
             })
             .catch(next);
@@ -75,18 +72,21 @@ router.delete('/:id', (req, res, next) => {
     if (!req.user) {
         return res.sendStatus(401);
     } else {
-        Cart.destroy({ where: { id: req.params.id, UserId: req.user.id } })
-            .then(() => res.sendStatus(204))
+        Cart.destroy({ where: { id: req.params.id, UserId: req.user.id }, individualHooks: true })
+            .then((cart) => {
+                if (!cart) {
+                    return res.sendStatus(400)
+                } else {
+                    return res.sendStatus(204);
+                }
+            })
             .catch(next);
     }
 });
 
 router.use((req, res, next) => {
-    // console.log('AAAA');
     (function() {
-        // console.log('BBBB');
         if (req.user) {
-            // console.log('UUUU');
             return Cart.findOne({
                 where: {
                     UserId: req.user.id,
@@ -97,7 +97,6 @@ router.use((req, res, next) => {
                 }]
             });
         } else if (req.session.CartId) {
-            // console.log('SSSS');
             return Cart.findOne({
                 where: {
                     id: req.session.CartId,

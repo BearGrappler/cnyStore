@@ -18,6 +18,9 @@ Address.Shipping = Address.belongsToMany(User, { through: 'Shipping', as: 'Resid
 User.Review = User.hasMany(Review, { as: 'Reviews' });
 
 User.Cart = User.hasMany(Cart, { as: 'Carts' });
+User.addScope('includeCarts', {
+    include: [{ association: User.Cart }]
+});
 
 User.Order = User.hasMany(Order, { as: 'Purchases' });
 
