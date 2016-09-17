@@ -4,11 +4,8 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
     restrict: 'E',
     scope: {},
     templateUrl: 'js/common/directives/navbar/navbar.html',
-    link: function(scope, ProductFactory) {
+    link: function(scope) {
 
-      scope.search = function(input) {
-        console.log(input);
-      }
 
       scope.searchOptions = ['model', 'cpu', 'ram', 'hdd', 'gpu'];
 
@@ -19,6 +16,10 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
       ];
 
       scope.user = null;
+
+      scope.search = function() {
+        $state.go('product-list', {search: scope.value});
+      }
 
       scope.isLoggedIn = function() {
         return AuthService.isAuthenticated();

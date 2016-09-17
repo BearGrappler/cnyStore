@@ -1,11 +1,14 @@
 app.config(function($stateProvider) {
   $stateProvider
     .state('product-list', {
-      url: '/products',
+      url: '/products/:search',
       controller: 'ProductListController',
       templateUrl: 'js/products/product-list.html',
       resolve: {
-        products: function(ProductFactory) {
+        products: function(ProductFactory, $stateParams) {
+          if ($stateParams.search !== '') {
+            return ProductFactory.findBySearchFilter($stateParams.search)
+          }
           return ProductFactory.getAll();
         }
       }

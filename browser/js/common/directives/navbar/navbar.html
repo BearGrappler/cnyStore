@@ -15,13 +15,13 @@
             <a ng-click="logout()">Logout</a>
         </div>
         <div class="search-bar">
-        <select ng-model="key">
+        <!-- <select>
             <option value="">Search by:</option>
             <option ng-repeat="option in searchOptions">{{option}}</option>
-        </select>
-
-        <input type="text" placeholder="search" ng-model="value">
-        <button ng-click="search({key: key, value: value})">Search</button>
+        </select> -->
+        <input type="text" placeholder="searchh" ng-model="value">
+        <input type="submit" ng-click="search()" />
+        <pre> {{value}} </pre>
         </div>
     </div>
 </nav>

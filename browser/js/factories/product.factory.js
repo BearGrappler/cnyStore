@@ -1,18 +1,22 @@
 app.factory('ProductFactory', function($http) {
   let Product = {};
 
+  //gets a single product by ID
   Product.getOne = function(productId) {
     return $http.get('/api/products/' + productId)
       .then(product => product.data)
   }
 
+  //gets all products
   Product.getAll = function() {
     return $http.get('/api/products/')
       .then(products => products.data)
   }
 
+  //REFACTOR TO USE QUERYING
+  //gets all base models of a given userType
   Product.getAllOfType = function(type) {
-    return $http.get('/api/products/type/' + type)
+    return $http.get('/api/products?type=' + type)
       .then(options => options.data)
       .then(options => {
         let baseModels = {};
@@ -24,7 +28,7 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
-
+  //extracts the upgrades from the http response and puts them on the product
   Product.getUpgrades = function(product) {
     return $http.get('/api/products/' + product.id + '/upgrades')
       .then(upgrades => upgrades.data)
@@ -51,10 +55,19 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
-  Product.findByFilter = function(filterObj) {
+  //this will take care of standard filter objs from the question waterfull
+  // Product.findByFilterObj = function(filterObj) {
 
+  // }
+
+  //this will take care of search queries from the search bar
+  Product.findBySearchFilter = function(term) {
+    return $http.get('/api/products?search=' + term)
+    .then(products => products.data)
+    .catch(console.log)
   }
 
+  //this will refresh the visible products from the sidebar filter
   Product.filter = function(filterObj, allProducts) {
     let newProducts = [];
     if (filterObj.manufacturer.size > 0) {
