@@ -108,11 +108,7 @@ module.exports = function(app, db) {
         };
 
         User.findOrCreate({ where: { name: req.body.name, email: req.body.email, password: req.body.password } })
-            .then(function(createdUser) {
-                // return createdUser
-                // console.log('created a User and about to login');
-                passport.authenticate('local', authCb)(req, res, next)
-            })
+            .then(() => passport.authenticate('local', authCb)(req, res, next))
             .catch(function(err) { console.log('ERROR something went wrong trying to create a user', err) })
             //afterwards should redirect to login so that user does not have to log-in again?
     })

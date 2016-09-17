@@ -33,11 +33,8 @@ router.put('/:id', (req, res, next) => {
             if (!cart) {
                 return res.sendStatus(404);
             } else {
-                if (req.user.id !== cart.UserId) {
-                    return res.sendStatus(401);
-                } else {
-                    return res.send(cart);
-                }
+                if (req.user.id !== cart.UserId) return res.sendStatus(401);
+                return res.send(cart);
             }
         })
         .catch(next);

@@ -17,7 +17,7 @@ module.exports = function (app, db) {
 
     var createNewUser = function (token, tokenSecret, profile) {
         return User.create({
-            twitter_id: profile.id
+            twitterId: profile.id
         });
     };
 
@@ -25,7 +25,7 @@ module.exports = function (app, db) {
 
         User.findOne({
             where: {
-                twitter_id: profile.id
+                twitterId: profile.id
             }
         }).exec()
             .then(function (user) {
