@@ -1,6 +1,20 @@
 'use strict';
 const Sequelize = require('sequelize');
 const db = require('../_db');
+const chalk = require('chalk');
+
+function makePrimary(carts) {
+    console.log(chalk.yellow('carts'), carts);
+    if (carts) {
+        return Promise.all(carts.map(cart => cart.update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } }, returning: true })));
+    } else {
+        console.log(chalk.yellow('this'), this);
+        if (!this.UserId) return;
+        return db.model('Cart')
+            .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } }, returning: true })
+            .catch(console.log);
+    }
+}
 
 module.exports = db.define('Cart', {
 
@@ -73,15 +87,10 @@ module.exports = db.define('Cart', {
                 .catch(console.log);
 
         },
-        makePrimary: function() {
-            if (!this.active) return;
-            return db.model('Cart')
-                .update({ active: false }, { where: { UserId: this.UserId, id: { $ne: this.id } }, returning: true })
-                .catch(console.log);
-        }
+        makePrimary: makePrimary.bind(this)
     },
     hooks: {
-        beforeValidate: (cart) => cart.makePrimary(),
-        afterCreate: (cart) => cart.makePrimary()
+        beforeBulkUpdate: (carts) => makePrimary(carts),
+        beforeCreate: (cart) => cart.makePrimary()
     }
 });

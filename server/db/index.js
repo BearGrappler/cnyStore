@@ -23,6 +23,9 @@ User.Order = User.hasMany(Order, { as: 'Purchases' });
 
 Product.Cart = Product.belongsToMany(Cart, { through: 'ProductCart', as: 'Carts' });
 Cart.Product = Cart.belongsToMany(Product, { through: 'ProductCart', as: 'Items' });
+Cart.addScope('itemsInCart', {
+    include: [{ association: Cart.Product }]
+});
 
 Product.Review = Product.hasMany(Review, { as: 'Reviews' });
 
