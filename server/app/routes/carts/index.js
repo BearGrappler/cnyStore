@@ -125,10 +125,9 @@ router.get('/active', (req, res, next) => res.send(req.cart));
 
 router.post('/active/:id', (req, res, next) => {
 
-    req.cart.addItem(req.params.id)
+    req.cart.addItem(req.params.id, { individualHooks: true })
         .then(() => res.sendStatus(200))
         .catch(next);
-
 });
 
 router.delete('/active/:id', (req, res, next) => {
@@ -142,7 +141,6 @@ router.delete('/active/:id', (req, res, next) => {
             }
         })
         .catch(next);
-
 });
 
 module.exports = router;

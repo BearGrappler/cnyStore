@@ -1,7 +1,6 @@
 'use strict';
 const Sequelize = require('sequelize');
 const db = require('../_db');
-const chalk = require('chalk');
 
 module.exports = db.define('Cart', {
 
@@ -59,15 +58,23 @@ module.exports = db.define('Cart', {
                         return;
                     } else {
                         return db.model('Order').create()
-                            .then(newOrder => {
-                                order = newOrder;
-                                return order.addProducts(items)
+                            .then(_order => {
+                                order = _order;
+                                return _order.addProducts(items);
                             })
                             .then(() => db.model('Address').findById(AddressId))
-                            .then(address => address.addReceipt(order))
+                            .then(_address => _address.addReceipt(order))
                             .then(() => user.addPurchase(order))
                             .then(() => this.destroy())
-                            .then(() => order)
+                            .then(() => {
+                                return db.model('Order').findOne({
+                                    where: {
+                                        id: order.id
+                                    },
+                                    scope: 'fullOrder'
+                                });
+                            })
+                            .then(_order => _order)
                             .catch(console.log);
                     }
                 })

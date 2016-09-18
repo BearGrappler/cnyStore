@@ -34,10 +34,14 @@ Product.Review = Product.hasMany(Review, { as: 'Reviews' });
 
 Product.Order = Product.belongsToMany(Order, { through: 'OrderProduct' });
 Order.Product = Order.belongsToMany(Product, { through: 'OrderProduct' });
+Order.addScope('fullOrder', {
+    include: [{ association: Order.Product }]
+});
 
 Option.Base = Option.belongsTo(Product, { as: 'BaseModels', foreignKey: 'baseId' });
 Option.Upgrade = Option.belongsTo(Product, { as: 'Upgrades', foreignKey: 'upgradeId' });
 
 Address.Order = Address.hasMany(Order, { as: 'Receipts' });
+
 
 module.exports = db;

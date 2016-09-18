@@ -34,7 +34,7 @@ app.factory('ReviewFactory', function($http) {
      * @return {[Object]} [Promise for the created review]
      */
     function addReview(review) {
-        if (!approveReview) return;
+        if (!approveReview(review)) return;
         return $http.post('/api/reviews/' + review.ProductId, {
                 rating: review.rating,
                 text: review.text
