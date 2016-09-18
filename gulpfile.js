@@ -53,25 +53,14 @@ gulp.task('buildJS', ['lintJS'], function() {
         .pipe(gulp.dest('./public'));
 });
 
-gulp.task('seedTestDB', function(cb) {
-    //testing environment variable
-    process.env.NODE_ENV = 'testing';
-    require('./seed/seed')
-        .then(() => {
-            cb();
-        })
-        .catch(cb)
-});
-
-gulp.task('testServer', ['seedTestDB'], function() {
+gulp.task('testServerJS', function() {
     require('babel-register');
     //testing environment variable
-    return gulp.src('./tests/server/routes/cart-test.js', {
+    process.env.NODE_ENV = 'testing';
+    return gulp.src('./tests/server/**/*.js', {
         read: false
     }).pipe(mocha({ reporter: 'spec' }));
 });
-
-gulp.task('testServerJS', ['seedTestDB', 'testServer']);
 
 gulp.task('testServerJSWithCoverage', function(done) {
     //testing environment variable
@@ -92,13 +81,13 @@ gulp.task('testServerJSWithCoverage', function(done) {
         });
 });
 
-gulp.task('testBrowserJS', function(cb) {
+gulp.task('testBrowserJS', function(done) {
     //testing environment variable
     process.env.NODE_ENV = 'testing';
     karma.start({
         configFile: __dirname + '/tests/browser/karma.conf.js',
         singleRun: true
-    }, cb);
+    }, done);
 });
 
 gulp.task('buildCSS', function() {
