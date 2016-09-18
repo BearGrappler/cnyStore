@@ -13,19 +13,20 @@ app.factory('ProductFactory', function($http) {
       .then(products => products.data)
   }
 
-  //REFACTOR TO USE QUERYING
+  //NEED TO FIX
   //gets all base models of a given userType
   Product.getAllOfType = function(type) {
     return $http.get('/api/products?type=' + type)
       .then(options => options.data)
       .then(options => {
-        let baseModels = {};
+        let baseModels = new Set()
         let upgrades = { ram: [], hdd: [], cpu: [], gpu: [] };
         options.forEach(option => {
-          baseModels[option.BaseModels.name] = option.BaseModels;
-          upgrades[option.Upgrades.type].push(option.Upgrades);
+          baseModels.add(options.baseModels)
         })
+        return baseModels
       })
+      .then(options => {console.log('OPTIONS:', options); return options})
   }
 
   //extracts the upgrades from the http response and puts them on the product

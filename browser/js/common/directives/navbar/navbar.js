@@ -18,7 +18,7 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
       scope.user = null;
 
       scope.search = function() {
-        $state.go('product-list', {search: scope.value});
+        $state.go('product-list', {query: 'search:' + scope.value});
       }
 
       scope.isLoggedIn = function() {

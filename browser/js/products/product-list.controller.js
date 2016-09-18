@@ -1,13 +1,17 @@
 app.config(function($stateProvider) {
   $stateProvider
     .state('product-list', {
-      url: '/products/:search',
+      url: '/products/:query',
       controller: 'ProductListController',
       templateUrl: 'js/products/product-list.html',
       resolve: {
         products: function(ProductFactory, $stateParams) {
-          if ($stateParams.search !== '') {
-            return ProductFactory.findBySearchFilter($stateParams.search)
+          let query = $stateParams.query.split(':');
+          if (query[0] === 'search') {
+            return ProductFactory.findBySearchFilter(query[1])
+          }
+          if (query[0] === 'type') {
+            return ProductFactory.getAllOfType(query[1])
           }
           return ProductFactory.getAll();
         }
@@ -34,4 +38,12 @@ app.controller('ProductListController', function($scope, products, ProductFactor
     filters.price = price;
     $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
   }
+
+  $scope.filterType = function(type) {
+    $scope.filteredProducts = ProductFactory.getAllOfType(type)
+    .then(products => {$scope.filteredProducts = ProductFactory.filter(filters, products)})
+    .catch(500);
+  }
+
+  $scope.userTypes = ['Gamer', 'Student', 'Artist', 'Casual']
 })

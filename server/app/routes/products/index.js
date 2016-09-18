@@ -3,20 +3,24 @@ let router = require('express').Router(); // eslint-disable-line new-cap
 let Product = require('../../../db').model('Product')
 let Option = require('../../../db').model('Option')
 
+
+//should split the search query so words don't need to be right next to each other
+
 router.get('/', function(req, res, next) {
   if (req.query && req.query.hasOwnProperty('search')) {
     let searchTerm = '%' + req.query.search + '%';
     Product.findAll({ where: { $or: [{ name: { $iLike: searchTerm } }, { description: { $iLike: searchTerm } }, { manufacturer: { $iLike: searchTerm } }] } })
       .then(products => res.send(products))
       .catch(() => res.sendStatus(500));
-  } //else if (req.query && req.query.hasOwnProperty('type')) {
-    // let searchObj = {};
-    // searchObj[req.query.type] = true;
-    // Option.findAll({ where: searchObj, include: [{ model: Product, as: 'BaseModels' }, { model: Product, as: 'Upgrades' }] })
-    //   .then(products => res.send(products))
-    //   .catch(() => res.sendStatus(500));
-  //}
-   else {
+  } else if (req.query && req.query.hasOwnProperty('type')) {
+    console.log('HERE IS THE QUERY', req.query)
+    let searchObj = {};
+    searchObj['rec' + req.query.type] = true;
+    console.log('HERE IS THE SEARCH OBJECT', searchObj)
+    Option.findAll({ where: searchObj, include: [{ model: Product, as: 'BaseModels' }, { model: Product, as: 'Upgrades' }] })
+      .then(products => res.send(products))
+      .catch(() => res.sendStatus(500));
+  } else {
     Product.findAll({ where: { type: 'base' } })
       .then(products => res.send(products))
       .catch(() => res.sendStatus(500));
