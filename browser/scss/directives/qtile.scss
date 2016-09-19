@@ -1,18 +1,12 @@
 $color: #1c9cff;
 .qtile {
-    color: black;
-    display: block-inline;
-    width: 100%;
     height: 175px;
     text-align: center;
-    /*vertical-align: middle;*/
-    padding: 25px;
     border: 15px solid $color;
     box-shadow: 8px 8px 4px #e4e4e4;
     transition: all 0.25s ease;
-    float: none;
-    margin: 0 auto;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
+    padding-top: 28px;
 }
 
 .on,
@@ -26,15 +20,15 @@ $color: #1c9cff;
 
 .qlabel {
     text-align: left;
-    font-size: 32px;
-    padding-bottom: 36px;
+    font-size: 36px;
     /*font-family: 'David Libre', serif;*/
     font-family: 'Montserrat', sans-serif;
+    margin-bottom: 16px;
 }
 
 .qtext {
     text-align: center;
-    font-size: 64px;
+    font-size: 54px;
     word-wrap: break-word;
     color: $color;
     /*font-family: 'David Libre', serif;*/
@@ -43,4 +37,20 @@ $color: #1c9cff;
 
 .color {
     color: $color;
+}
+
+#qbuttons {
+    height: 84px;
+    text-align: center;
+    font-size: 36px;
+    div > span {
+        font-family: 'Montserrat', sans-serif;
+    }
+    margin-bottom: 16px;
+}
+
+#qbuttons div:hover {
+    color: $color;
+    transition: all 0.25s ease;
+    transform: scale(1.1);
 }

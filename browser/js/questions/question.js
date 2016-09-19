@@ -1,7 +1,7 @@
 app.config(function($stateProvider) {
 
     $stateProvider.state('questions', {
-        url: '/discovery',
+        url: '/',
         templateUrl: 'js/questions/questions.html',
         controller: 'QuestionCtrl'
     });
@@ -22,7 +22,7 @@ app.controller('QuestionCtrl', function($scope, AuthService, QStackFactory) {
         $scope.selected = new Map($scope.qstack.displayed.map(node => [node.id, false]));
     }
 
-    // Starts the question tree for the first time.
+    // Starts the questionnaire initially.
     $scope.start();
 
     /**
