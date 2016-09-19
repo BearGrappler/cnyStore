@@ -40,6 +40,15 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
+  Product.updateProduct = function(product, updateObj) {
+    return $http.put('/api/products/' + product.id, updateObj)
+    .then(updatedProduct => updatedProduct.data)
+  }
+
+  Product.deleteProduct = function(product) {
+    return $http.delete('/api/products/' + product.id)
+  }
+
   Product.getRecommendedConfig = function(configObj, product) {
     let recommendedConfig = {};
     recommendedConfig.cpu = product.cpu[Math.round(configObj.cpu / 10) * product.cpu.length];

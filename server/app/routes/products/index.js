@@ -9,7 +9,7 @@ let Option = require('../../../db').model('Option')
 router.get('/', function(req, res, next) {
   if (req.query && req.query.hasOwnProperty('search')) {
     let searchTerm = '%' + req.query.search + '%';
-    Product.findAll({ where: { $or: [{ name: { $iLike: searchTerm } }, { description: { $iLike: searchTerm } }, { manufacturer: { $iLike: searchTerm } }] } })
+    Product.findAll({ where: { $or: [{ name: { $iLike: searchTerm } }, { description: { $iLike: searchTerm } }, { manufacturer: { $iLike: searchTerm } }, { type: req.query.search }] } })
       .then(products => res.send(products))
       .catch(() => res.sendStatus(500));
   } else {
