@@ -1,7 +1,7 @@
 app.config(function($stateProvider) {
 
     $stateProvider.state('questions', {
-        url: '/discovery',
+        url: '/',
         templateUrl: 'js/questions/questions.html',
         controller: 'QuestionCtrl'
     });
