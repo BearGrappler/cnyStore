@@ -1,5 +1,5 @@
 <section class="single-product">
-    <button style="float:right" ng-click"showEditView()">EDIT PRODUCT</button>
+    <button style="float:right" ng-click="editView = !editView">EDIT PRODUCT</button>
     <div class="single-product-info">
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
@@ -7,8 +7,14 @@
         <h1 class="product-name"> {{product.name}} </h1>
         <h3 class="product-price"> ${{price}} </h3>
         <p class="product-description"> {{product.description}} </p>
+        <form ng-show="editView" ng-init="updatedProduct = product" ng-model="updatedProduct" ng-submit="updateProduct()">
+            <input type="text" ng-model="updatedProduct.name">
+            <input type="text" ng-model="updatedProduct.price">
+            <textarea ng-model="updatedProduct.description"></textarea>
+            <button type="submit">Update Product</button>
+        </form>
     </div>
-    <div class="configuration-selector">
+    <div ng-show="!editView" class="configuration-selector">
         <!-- need a way to indicate a configuration is recommended for the usertype
           * could have a div on the side with buttons for each usertype that will change the currentConfig
         -->
@@ -31,7 +37,7 @@
             <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
         </div>
     </div>
-    <div class="currentConfiguration">
+    <!-- <div class="currentConfiguration">
         <h3>Current Configuration:</h3>
         <ul>
             <li>{{product.name}} - ${{basePrice}}</li>
@@ -40,12 +46,5 @@
             <li ng-show="product.hdd.length >= 1">{{selectedHdd.name}} - ${{selectedHdd.price}}</li>
             <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
         </ul>
-    </div>
+    </div> -->
 </section>
-<!--
-- product name
-- product photo(s)
-- product description
-- configuration selector
-- recommended configurations
--->

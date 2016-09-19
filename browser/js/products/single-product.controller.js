@@ -13,7 +13,8 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product) {
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
+  $scope.editView = false;
   $scope.product = product;
   findDefaultConfiguration();
   $scope.currentConfiguration = {
@@ -42,6 +43,11 @@ app.controller('SingleProductCtrl', function($scope, product) {
       price += $scope.selectedGpu.price
     }
     $scope.price = price
+  }
+
+  $scope.updateProduct = function() {
+    ProductFactory.updateProduct($scope.updatedProduct)
+    .then(product => {if (product) $scope.product = product})
   }
 
   function findDefaultConfiguration() {
