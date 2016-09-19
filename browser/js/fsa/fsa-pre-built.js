@@ -57,11 +57,16 @@
             return user;
         }
 
+
         // Uses the session factory to see if an
         // authenticated user is currently registered.
         this.isAuthenticated = function() {
             return !!Session.user;
         };
+
+        this.isAdmin = function() {
+            return Session.user ? Session.user.isAdmin : false;
+        }
 
         this.getLoggedInUser = function(fromServer) {
 

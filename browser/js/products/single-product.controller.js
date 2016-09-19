@@ -13,7 +13,7 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService) {
   $scope.editView = false;
   $scope.product = product;
   findDefaultConfiguration();
@@ -27,6 +27,7 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
   $scope.price = product.price;
   $scope.updatedProduct = {};
   ['name', 'price', 'description'].forEach(key => {$scope.updatedProduct[key] = $scope.product[key]})
+  $scope.isAdmin = AuthService.isAdmin();
 
 
   $scope.calculatePrice = function() {

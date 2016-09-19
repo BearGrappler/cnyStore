@@ -1,5 +1,5 @@
 <section class="single-product">
-    <button style="float:right" ng-click="editView = !editView">EDIT PRODUCT</button>
+    <button style="float:right" ng-click="editView = !editView" ng-show="isAdmin">EDIT PRODUCT</button>
     <div class="single-product-info">
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
