@@ -7,11 +7,12 @@
         <h1 class="product-name"> {{product.name}} </h1>
         <h3 class="product-price"> ${{price}} </h3>
         <p class="product-description"> {{product.description}} </p>
-        <form ng-show="editView" ng-model="updatedProduct" ng-submit="updateProduct()">
+        <form ng-show="editView" ng-model="updatedProduct">
             <input type="text" ng-model="updatedProduct.name">
             <input type="text" ng-model="updatedProduct.price">
             <textarea ng-model="updatedProduct.description"></textarea>
-            <button type="submit">Update Product</button>
+            <button class="btn-danger" ng-click="deleteProduct()">Delete Product</button>
+            <button type="submit" ng-click="updateProduct()">Update Product</button>
         </form>
     </div>
     <div ng-show="!editView && hasUpgrades()" class="configuration-selector">

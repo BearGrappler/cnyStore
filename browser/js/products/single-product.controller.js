@@ -49,12 +49,15 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
   }
 
   $scope.updateProduct = function() {
-    ProductFactory.updateProduct($scope.product, $scope.updatedProduct)
+    return ProductFactory.updateProduct($scope.product, $scope.updatedProduct)
     .then(newProduct => {if (newProduct) $scope.product = newProduct})
   }
 
+  $scope.deleteProduct = function() {
+    return ProductFactory.deleteProduct($scope.product)
+  }
+
   $scope.hasUpgrades = function() {
-    console.log(product.cpu.length || product.gpu.length || product.hdd.length || product.ram)
     return (product.cpu.length || product.gpu.length || product.hdd.length || product.ram.length)
   }
 
