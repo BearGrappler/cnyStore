@@ -9,8 +9,6 @@ router.get('/me', (req, res, next) => {
 
 
 router.put('/makeAdmin', function(req, res, next) {
-
-    console.log('you hit api/users/makeAdmin');
     if (!req.user || !req.user.isAdmin) {
         return res.sendStatus(401);
     }
