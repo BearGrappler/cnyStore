@@ -1,4 +1,4 @@
-app.factory('CartFactory', function($http) {
+app.factory('OrderFactory', function($http) {
 
     function approveId(id) {
         return /[^0-9]/.test(String(id)) === false;
