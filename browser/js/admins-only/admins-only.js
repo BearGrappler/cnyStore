@@ -26,6 +26,8 @@ app.config(function($stateProvider) {
 });
 
 app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, adminsFactory) {
+
+    console.log('is this working')
     $scope.error = null;
     $scope.searchResults = null;
 
@@ -37,10 +39,14 @@ app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, admins
      })
 
 
-    $scope.makeUserValid = function(user) {
+    $scope.makeUserAdmin = function(user) {
 
-        console.log('you hit uservalid');
-        console.log(user)
+        adminsFactory.makeUserAdmin(user)
+        .then(function() {
+             console.log('successfully made userAdmin');
+             $state.reload()
+         })
+
     }
 
     $scope.resetPassword = function(user) {
@@ -52,6 +58,10 @@ app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, admins
     $scope.deleteUser = function(user) {
 
         console.log('you hit DeleteUser');
-        console.log(user)
+        adminsFactory.deleteUser(user)
+        .then(function(){
+            console.log('successfully deleted user');
+            $state.reload()
+        })
     }
 });
