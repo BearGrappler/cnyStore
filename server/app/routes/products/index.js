@@ -3,24 +3,25 @@ let router = require('express').Router(); // eslint-disable-line new-cap
 let Product = require('../../../db').model('Product')
 let Option = require('../../../db').model('Option')
 
+
+//should split the search query so words don't need to be right next to each other
+
 router.get('/', function(req, res, next) {
-  Product.findAll({ where: { type: 'base' } })
-    .then(products => res.send(products))
-    .catch(() => res.sendStatus(500));
+  if (req.query && req.query.hasOwnProperty('search')) {
+    let searchTerm = '%' + req.query.search + '%';
+    Product.findAll({ where: { $or: [{ name: { $iLike: searchTerm } }, { description: { $iLike: searchTerm } }, { manufacturer: { $iLike: searchTerm } }] } })
+      .then(products => res.send(products))
+      .catch(() => res.sendStatus(500));
+  } else {
+    Product.findAll({ where: { type: 'base' } })
+      .then(products => res.send(products))
+      .catch(() => res.sendStatus(500));
+  }
 })
 
 router.get('/:id', function(req, res, next) {
   Product.findOne({ where: { id: req.params.id }, include: [{ association: Product.Review }] })
     .then(product => res.send(product))
-    .catch(() => res.sendStatus(500));
-});
-
-//type must be: 'recGamer', 'recArtist', 'recStudent', etc..
-router.get('/type/:type', function(req, res, next) {
-  let searchObj = {};
-  searchObj[req.params.type] = true;
-  Option.findAll({ where: searchObj, include: [{ model: Product, as: 'BaseModels' }, { model: Product, as: 'Upgrades' }] })
-    .then(products => res.send(products))
     .catch(() => res.sendStatus(500));
 });
 
@@ -54,8 +55,7 @@ router.put('/:id', function(req, res, next) {
       }))
       .then(product => res.send(product))
       .catch(() => res.sendStatus(500));
-  }
-  else {
+  } else {
     res.sendStatus(401)
   }
 });
@@ -66,8 +66,7 @@ router.delete('/:id', function(req, res, next) {
       .then(product => product.destroy())
       .then(() => res.sendStatus(204))
       .catch(() => res.sendStatus(500));
-  }
-  else {
+  } else {
     res.sendStatus(401)
   }
 });
