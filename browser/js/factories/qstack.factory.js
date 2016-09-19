@@ -14,16 +14,16 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
 
     // Probably should move to a database at some point in the future timeline which will totally happen...
     let questions = {
-        home: new QTree(0, 'Home', 'Which type of computer are you looking for?', {}),
+        home: new QTree(0, 'Form Factor', 'Which type of computer are you looking for?', {}),
         desktop: new QTree(1, 'Desktop', 'Which type of user are you?', { computer: 'desktop' }),
         laptop: new QTree(2, 'Laptop', 'Which type of user are you?', { computer: 'laptop' }),
         gamer: new QTree(3, 'Gamer', 'Select your favorite genres', { type: 'gamer' }),
-        artist: new QTree(4, 'Artist', 'Do you work with audio? Video? More creative media?', { type: 'artist' }),
+        artist: new QTree(4, 'Artist', 'Do you work with audio? Video? Photo?', { type: 'artist' }),
         student: new QTree(5, 'Student', 'What are you studying?', { type: 'student' }),
-        casual: new QTree(6, 'Casual', "What's important to you?", { type: 'casual' }),
+        casual: new QTree(6, 'Specs', "What's important to you?", { type: 'casual' }),
 
         gamerGenreRTS: new QTree(7, 'Strategy', "What's important to you?", { cpu: 4, ram: 4, gpu: 2 }),
-        gamerGenreRPG: new QTree(8, 'Role Playing Games', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
+        gamerGenreRPG: new QTree(8, 'RPGs', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
         gamerGenreFPS: new QTree(9, 'FPS/Action', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
         gamerGenreINDIE: new QTree(10, 'Indie', "What's important to you?", { cpu: 2, ram: 2, gpu: 2 }),
 
@@ -31,8 +31,8 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         artistGenreVideo: new QTree(12, 'Video', "What's important to you?", { cpu: '4', ram: '3', gpu: '1' }),
         artistGenrePhoto: new QTree(13, 'Photo', "What's important to you?", { cpu: '3', ram: '2', gpu: '0' }),
 
-        studentMajorSTEM: new QTree(14, 'Science/Technology/Math', "What's important to you?", { cpu: '3', ram: '2', gpu: '1' }),
-        studentMajorTrade: new QTree(15, 'Trade School', "What's important to you?", { cpu: '1', ram: '1', gpu: '0' }),
+        studentMajorSTEM: new QTree(14, 'STEM', "What's important to you?", { cpu: '3', ram: '2', gpu: '1' }),
+        studentMajorTrade: new QTree(15, 'Vocations', "What's important to you?", { cpu: '1', ram: '1', gpu: '0' }),
         studentMajorLibArts: new QTree(16, 'Liberal Arts', "What's important to you?", { cpu: '2', ram: '2', gpu: '0' }),
         studentMajorSports: new QTree(17, 'Sports', "What's important to you?", { cpu: '1', ram: '2', gpu: '0' }),
 
@@ -40,7 +40,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         speed: new QTree(19, 'Speed', '', { cpu: '3', ram: '2', gpu: '0', hdd: '4', price: '5' }),
         graphics: new QTree(20, 'Graphics', '', { gpu: '5', price: '4' }),
         space: new QTree(21, 'Space', '', { hdd: '5', price: '3' }),
-        rounded: new QTree(22, 'Well-Rounded', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
+        rounded: new QTree(22, 'Everything', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
     };
 
     /**
@@ -106,9 +106,13 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @param {Object} filters [A set of filters to apply to the Qstack 'currentFilter' property]
      */
     QuestionStack.prototype.setStack = function(obj, filters = {}) {
-        if (Array.isArray(obj)) this.stack = obj;
-        else this.stack = [obj];
-        this.displayed = obj.answers;
+        if (Array.isArray(obj)) {
+            this.stack = obj;
+            this.displayed = obj[obj.length - 1].answers;
+        } else {
+            this.stack = [obj];
+            this.displayed = obj.answers;
+        }
         this.assign(filters);
     }
 
@@ -129,20 +133,19 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @return {[undefined]} [Nothing returned]
      */
     QuestionStack.prototype.initialize = function() {
+
         questions.home.addAnswer(questions.desktop);
         questions.home.addAnswer(questions.laptop);
 
         questions.desktop
             .addAnswer(questions.gamer)
             .addAnswer(questions.artist)
-            .addAnswer(questions.student)
-            .addAnswer(questions.casual);
+            .addAnswer(questions.student);
 
         questions.laptop
             .addAnswer(questions.gamer)
             .addAnswer(questions.artist)
-            .addAnswer(questions.student)
-            .addAnswer(questions.casual);
+            .addAnswer(questions.student);
 
         questions.gamer
             .addAnswer(questions.gamerGenreRTS)
@@ -150,36 +153,16 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
             .addAnswer(questions.gamerGenreFPS)
             .addAnswer(questions.gamerGenreRPG);
 
-        questions.gamer
-            .chainAnswer(questions.price)
-            .chainAnswer(questions.speed)
-            .chainAnswer(questions.graphics)
-            .chainAnswer(questions.space)
-            .chainAnswer(questions.rounded);
-
         questions.artist
             .addAnswer(questions.artistGenrePhoto)
             .addAnswer(questions.artistGenreAudio)
             .addAnswer(questions.artistGenreVideo);
-
-        questions.artist
-            .chainAnswer(questions.price)
-            .chainAnswer(questions.speed)
-            .chainAnswer(questions.graphics)
-            .chainAnswer(questions.space)
-            .chainAnswer(questions.rounded);
 
         questions.student
             .addAnswer(questions.studentMajorSTEM)
             .addAnswer(questions.studentMajorTrade)
             .addAnswer(questions.studentMajorSports)
             .addAnswer(questions.studentMajorLibArts);
-        questions.student
-            .chainAnswer(questions.price)
-            .chainAnswer(questions.speed)
-            .chainAnswer(questions.graphics)
-            .chainAnswer(questions.space)
-            .chainAnswer(questions.rounded);
 
         questions.casual
             .addAnswer(questions.price)
@@ -189,7 +172,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
             .addAnswer(questions.rounded);
 
 
-        this.setStack(this.rootNode);
+        this.setStack([questions.casual, this.rootNode]);
 
         return this;
     }
@@ -211,7 +194,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         this.stack = [];
         this.displayed = [];
         this.currentFilters = Object.assign({}, JSON.parse(JSON.stringify(defaultFilters)), this.filters);
-        this.setStack(this.rootNode);
+        this.setStack([questions.casual, this.rootNode]);
         return this;
     }
 

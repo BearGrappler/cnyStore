@@ -1,26 +1,11 @@
 <div class="row">
-    <div class="container">
-        <div ng-if="qstack.displayed.length" class="col-lg-8">
-            <h4><span ng-if="current.parent">{{current.label}} ></span>{{current.question}}</h4>
-            <div class="btn-group btn-group-justified" role="group" aria-label="User Type Questionnaire">
-                <div ng-repeat="answer in qstack.displayed track by $index" class="btn-group" role="group">
-                    <button ng-class="{'btn btn-primary': answer.selected, 'btn btn-info': !answer.selected}" ng-click="select(answer)" type="button">{{answer.label}}</button>
-                </div>
-            </div>
+    <div class="container noselect">
+        <div class="qlabel col-lg-12 col-md-12 col-sm-12" ng-click="advance()">
+            <h1><span class="color">{{current.label}}</span> <i class="glyphicon glyphicon-chevron-right"></i> {{current.question}}</h1>
         </div>
-        <div class="col-lg-12">
-            <div class="btn-group" role="group">
-                <button ng-click="advance()" type="button" class="btn btn-success">Submit</button>
-                <button ng-click="start()" type="button" class="btn btn-success">Start Over</button>
-            </div>
-        </div>
-        <div class="col-lg-4" style="text-align:left">
-            <h4>Filter Rules to be Passed to Store Page (All Products)</h4>
-            <ul class="list-group">
-                <li ng-repeat="(key, value) in qstack.currentFilters" class="list-group-item">
-                    <b>{{key}}:</b><span style="color:red"> {{value}} </span>
-                </li>
-            </ul>
-        </div>
+    </div>
+    <div class="container-fluid">
+        <question-tile ng-repeat="answer in qstack.displayed track by $index" choose="select(choice)" answer="answer">
+        </question-tile>
     </div>
 </div>

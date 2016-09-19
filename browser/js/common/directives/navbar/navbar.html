@@ -12,7 +12,7 @@
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="createUser" class="btn createUser-button">Create </button>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
+            <span>{{user.name}}</span><span id="portrait" class="glyphicon glyphicon-user"></span>
             <a ng-click="logout()">Logout</a>
         </div>
     </div>
