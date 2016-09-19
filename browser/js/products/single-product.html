@@ -1,5 +1,4 @@
 <section class="single-product">
-    <button style="float:right" ng-click="editView = !editView" ng-show="isAdmin">EDIT PRODUCT</button>
     <div class="single-product-info">
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
@@ -7,15 +6,8 @@
         <h1 class="product-name"> {{product.name}} </h1>
         <h3 class="product-price"> ${{price}} </h3>
         <p class="product-description"> {{product.description}} </p>
-        <form ng-show="editView" ng-model="updatedProduct">
-            <input type="text" ng-model="updatedProduct.name">
-            <input type="text" ng-model="updatedProduct.price">
-            <textarea ng-model="updatedProduct.description"></textarea>
-            <button class="btn-danger" ng-click="deleteProduct()">Delete Product</button>
-            <button type="submit" ng-click="updateProduct()">Update Product</button>
-        </form>
     </div>
-    <div ng-show="!editView && hasUpgrades()" class="configuration-selector">
+    <div class="configuration-selector">
         <!-- need a way to indicate a configuration is recommended for the usertype
           * could have a div on the side with buttons for each usertype that will change the currentConfig
         -->
@@ -30,15 +22,19 @@
             <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
         </div>
         <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
-            <label>HDD</label>
+            <label>hdd</label>
             <select ng-change="calculatePrice()" ng-init="selectedHdd = product.hdd[0]" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
         </div>
         <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
-        <label>GPU</label>
             <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
         </div>
     </div>
-    <!-- <div class="currentConfiguration">
+    <div class="reviews">
+        <div class="review" ng-repeat="review in product.Reviews" style="border: 1px solid red">
+            <p>{{review.writtenReview}}</p>
+        </div>
+    </div>
+    <div class="currentConfiguration">
         <h3>Current Configuration:</h3>
         <ul>
             <li>{{product.name}} - ${{basePrice}}</li>
@@ -47,5 +43,12 @@
             <li ng-show="product.hdd.length >= 1">{{selectedHdd.name}} - ${{selectedHdd.price}}</li>
             <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
         </ul>
-    </div> -->
+    </div>
 </section>
+<!--
+- product name
+- product photo(s)
+- product description
+- configuration selector
+- recommended configurations
+-->
