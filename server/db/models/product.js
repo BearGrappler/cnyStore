@@ -45,6 +45,10 @@ module.exports = db.define('Product', {
         type: Sequelize.ENUM('base', 'ram', 'hdd', 'cpu', 'gpu'),
         allowNull: false
     },
+    userType: {
+        type: Sequelize.ENUM('gamer', 'student', 'artist', 'casual'),
+        allowNull: true
+    },
     inventory: {
         type: Sequelize.INTEGER
     }

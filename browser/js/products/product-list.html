@@ -2,7 +2,7 @@
     <form class="filter-form">
         <label>Manufacturer</label>
         <br>
-        <span ng-repeat="product in allProducts"> <input ng-model="manufacturer" type="checkbox" ng-change="filterManufacturer(product.manufacturer)" checked> {{product.manufacturer}} <br> </span>
+        <span ng-repeat="manufacturer in manufacturers"> <input ng-model="manufacturerSelector" type="checkbox" ng-change="filterManufacturer(manufacturer)" checked> {{manufacturer}} <br> </span>
         <label>Max Price</label>
         <br>
         <input type="range" min="500" max="1500" value="1500" step="100" ng-model="price" ng-change="filterPrice(price)" />
@@ -11,7 +11,7 @@
         <br>
         <label>User Type</label>
         <br>
-        <span ng-repeat="type in userTypes"> <input ng-model="asdf" type="checkbox" ng-change="filterType(type)"> {{type}} <br> </span>
+        <span ng-repeat="type in userTypes"> <input ng-model="typeSelector" type="checkbox" ng-change="filterType(type)"> {{type}} <br> </span>
     </form>
 </div>
 <section class="product-list">

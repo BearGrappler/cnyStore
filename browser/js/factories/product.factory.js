@@ -13,22 +13,6 @@ app.factory('ProductFactory', function($http) {
       .then(products => products.data)
   }
 
-  //NEED TO FIX
-  //gets all base models of a given userType
-  Product.getAllOfType = function(type) {
-    return $http.get('/api/products?type=' + type)
-      .then(options => options.data)
-      .then(options => {
-        let baseModels = new Set()
-        let upgrades = { ram: [], hdd: [], cpu: [], gpu: [] };
-        options.forEach(option => {
-          baseModels.add(options.baseModels)
-        })
-        return baseModels
-      })
-      .then(options => {console.log('OPTIONS:', options); return options})
-  }
-
   //extracts the upgrades from the http response and puts them on the product
   Product.getUpgrades = function(product) {
     return $http.get('/api/products/' + product.id + '/upgrades')
@@ -56,33 +40,53 @@ app.factory('ProductFactory', function($http) {
       })
   }
 
-  //this will take care of standard filter objs from the question waterfull
-  // Product.findByFilterObj = function(filterObj) {
 
-  // }
+  Product.getRecommendedConfig = function(configObj, product) {
+    let recommendedConfig = {};
+    recommendedConfig.cpu = product.cpu[Math.round(configObj.cpu / 10) * product.cpu.length];
+    recommendedConfig.ram = product.ram[Math.round(configObj.ram / 10) * product.ram.length];
+    recommendedConfig.hdd = product.hdd[Math.round(configObj.hdd / 10) * product.hdd.length];
+    recommendedConfig.gpu = product.gpu[Math.round(configObj.gpu / 10) * product.gpu.length];
+
+    return recommendedConfig;
+  }
 
   //this will take care of search queries from the search bar
   Product.findBySearchFilter = function(term) {
     return $http.get('/api/products?search=' + term)
-    .then(products => products.data)
-    .catch(console.log)
+      .then(products => products.data)
+      .catch(console.log)
   }
 
   //this will refresh the visible products from the sidebar filter
   Product.filter = function(filterObj, allProducts) {
-    let newProducts = [];
-    if (filterObj.manufacturer.size > 0) {
-      filterObj.manufacturer.forEach(manufacturer => {
-        allProducts.forEach(product => {
-          if (product.manufacturer === manufacturer) newProducts.push(product)
+    let newProducts = allProducts;
+    if (filterObj.type.size > 0) {
+      let holdingArr = [];
+      filterObj.type.forEach(key => {
+        newProducts.forEach(product => {
+          if (product.userType === key.toLowerCase()) {
+            holdingArr.push(product)
+          }
         })
       })
-    } else {
-      newProducts = allProducts;
+      newProducts = holdingArr;
+    }
+    if (filterObj.manufacturer.size > 0) {
+      let holdingArr = [];
+      filterObj.manufacturer.forEach(manufacturer => {
+        newProducts.forEach(product => {
+          if (product.manufacturer === manufacturer) {
+            holdingArr.push(product)
+          }
+        })
+      })
+      newProducts = holdingArr;
     }
     if (filterObj.price) {
       newProducts = newProducts.filter(product => product.price <= filterObj.price)
     }
+
     return newProducts;
   }
 
