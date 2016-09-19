@@ -15,5 +15,14 @@
             <span>{{user.name}}</span><span id="portrait" class="glyphicon glyphicon-user"></span>
             <a ng-click="logout()">Logout</a>
         </div>
+        <div class="search-bar">
+        <!-- <select>
+            <option value="">Search by:</option>
+            <option ng-repeat="option in searchOptions">{{option}}</option>
+        </select> -->
+        <input type="text" placeholder="'Dell Laptop'" ng-model="value">
+        <input type="submit" ng-click="search()" value="Search"/>
+        <pre> {{value}} </pre>
+        </div>
     </div>
 </nav>
