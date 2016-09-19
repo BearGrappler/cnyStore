@@ -10,12 +10,12 @@
 </form>
     <table>
         <div>User Name Is Admin? </div>
-        <div ng-repeat="user in searchResults|filter:searchText">
-            <div>{{user.name}}
-                <button ng-click="makeUserAdmin(user)"> {{user.isAdmin}}</button>
-                <button ng-click="resetPassword(user)">Reset Password </button>
-                <button ng-click="deleteUser(user)">Delete User </button>
+        <tr ng-repeat="user in searchResults|filter:searchText">
+            <td>{{user.name}}</td>
+            <td><button ng-click="makeUserAdmin(user)">< {{user.isAdmin}}</button></td>
+            <td><button ng-click="resetPassword(user)">Reset Password </button></td>
+            <td><button ng-click="deleteUser(user)">Delete User </button></td>
             </div>
-        </div>
+        </tr>
     </table>
 </div>

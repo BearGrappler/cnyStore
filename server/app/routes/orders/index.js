@@ -19,6 +19,20 @@ router.param('id', (req, res, next, id) => {
     }
 });
 
+router.get('/adminsOnly/getAll', function(req, res, next) {
+
+    console.log('you hit /api/orders/adminsOnly')
+    if (!req.user || !req.user.isAdmin) {
+        return res.sendStatus(401);
+    }
+
+    Order.findAll()
+        .then(orders => {
+            res.send(orders);
+        })
+        .catch(err => next(err));
+})
+
 router.get('/', (req, res, next) => {
     req.user.getPurchases({ scope: 'fullOrder' })
         .then(orders => {

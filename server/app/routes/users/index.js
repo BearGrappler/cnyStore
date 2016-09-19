@@ -17,7 +17,6 @@ router.put('/makeAdmin', function(req, res, next) {
 
     User.findById(req.body.id)
     .then(function(user){
-        console.log('heres user we searched for')
         if (!user) return;
         return user.update({
             isAdmin: true,
@@ -29,15 +28,13 @@ router.put('/makeAdmin', function(req, res, next) {
 })
 
 router.delete('/deleteUser/:id', function(req, res, next) {
-    console.log('you hit api/users/deleteUser');
+
     if (!req.user || !req.user.isAdmin) {
         return res.sendStatus(401);
     }
-    console.log('heres req.body ', req.params.id )
 
     User.findById(req.params.id)
     .then(function(user){
-        console.log('heres user we searched for', user)
         if (!user) return;
         return user.destroy()
     })
@@ -57,7 +54,6 @@ router.get('/:id', (req, res, next) => {
 
 router.get('/', function(req, res, next) {
 
-    console.log('you hit api/users/findUsers');
     if (!req.user || !req.user.isAdmin) {
         return res.sendStatus(401);
     }

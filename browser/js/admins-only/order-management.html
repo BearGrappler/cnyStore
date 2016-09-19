@@ -1,1 +1,29 @@
-<div> put order-management stuff </div>
+<form id="login-form" name="loginForm" ng-submit="searchForOrder(orderTarget)" novalidate>
+    <alert type="danger" ng-show="error">
+        {{ error }}
+    </alert>
+    <div class="form-group">
+        <label for="name">Filter By Status</label>
+        <input type="text" ng-model="searchText" class="form-control" id="name" placeholder="Enter name" required>
+    </div>
+    <button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid">Submit</button>
+</form>
+
+
+
+<table>
+    <tr>Orders</tr>
+    <tr ng-repeat="order in searchResults|filter:searchText">
+        <td>{{order.id}}</td><td>{{order.currentStatus}}</td> <td>{{order.shippingDate}}</td><td>{{order.deliveryDate}}</td>
+        <td><div class="dropdown">
+              <button class="dropbtn">Dropdown</button>
+              <div id="myDropdown" class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+              </div>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
