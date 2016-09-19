@@ -15,14 +15,11 @@
     <tr>Orders</tr>
     <tr ng-repeat="order in searchResults|filter:searchText">
         <td>{{order.id}}</td><td>{{order.currentStatus}}</td> <td>{{order.shippingDate}}</td><td>{{order.deliveryDate}}</td>
-        <td><div class="dropdown">
-              <button class="dropbtn">Dropdown</button>
-              <div id="myDropdown" class="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-              </div>
-            </div>
+        <td>
+            <button ng-click="changeToProcessing(order)">Processing</button>
+            <button ng-click="changeToShipped(order)">Shipped</button>
+            <button ng-click="changeToCancelled(order)">Cancelled</button>
+            <button ng-click="changeToDelivered(order)">Delivered</button>
         </td>
     </tr>
 </table>

@@ -8,7 +8,18 @@ app.config(function($stateProvider) {
         .state('adminsOnly.UserMgmt', {
             url: '/UserManagement',
             templateUrl: 'js/admins-only/user-management.html',
-            controller: 'adminUserMgmtCtrl'
+            controller: 'adminUserMgmtCtrl',
+            resolve: {
+                users : function($http){
+                    return $http.get('/api/users')
+                        .then(function(arrayOfUsers) {
+                            console.log('hitting this resolve')
+                            // console.log('successfully hit adminsFactory find Users')
+                            // console.log(arrayOfUsers);
+                            return arrayOfUsers.data;
+                        })
+                }
+            }
         })
 
         .state('adminsOnly.ProdMgmt', {
@@ -20,23 +31,24 @@ app.config(function($stateProvider) {
         .state('adminsOnly.OrderMgmt', {
             url: '/OrderManagement',
             templateUrl: 'js/admins-only/order-management.html',
-            controller: 'adminOrderMgmtCtrl'
+            controller: 'adminOrderMgmtCtrl',
+            resolve: {
+                orders : function($http){
+                     return $http.get('/api/orders/adminsOnly/getAll')
+                        .then(function(response){
+                            return response.data;
+                        })
+                }
+            }
         })
 
 });
 
-app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, adminsFactory) {
+app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, adminsFactory, users) {
 
 
     $scope.error = null;
-    $scope.searchResults = null;
-
-
-    adminsFactory.getUsers()
-    .then(function(arrayOfUsers) {
-        $scope.searchResults = arrayOfUsers;
-     })
-
+    $scope.searchResults = users;
 
     $scope.makeUserAdmin = function(user) {
 
@@ -62,26 +74,42 @@ app.controller('adminUserMgmtCtrl', function($scope, AuthService, $state, admins
     }
 });
 
-app.controller('adminOrderMgmtCtrl', function($scope, AuthService, $state, adminsFactory) {
+app.controller('adminOrderMgmtCtrl', function($scope, AuthService, $state, adminsFactory, orders) {
 
 
     $scope.error = null;
-    $scope.searchResults = null;
+    $scope.searchResults = orders;
 
 
-    adminsFactory.getOrders()
-    .then(function(arrayOfOrders){
-        console.log('here are the arrayOfOrders', arrayOfOrders)
-        $scope.searchResults = arrayOfOrders;
-    })
+    $scope.changeToProcessing = function(order) {
+        adminsFactory.changeStatusOfOrder(order, 'processing')
+        .then(function(){
+            $state.reload()
+        })
 
+    }
 
-    $scope.makeUserAdmin = function(user) {
+    $scope.changeToShipped = function(order) {
+        adminsFactory.changeStatusOfOrder(order, 'shipped')
+        .then(function(){
+            $state.reload()
+        })
 
-        adminsFactory.makeUserAdmin(user)
-        .then(function() {
-             $state.reload()
-         })
+    }
+
+    $scope.changeToDelivered = function(order) {
+        adminsFactory.changeStatusOfOrder(order, 'delivered')
+        .then(function(){
+            $state.reload()
+        })
+
+    }
+
+    $scope.changeToCancelled = function(order) {
+        adminsFactory.changeStatusOfOrder(order, 'cancelled')
+        .then(function(){
+            $state.reload()
+        })
 
     }
 
@@ -98,4 +126,6 @@ app.controller('adminOrderMgmtCtrl', function($scope, AuthService, $state, admin
             $state.reload()
         })
     }
+
+    // $scope.changeToCreated = function('Created',)
 });
