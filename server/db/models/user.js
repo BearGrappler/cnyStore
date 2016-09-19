@@ -40,19 +40,19 @@ module.exports = db.define('User', {
     }
 }, {
     instanceMethods: {
-        sanitize: function () {
+        sanitize: function() {
             return _.omit(this.toJSON(), ['password', 'salt']);
         },
 
-        correctPassword: function (candidatePassword) {
+        correctPassword: function(candidatePassword) {
             return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
         }
     },
     classMethods: {
-        generateSalt: function () {
+        generateSalt: function() {
             return crypto.randomBytes(64).toString('base64');
         },
-        encryptPassword: function (plainText, salt) {
+        encryptPassword: function(plainText, salt) {
             var hash = crypto.createHash('sha512');
             hash.update(plainText);
             hash.update(salt);
@@ -60,20 +60,20 @@ module.exports = db.define('User', {
         }
     },
     hooks: {
-        beforeValidate: function (user) {
+        beforeValidate: function(user) {
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
             }
         },
-        beforeUpdate: function (user) {
+        beforeUpdate: function(user) {
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
             }
         },
-        afterCreate: function (user) {
-            db.model('Cart').create({UserId: user.id});
+        afterCreate: function(user) {
+            return db.model('Cart').create({ UserId: user.id });
         }
     }
 });

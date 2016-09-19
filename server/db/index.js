@@ -17,21 +17,31 @@ Address.Shipping = Address.belongsToMany(User, { through: 'Shipping', as: 'Resid
 
 User.Review = User.hasMany(Review, { as: 'Reviews' });
 
-User.Cart = User.hasMany(Cart);
+User.Cart = User.hasMany(Cart, { as: 'Carts' });
+User.addScope('includeCarts', {
+    include: [{ association: User.Cart }]
+});
 
 User.Order = User.hasMany(Order, { as: 'Purchases' });
 
 Product.Cart = Product.belongsToMany(Cart, { through: 'ProductCart', as: 'Carts' });
 Cart.Product = Cart.belongsToMany(Product, { through: 'ProductCart', as: 'Items' });
+Cart.addScope('itemsInCart', {
+    include: [{ association: Cart.Product }]
+});
 
 Product.Review = Product.hasMany(Review, { as: 'Reviews' });
 
 Product.Order = Product.belongsToMany(Order, { through: 'OrderProduct' });
 Order.Product = Order.belongsToMany(Product, { through: 'OrderProduct' });
+Order.addScope('fullOrder', {
+    include: [{ association: Order.Product }]
+});
 
 Option.Base = Option.belongsTo(Product, { as: 'BaseModels', foreignKey: 'baseId' });
 Option.Upgrade = Option.belongsTo(Product, { as: 'Upgrades', foreignKey: 'upgradeId' });
 
-Address.Order = Address.hasMany(Order, { as: 'Purchases' });
+Address.Order = Address.hasMany(Order, { as: 'Receipts' });
+
 
 module.exports = db;

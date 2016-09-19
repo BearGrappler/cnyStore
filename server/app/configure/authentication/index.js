@@ -28,7 +28,10 @@ module.exports = function(app, db) {
         secret: app.getValue('env').SESSION_SECRET,
         store: dbStore,
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 900000
+        }
     }));
 
     // Initialize passport and also allow it to read

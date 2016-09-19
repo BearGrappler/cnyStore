@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const Cart = require('../db').model('Cart')
 
 module.exports = function(db) {
 
@@ -10,23 +9,9 @@ module.exports = function(db) {
     // function located at server/app/configure/index.js
     require('./configure')(app, db);
 
-    app.use(function(req, res, next) {
-        if (!req.user && !req.session.hasOwnProperty('cart')) {
-            Cart.create()
-                .then(cart => {
-                    if (cart) req.session.CartId = cart.id;
-                    next();
-                })
-                .catch(next);
-        } else {
-            next();
-        }
-    });
-
     // Routes that will be accessed via AJAX should be prepended with
     // /api so they are isolated from our GET /* wildcard.
     app.use('/api', require('./routes'));
-
 
     /*
      This middleware will catch any URLs resembling a file extension

@@ -1,6 +1,6 @@
 var chance = require('chance')(123);
 
-var numUsers = 98;
+var numUsers = 10;
 var emails = chance.unique(chance.email, numUsers);
 
 //generate a single random user obj
