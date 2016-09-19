@@ -63,6 +63,10 @@
             return !!Session.user;
         };
 
+        this.isAdmin = function() {
+            return Session.user ? Session.user.isAdmin : false;
+        };
+
         this.getLoggedInUser = function(fromServer) {
 
             // If an authenticated session exists, we
@@ -128,7 +132,7 @@
 
         this.user = null;
 
-        this.create = function (user) {
+        this.create = function(user) {
             this.user = user;
         };
 
