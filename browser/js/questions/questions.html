@@ -1,10 +1,18 @@
-<div class="row">
+<div id="questions" class="row">
     <div class="container noselect">
-        <div class="qlabel col-lg-12 col-md-12 col-sm-12" ng-click="advance()">
+        <div class="qlabel col-lg-12 col-md-12 col-sm-12">
             <h1><span class="color">{{current.label}}</span> <i class="glyphicon glyphicon-chevron-right"></i> {{current.question}}</h1>
         </div>
     </div>
-    <div class="container-fluid">
+</div>
+<div class="row">
+    <div id="qbuttons" class="container noselect">
+        <div class="col-lg-6 col-md-6 col-sm-6" ng-click="advance()"><i class="glyphicon glyphicon-share-alt"></i><span> Next Question</span></div>
+        <div class="col-lg-6 col-md-6 col-sm-6" ng-click="start()"><i class="glyphicon glyphicon-repeat"></i><span> Start Over</span></div>
+    </div>
+</div>
+<div class="row">
+    <div class="container">
         <question-tile ng-repeat="answer in qstack.displayed track by $index" choose="select(choice)" answer="answer">
         </question-tile>
     </div>

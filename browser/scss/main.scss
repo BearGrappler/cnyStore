@@ -3,8 +3,12 @@
 }
 
 body {
-    background: white;
+    background-color: white;
 }
+
+/*#questions {
+    background-image: url("typewriter-801921_1920.jpg");
+}*/
 
 @mixin clearfix {
     &:after {

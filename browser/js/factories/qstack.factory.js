@@ -24,7 +24,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
 
         gamerGenreRTS: new QTree(7, 'Strategy', "What's important to you?", { cpu: 4, ram: 4, gpu: 2 }),
         gamerGenreRPG: new QTree(8, 'RPGs', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
-        gamerGenreFPS: new QTree(9, 'FPS/Action', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
+        gamerGenreFPS: new QTree(9, 'Action', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
         gamerGenreINDIE: new QTree(10, 'Indie', "What's important to you?", { cpu: 2, ram: 2, gpu: 2 }),
 
         artistGenreAudio: new QTree(11, 'Audio', "What's important to you?", { cpu: 4, ram: 3, gpu: '0' }),
@@ -51,6 +51,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
     function QuestionStack(rootNode, filters = {}) {
         this.filters = filters;
         this.rootNode = rootNode;
+        this.pristine = true;
     }
 
     QuestionStack.prototype.add = function(nodes) {
@@ -89,6 +90,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @return {[QTree]} [The next QTree node to display to the user]
      */
     QuestionStack.prototype.advance = function() {
+        this.pristine = false;
         let selected = this.displayed.filter(node => node.selected);
         selected.forEach(node => {
             node.selected = false;
@@ -188,6 +190,7 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @return {[Object]} [Returns a QuestionStack object to facilitate chaining]
      */
     QuestionStack.prototype.start = function() {
+        this.pristine = true;
         this.displayed.forEach(node => {
             node.selected = false
         })
