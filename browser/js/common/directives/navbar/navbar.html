@@ -4,16 +4,15 @@
             <fullstack-logo></fullstack-logo>
         </div>
         <ul class="nav navbar-nav">
-            <li
-            ng-repeat="item in items" ng-show="showNavItem(item)">
+            <li ng-repeat="item in items" ng-show="showNavItem(item)">
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
         </ul>
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="createUser" class="btn createUser-button">Create </button>
         <div ng-show="user" class="welcome">
-            <span>{{user.name}}</span><span id="portrait" class="glyphicon glyphicon-user"></span>
-            <a ng-click="logout()">Logout</a>
+            <div id="lportrait"><a ui-sref="builds"><span>{{user.name}}</span><i id="portrait" class="glyphicon glyphicon-user"></i></a></div>
+            <div><a ng-click="logout()">Logout</a></div>
         </div>
     </div>
 </nav>

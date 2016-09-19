@@ -1,4 +1,6 @@
 $color: #1c9cff;
+$colorb: #f47424;
+
 .qtile {
     height: 175px;
     text-align: center;
@@ -54,3 +56,24 @@ $color: #1c9cff;
     transition: all 0.25s ease;
     transform: scale(1.1);
 }
+
+.btile {
+    @extend .qtile;
+    border: 10px solid $colorb;
+}
+.btile:hover,.b-on {
+    background-color: $colorb;
+    border: 15px solid white;
+    span {
+        color: white;
+    }
+}
+
+#addTile {
+    color: $colorb;
+    font-size: 96px;
+}
+#addTile:hover {
+    color: white;
+}
+

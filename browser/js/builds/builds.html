@@ -1,8 +1,10 @@
 <div class="row">
-    <div class="container">
-        <span>Builds!!!</span>
+    <div class="header container">
+    	<h1>Builds & Orders</h1>
     </div>
-    <div class="container-fluid">
-        <build-tile ng-repeat="cart in carts" cart="cart"></build-tile>
+    <div class="container">
+        <build-tile ng-repeat="build in builds" comp="build"></build-tile>
+        <build-tile ng-repeat="order in orders" comp="order"></build-tile>
+        <build-tile exec="newBuild(target)" comp="null"></build-tile>
     </div>
 </div>
