@@ -26,7 +26,9 @@ app.controller('ProductListController', function($scope, products, ProductFactor
   let filters = { manufacturer: new Set([]), type: new Set([]) };
 
   $scope.manufacturers = new Set();
-  $scope.allProducts.forEach(product => $scope.manufacturers.add(product.manufacturer));
+  if (products) {
+    $scope.allProducts.forEach(product => $scope.manufacturers.add(product.manufacturer));
+  }
   $scope.manufacturers = Array.from($scope.manufacturers)
 
   $scope.filterManufacturer = function(manufacturer) {

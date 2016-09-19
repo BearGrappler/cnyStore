@@ -41,7 +41,7 @@ app.factory('ProductFactory', function($http) {
   }
 
   Product.updateProduct = function(product, updateObj) {
-    $http.put('/api/products/' + product.id, updateObj)
+    return $http.put('/api/products/' + product.id, updateObj)
     .then(updatedProduct => updatedProduct.data)
   }
 

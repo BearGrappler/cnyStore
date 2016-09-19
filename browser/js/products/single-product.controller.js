@@ -25,6 +25,9 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
     gpu: $scope.selectedGpu
   }
   $scope.price = product.price;
+  $scope.updatedProduct = {};
+  ['name', 'price', 'description'].forEach(key => {$scope.updatedProduct[key] = $scope.product[key]})
+
 
   $scope.calculatePrice = function() {
     let price = product.price;
@@ -46,8 +49,13 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory) {
   }
 
   $scope.updateProduct = function() {
-    ProductFactory.updateProduct($scope.updatedProduct)
-    .then(product => {if (product) $scope.product = product})
+    ProductFactory.updateProduct($scope.product, $scope.updatedProduct)
+    .then(newProduct => {if (newProduct) $scope.product = newProduct})
+  }
+
+  $scope.hasUpgrades = function() {
+    console.log(product.cpu.length || product.gpu.length || product.hdd.length || product.ram)
+    return (product.cpu.length || product.gpu.length || product.hdd.length || product.ram.length)
   }
 
   function findDefaultConfiguration() {
