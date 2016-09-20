@@ -5,12 +5,12 @@ const Cart = require('../../../db').model('Cart');
 router.get('/', (req, res, next) => {
 
     if (!req.user && !req.session.CartId) return res.send([]);
-
+    console.log('---->', req.session);
     (function() {
         if (req.user) {
             return req.user.getCarts({ scope: 'itemsInCart' });
         } else if (req.session.CartId) {
-            return Cart.findOne({
+            return Cart.findAll({
                 where: {
                     id: req.session.CartId,
                     active: true
@@ -22,6 +22,7 @@ router.get('/', (req, res, next) => {
         }
     }())
     .then(carts => {
+            console.log('CARTS', carts);
             if (!carts) {
                 return res.sendStatus(404);
             } else {
@@ -94,7 +95,7 @@ router.delete('/:id', (req, res, next) => {
 router.use((req, res, next) => {
     (function() {
         if (req.user) {
-             console.log('AAA')
+            console.log('AAA')
             return Cart.findOne({
                 where: {
                     UserId: req.user.id,
@@ -105,7 +106,7 @@ router.use((req, res, next) => {
                 }]
             });
         } else if (req.session.CartId) {
-             console.log('BBB')
+            console.log('BBB')
             return Cart.findOne({
                 where: {
                     id: req.session.CartId,

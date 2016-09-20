@@ -90,6 +90,7 @@ module.exports = db.define('Cart', {
                 .catch(console.log);
         },
         afterCreate: function(cart) {
+            if (cart.UserId === null) return;
             return db.model('Cart')
                 .update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } }, returning: true })
                 .then(_cart => _cart)
