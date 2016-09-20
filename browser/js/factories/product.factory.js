@@ -6,8 +6,7 @@ app.factory('ProductFactory', function($http, CartFactory) {
   let currentProduct = {};
 
 
-  //this shouldn't be async wtf
-
+  //this shouldn't be async nor should it assign allProducts, but it works for right now
   Product.setFilter = function(filterObj) {
     return Product.getAll()
       .then(function(products) {
@@ -20,7 +19,6 @@ app.factory('ProductFactory', function($http, CartFactory) {
         filter.manufacturers = new Set([]);
         upgradeTypes.forEach(type => { configObj[type] = filterObj[type] });
         filter.configObj = configObj;
-        console.log('fILTER', filter, filterObj)
       })
   }
 
@@ -57,7 +55,6 @@ app.factory('ProductFactory', function($http, CartFactory) {
 
   //this will refresh the visible products from the sidebar filter
   Product.filter = function() {
-    console.log('fILTER', filter)
     let newProducts = allProducts;
     if (filter.type && filter.type.size > 0) {
       let holdingArr = [];
@@ -68,7 +65,6 @@ app.factory('ProductFactory', function($http, CartFactory) {
           }
         })
       })
-      console.log(holdingArr, filter.type)
       newProducts = holdingArr;
     }
     if (filter.manufacturers.size > 0) {
@@ -85,7 +81,6 @@ app.factory('ProductFactory', function($http, CartFactory) {
     if (filter.price) {
       newProducts = newProducts.filter(product => product.price <= filter.price)
     }
-    console.log('done filtering:', newProducts)
     return newProducts;
   }
 
