@@ -108,14 +108,7 @@ module.exports = db.define('Cart', {
                         })[0].update({ active: true }, { returning: true })
                     }
                 })
-                .then(_updatedCart => {
-                    if (!_updatedCart) {
-                        return db.model('Cart').create({ UserId: UserId })
-                    } else {
-                        return _updatedCart;
-                    }
-                })
-                .then(newCart => newCart)
+                .then(_cart => _cart)
                 .catch(console.log);
         }
     }

@@ -7,9 +7,16 @@ app.factory('CartFactory', function($http) {
     function getCarts() {
         return $http.get('/api/cart/')
             .then(res => res.data)
-            .then(carts => carts.sort((_a, _b) => {
-                return _a.id < _b.id ? 1 : -1;
-            }));
+            .then(carts => {
+                if (!carts.length) {
+                    return;
+                } else {
+                    return carts.sort((_a, _b) => {
+                        return _a.id < _b.id ? 1 : -1;
+                    });
+                }
+            })
+            .catch(console.log);
     }
 
     function getCart(id) {

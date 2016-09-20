@@ -20,6 +20,4 @@ module.exports = function(app, db) {
 
     require('./authentication')(app, db);
 
-    require('./guest-cart-middleware')(app, db);
-
 };
