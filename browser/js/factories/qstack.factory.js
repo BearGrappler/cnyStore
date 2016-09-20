@@ -27,20 +27,19 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
         gamerGenreFPS: new QTree(9, 'Action', "What's important to you?", { cpu: 4, ram: 3, gpu: 4 }),
         gamerGenreINDIE: new QTree(10, 'Indie', "What's important to you?", { cpu: 2, ram: 2, gpu: 2 }),
 
-        artistGenreAudio: new QTree(11, 'Audio', "What's important to you?", { cpu: 4, ram: 3, gpu: '0' }),
-        artistGenreVideo: new QTree(12, 'Video', "What's important to you?", { cpu: '4', ram: '3', gpu: '1' }),
-        artistGenrePhoto: new QTree(13, 'Photo', "What's important to you?", { cpu: '3', ram: '2', gpu: '0' }),
+        artistGenreAudio: new QTree(11, 'Audio', "What's important to you?", { cpu: 4, ram: 3, gpu: '0', size: 2 }),
+        artistGenreVideo: new QTree(12, 'Video', "What's important to you?", { cpu: '4', ram: '3', gpu: '1', size: 2, hdd: 3 }),
+        artistGenrePhoto: new QTree(13, 'Photo', "What's important to you?", { cpu: '3', ram: '2', gpu: '0', size: 2 }),
 
-        studentMajorSTEM: new QTree(14, 'STEM', "What's important to you?", { cpu: '3', ram: '2', gpu: '1' }),
-        studentMajorTrade: new QTree(15, 'Vocations', "What's important to you?", { cpu: '1', ram: '1', gpu: '0' }),
-        studentMajorLibArts: new QTree(16, 'Liberal Arts', "What's important to you?", { cpu: '2', ram: '2', gpu: '0' }),
-        studentMajorSports: new QTree(17, 'Sports', "What's important to you?", { cpu: '1', ram: '2', gpu: '0' }),
+        studentMajorSTEM: new QTree(14, 'STEM', "What's important to you?", { cpu: '3', ram: '2', gpu: '1', size: 1 }),
+        studentMajorTrade: new QTree(15, 'Vocations', "What's important to you?", { cpu: '1', ram: '1', gpu: '0', size: 1 }),
+        studentMajorLibArts: new QTree(16, 'Liberal Arts', "What's important to you?", { cpu: '2', ram: '2', gpu: '0', size: 1 }),
+        studentMajorSports: new QTree(17, 'Sports', "What's important to you?", { cpu: '1', ram: '2', gpu: '0', size: 3 }),
 
-        price: new QTree(18, 'Price', '', { price: '1' }),
-        speed: new QTree(19, 'Speed', '', { cpu: '3', ram: '2', gpu: '0', hdd: '4', price: '5' }),
-        graphics: new QTree(20, 'Graphics', '', { gpu: '5', price: '4' }),
-        space: new QTree(21, 'Space', '', { hdd: '5', price: '3' }),
-        rounded: new QTree(22, 'Everything', '', { cpu: '2', ram: '2', gpu: '2', hdd: '2', price: '2' }),
+        price: new QTree(18, 'Price', '', {}),
+        speed: new QTree(19, 'Speed', '', { cpu: '3', ram: '2', gpu: '0', hdd: '4' }),
+        graphics: new QTree(20, 'Graphics', '', { gpu: '5' }),
+        size: new QTree(21, 'Size', '', { hdd: '3', size: '5' })
     };
 
     /**
@@ -124,11 +123,11 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
      * @param  {[Number]} id   [Integer id number corresponding to QTree node]
      * @return {[undefined]}      [just used for side effects]
      */
-    QuestionStack.prototype.findNodeById = function(node, id) {
-        if (!node) node = this.rootNode;
-        if (node.id === id) return this.setStack(node);
-        else node.answers.forEach(answer => QTree.findNodeById(answer, id));
-    }
+    // QuestionStack.prototype.findNodeById = function(node, id) {
+    //     if (!node) node = this.rootNode;
+    //     if (node.id === id) return this.setStack(node);
+    //     else node.answers.forEach(answer => QTree.findNodeById(answer, id));
+    // }
 
     /**
      * Initializes tree structure/associations for QTree.
@@ -170,20 +169,13 @@ app.factory('QStackFactory', function($http, QTreeFactory) {
             .addAnswer(questions.price)
             .addAnswer(questions.speed)
             .addAnswer(questions.graphics)
-            .addAnswer(questions.space)
-            .addAnswer(questions.rounded);
+            .addAnswer(questions.size)
 
 
         this.setStack([questions.casual, this.rootNode]);
 
         return this;
     }
-
-    // QuestionStack.prototype.applyFilters = function (id) {
-    //     if (typeof id === 'Number') {
-    //         return $http.get('/api/')
-    //     }
-    // }
 
     /**
      * Starts a new Question Tree process by assigning a new stack, clearing any displaying nodes, etc.

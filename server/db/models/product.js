@@ -46,7 +46,7 @@ module.exports = db.define('Product', {
         allowNull: false
     },
     userType: {
-        type: Sequelize.ENUM('gamer', 'student', 'artist', 'casual'),
+        type: Sequelize.ENUM('gamer', 'student', 'artist', 'casual'), // eslint-disable-line new-cap
         allowNull: true
     },
     inventory: {

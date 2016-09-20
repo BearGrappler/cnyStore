@@ -11,7 +11,7 @@ module.exports = db.define('Option', {
 
   // Upgrade option type
   type: {
-    type: Sequelize.ENUM('cpu', 'ram', 'hdd', 'gpu'),
+    type: Sequelize.ENUM('cpu', 'ram', 'hdd', 'gpu'), // eslint-disable-line new-cap
     allowNull: false
   },
 
@@ -41,16 +41,6 @@ module.exports = db.define('Option', {
           else return opt.update({ defOption: false }, { returning: true }).then(arr => arr[1]);
         }))
       });
-    },
-
-    /**
-     * [setRecType adjusts whether the upgrade option is recommended for a particular user type]
-     * @param {[string]} recType [A string descriptor of user type]
-     * @param {[boolean]} value   [The desired boolean value for whether the option is recommended for the specified userType]
-     */
-    setRecType: function(recType, value) {
-      let recAttr = 'rec' + recType;
-      return this.update({ recAttr: value }, { returning: true }).then(arr => arr[1]);
     }
   }
 });
