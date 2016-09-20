@@ -16,8 +16,8 @@ app.config(function($stateProvider) {
 app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService) {
 
   if (Object.keys(ProductFactory.getFilter().configObj).length > 0) {
-
-    $scope.recommendedConfig = ProductFactory.getRecommendedConfig(product);
+    $scope.recommendedConfig = ProductFactory.getRecommendedConfig();
+    $scope.options = Object.keys($scope.recommendedConfig);
   }
 
 

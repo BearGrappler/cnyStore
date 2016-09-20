@@ -43,6 +43,15 @@
             <button type="submit" ng-click="updateProduct()">Update Product</button>
         </form>
     </div>
+
+    <div class="recommended-config">
+        <div ng-repeat="key in options">
+            <h3>{{key}}</h3>
+            <p>{{recommendedConfig[key].name}}</p>
+            <p>{{recommendedConfig[key].price}}</p>
+        </div>
+    </div>
+
     <div class="reviews">
         <h3>Reviews:</h3>
         <div class="review" ng-repeat="review in product.Reviews">

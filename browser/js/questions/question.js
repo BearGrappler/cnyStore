@@ -45,8 +45,7 @@ app.controller('QuestionCtrl', function($scope, $state, AuthService, QStackFacto
         $scope.selected.clear();
         $scope.selected = new Map($scope.qstack.displayed.map(node => [node.id, false]));
         if (!$scope.current) {
-            ProductFactory.setFilter($scope.qstack.currentFilters);
-            return $state.go('product-list');
+            return ProductFactory.setFilter($scope.qstack.currentFilters).then(() => $state.go('product-list'))
         }
     }
 
