@@ -54,7 +54,7 @@ router.get('/', (req, res, next) => {
     req.user.getPurchases({ scope: 'fullOrder' })
         .then(orders => {
             if (!orders.length) {
-                return res.sendStatus(404);
+                return res.send([]);
             } else {
                 res.send(orders);
             }

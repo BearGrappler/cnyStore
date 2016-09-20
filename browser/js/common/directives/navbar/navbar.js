@@ -1,49 +1,46 @@
 app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
 
-  return {
-    restrict: 'E',
-    scope: {},
-    templateUrl: 'js/common/directives/navbar/navbar.html',
-    link: function(scope) {
+    return {
+        restrict: 'E',
+        scope: {},
+        templateUrl: 'js/common/directives/navbar/navbar.html',
+        link: function(scope) {
+
+            scope.search = function() {
+                $state.go('product-list', { query: 'search:' + scope.value });
+            }
+
+            scope.items = [
+                { label: 'Home', state: 'questions' },
+                { label: 'Products', state: 'product-list' },
+                { label: 'Members Only', state: 'membersOnly', auth: true },
+                { label: 'Admins Only', state: 'adminsOnly', userType: 'admin' }
+            ];
+
+            scope.user = null;
+
+            scope.isLoggedIn = function() {
+                return AuthService.isAuthenticated();
+            };
+
+            scope.logout = function() {
+                AuthService.logout().then(function() {
+                    $state.go('questions');
+                });
+            };
+
+            var setUser = function() {
+                AuthService.getLoggedInUser().then(function(user) {
+                    scope.user = user;
+                });
+            };
+
+            var removeUser = function() {
+                scope.user = null;
+            };
 
 
-      scope.searchOptions = ['model', 'cpu', 'ram', 'hdd', 'gpu'];
-
-      scope.items = [
-        { label: 'Home', state: 'questions' },
-        { label: 'Products', state: 'product-list' },
-        { label: 'Members Only', state: 'membersOnly', auth: true },
-        { label: 'Admins Only', state: 'adminsOnly', userType: 'admin' }
-      ];
-
-      scope.user = null;
-
-      scope.search = function() {
-        $state.go('product-list', {query: 'search:' + scope.value});
-      }
-
-      scope.isLoggedIn = function() {
-        return AuthService.isAuthenticated();
-      };
-
-      scope.logout = function() {
-        AuthService.logout().then(function() {
-          $state.go('questions');
-        });
-      };
-
-      var setUser = function() {
-        AuthService.getLoggedInUser().then(function(user) {
-          scope.user = user;
-        });
-      };
-
-      var removeUser = function() {
-        scope.user = null;
-      };
-
-
-      scope.showNavItem = function(item) {
+            scope.showNavItem = function(item) {
 
                 if (item.userType) {
                     if (scope.user) {
@@ -64,14 +61,14 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
 
             };
 
-      setUser();
+            setUser();
 
-      $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-      $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-      $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
+            $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
+            $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
+            $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
-    }
+        }
 
-  };
+    };
 
 });

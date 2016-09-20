@@ -1,39 +1,38 @@
 app.factory('CartFactory', function($http) {
 
-    function approveId(id) {
-        return /[^0-9]/.test(String(id)) === false;
+    function refresh() {
+        return getCarts();
     }
 
     function getCarts() {
-        return $http.get('/api/cart/').then(res => res.data);
+        return $http.get('/api/cart/')
+            .then(res => res.data)
+            .then(carts => carts.sort((_a, _b) => {
+                return _a.id < _b.id ? 1 : -1;
+            }));
     }
 
     function getCart(id) {
-        if (!approveId(id)) return;
         return $http.get('/api/cart/' + id).then(res => res.data);
     }
 
     function addCart() {
-        return $http.post('/api/cart/').then(res => res.data);
+        return $http.post('/api/cart/').then(refresh);
     }
 
     function deleteCart(id) {
-        if (!approveId(id)) return;
-        return $http.delete('/api/cart/' + id).then(res => res.data);
+        return $http.delete('/api/cart/' + id).then(refresh);
     }
 
     function activateCart(id) {
-        if (!approveId(id)) return;
-        return $http.put('/api/cart/' + id).then(res => res.data);
+        return $http.put('/api/cart/' + id).then(refresh);
     }
 
     function addToCart(id) {
-        if (!approveId(id)) return;
         return $http.post('/api/cart/active/' + id).then(res => res.data);
     }
 
     function removeFromCart(id) {
-        if (!approveId(id)) return;
         return $http.delete('/api/cart/active/' + id).then(res => res.data);
     }
 

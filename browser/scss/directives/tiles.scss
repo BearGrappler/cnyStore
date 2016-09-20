@@ -1,0 +1,109 @@
+$color: #1c9cff;
+$colorb: darken(#f47424, 5%);
+$colorc: #ffffff;
+.tile {
+    transition: all 0.25s ease;
+}
+
+.tile:hover {
+    transition: all 0.25s ease;
+    transform: translateY(-4px);
+}
+
+.qtile {
+    height: 175px;
+    text-align: center;
+    border: 15px solid $color;
+    box-shadow: 8px 8px 4px #e4e4e4;
+    margin-bottom: 55px;
+    cursor: pointer;
+    padding-top: 28px;
+}
+
+.on,
+.qtile:hover {
+    background-color: $color;
+    border: 15px solid white;
+    span {
+        color: white;
+    }
+}
+
+.qlabel {
+    text-align: left;
+    font-size: 36px;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 16px;
+}
+
+.qtext {
+    text-align: center;
+    font-size: 54px;
+    word-wrap: break-word;
+    color: $color;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.color {
+    color: $colorb;
+}
+
+#qbuttons {
+    height: 84px;
+    text-align: center;
+    font-size: 36px;
+    div > span {
+        font-family: 'Montserrat', sans-serif;
+    }
+    margin-bottom: 16px;
+}
+
+#qbuttons div:hover {
+    color: $color;
+    transition: all 0.15s ease;
+    transform: scale(1.1);
+}
+
+.btile {
+    @extend .qtile;
+    border: 10px solid $colorb;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 8px 8px 8px #e4e4e4;
+    font-size: 22px;
+}
+
+.btile:hover,
+.b-on {
+    background-color: $colorb;
+    border: 10px solid white;
+    box-shadow: 8px 13px 8px #e4e4e4;
+    color: white;
+}
+
+#addTile {
+    color: $colorb;
+    font-size: 96px;
+}
+
+#addTile:hover {
+    color: white;
+}
+
+.otile {}
+
+.o-on,
+.otile:hover {}
+
+.remove {
+    color: red;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+}
+
+.remove:hover {
+    transition: all 0.1s ease;
+    transform: translateY(-2px);
+    transform: scale(1.4);
+}

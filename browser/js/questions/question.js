@@ -11,7 +11,6 @@ app.config(function($stateProvider) {
 app.controller('QuestionCtrl', function($scope, AuthService, QStackFactory) {
 
     $scope.qstack = QStackFactory;
-    console.log(AuthService.isAdmin());
 
     /**
      * Starts a new question process
