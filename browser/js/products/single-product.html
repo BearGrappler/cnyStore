@@ -1,4 +1,32 @@
-<section class="single-product">
+<section class="single-product page">
+
+    <div class="configuration-selector page">
+        <!-- need a way to indicate a configuration is recommended for the usertype
+          * could have a div on the side with buttons for each usertype that will change the currentConfig
+        -->
+        <!-- need to automatically show the default options in the selects -->
+        <h3> Upgrades: </h3>
+        <div class="ram-upgrade" ng-show="product.ram.length >= 1">
+            <label>RAM</label>
+            <img src="{{selectedRam.imageUrls[0]}}"><br>
+            <select ng-change="calculatePrice()" ng-init="selectedRam = product.ram[0]" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
+        </div>
+        <div class="cpu-upgrade" ng-show="product.cpu.length >= 1">
+            <label>CPU</label>
+            <img src="{{selectedCpu.imageUrls[0]}}"><br>
+            <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
+        </div>
+        <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
+            <label>HDD</label>
+            <img src="{{selectedHdd.imageUrls[0]}}"><br>
+            <select ng-change="calculatePrice()" ng-init="selectedHdd = product.hdd[0]" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
+        </div>
+        <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
+            <label>GPU</label>
+            <img src="{{selectedGpu.imageUrls[0]}}"><br>
+            <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
+        </div>
+    </div>
     <div class="single-product-info">
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
@@ -7,34 +35,13 @@
         <h3 class="product-price"> ${{price}} </h3>
         <p class="product-description"> {{product.description}} </p>
     </div>
-    <div class="configuration-selector">
-        <!-- need a way to indicate a configuration is recommended for the usertype
-          * could have a div on the side with buttons for each usertype that will change the currentConfig
-        -->
-        <!-- need to automatically show the default options in the selects -->
-        <h2> Upgrade Options: </h2>
-        <div class="ram-upgrade" ng-show="product.ram.length >= 1">
-            <label>RAM</label>
-            <select ng-change="calculatePrice()" ng-init="selectedRam = product.ram[0]" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
-        </div>
-        <div class="cpu-upgrade" ng-show="product.cpu.length >= 1">
-            <label>CPU</label>
-            <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
-        </div>
-        <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
-            <label>hdd</label>
-            <select ng-change="calculatePrice()" ng-init="selectedHdd = product.hdd[0]" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
-        </div>
-        <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
-            <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
-        </div>
-    </div>
     <div class="reviews">
-        <div class="review" ng-repeat="review in product.Reviews" style="border: 1px solid red">
+        <h3>Reviews:</h3>
+        <div class="review" ng-repeat="review in product.Reviews" style="background: gray; border: 1px solid darkgrey; color: white">
             <p>{{review.writtenReview}}</p>
         </div>
     </div>
-    <div class="currentConfiguration">
+    <!-- <div class="currentConfiguration">
         <h3>Current Configuration:</h3>
         <ul>
             <li>{{product.name}} - ${{basePrice}}</li>
@@ -43,12 +50,5 @@
             <li ng-show="product.hdd.length >= 1">{{selectedHdd.name}} - ${{selectedHdd.price}}</li>
             <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
         </ul>
-    </div>
+    </div> -->
 </section>
-<!--
-- product name
-- product photo(s)
-- product description
-- configuration selector
-- recommended configurations
--->

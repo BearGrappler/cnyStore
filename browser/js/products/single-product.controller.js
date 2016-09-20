@@ -13,7 +13,9 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService) {
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, PagesFactory) {
+  PagesFactory();
+
   $scope.editView = false;
   $scope.product = product;
   findDefaultConfiguration();
