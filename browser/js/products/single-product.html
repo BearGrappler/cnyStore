@@ -27,6 +27,14 @@
             <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
         </div>
     </div>
+    <div class="recommended-config" style="float: left; border: 1px solid blue">
+        <h2>Recommended Configuration:</h2>
+        <div ng-repeat="key in options">
+            <h3>{{key}}</h3>
+            <p>{{recommendedConfig[key].name}}</p>
+            <p>{{recommendedConfig[key].price}}</p>
+        </div>
+    </div>
     <div class="single-product-info">
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
@@ -44,13 +52,6 @@
         </form>
     </div>
 
-    <div class="recommended-config">
-        <div ng-repeat="key in options">
-            <h3>{{key}}</h3>
-            <p>{{recommendedConfig[key].name}}</p>
-            <p>{{recommendedConfig[key].price}}</p>
-        </div>
-    </div>
 
     <div class="reviews">
         <h3>Reviews:</h3>
