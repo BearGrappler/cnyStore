@@ -33,7 +33,6 @@ router.get('/adminsOnly/getAll', function(req, res, next) {
 
 router.put('/adminsOnly/:orderId/:newStatus', function(req, res, next) {
 
-    console.log('you hit /api/orders/adminsOnly')
     if (!req.user || !req.user.isAdmin) {
         return res.sendStatus(401);
     }
