@@ -10,7 +10,7 @@ app.config(function($stateProvider) {
           if (query[0] === 'search') {
             return ProductFactory.findBySearchFilter(query[1])
           }
-          return ProductFactory.setFilter().then(() => ProductFactory.filter());
+          return ProductFactory.setFilter(ProductFactory.getFilter()).then(() => ProductFactory.filter());
         }
       }
     })
