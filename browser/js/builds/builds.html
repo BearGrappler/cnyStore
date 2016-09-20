@@ -4,9 +4,9 @@
     	<br>
     </div>
     <div class="container">
+        <build-tile exec="newBuild(target)" comp="null"></build-tile>
         <build-tile ng-repeat="build in builds" comp="build" exec="activate(target)" closefn="deleteBuild(toRemove)"></build-tile>
         <build-tile ng-repeat="order in orders" comp="order"></build-tile>
-        <build-tile exec="newBuild(target)" comp="null"></build-tile>
     </div>
     <div class="header container">
     	<h1>Orders</h1>
