@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(req, res, next, db) {
 
     const Cart = db.model('Cart');
