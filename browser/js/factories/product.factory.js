@@ -5,25 +5,22 @@ app.factory('ProductFactory', function($http, CartFactory) {
   let allProducts = [];
   let currentProduct = {};
 
-
-  //this shouldn't be async nor should it assign allProducts, but it works for right now
-  Product.setFilter = function(filterObj) {
+  Product.setFilter = function() {
     return Product.getAll()
       .then(function(products) {
         allProducts = products;
         filter = {};
         let configObj = {};
         let upgradeTypes = ['ram', 'cpu', 'hdd', 'gpu'];
-        filter = filterObj;
+        filter = Product.getFilter();
         filter.type = new Set(filter.type);
         filter.manufacturers = new Set([]);
-        upgradeTypes.forEach(type => { configObj[type] = filterObj[type] });
+        upgradeTypes.forEach(type => { configObj[type] = filter[type] });
         filter.configObj = configObj;
       })
   }
 
   Product.getFilter = function() {
-    console.log('filter', filter)
     return filter;
   }
 
@@ -86,7 +83,7 @@ app.factory('ProductFactory', function($http, CartFactory) {
 
   Product.getRecommendedConfig = function() {
     let recommendedConfig = {};
-    let totalConfigValue = Object.keys(filter.configObj).reduce(((a, b) => a + filter.configObj[b]), 0);
+    let totalConfigValue = Object.keys(filter.configObj).reduce(((_a, _b) => _a + filter.configObj[_b]), 0);
     recommendedConfig.cpu = currentProduct.cpu[Math.round(filter.configObj.cpu / totalConfigValue * currentProduct.cpu.length)];
     recommendedConfig.ram = currentProduct.ram[Math.round(filter.configObj.ram / totalConfigValue * currentProduct.ram.length)];
     recommendedConfig.hdd = currentProduct.hdd[Math.round(filter.configObj.hdd / totalConfigValue * currentProduct.hdd.length)];
@@ -140,8 +137,8 @@ app.factory('ProductFactory', function($http, CartFactory) {
         })
       })
       .then(function() {
-        upgradeTypes.forEach(key => currentProduct[key].sort((a, b) => {
-          return a.price < b.price ? -1 : 1
+        upgradeTypes.forEach(key => currentProduct[key].sort((_a, _b) => {
+          return _a.price < _b.price ? -1 : 1
         }))
         return currentProduct
       })
