@@ -3,6 +3,7 @@ const router = require('express').Router(); // eslint-disable-line new-cap
 const Cart = require('../../../db').model('Cart');
 
 router.get('/', (req, res, next) => {
+
     if (!req.user && !req.session.CartId) return res.send([]);
 
     (function() {
@@ -40,8 +41,11 @@ router.post('/', (req, res, next) => {
     }())
     .then(cart => {
         if (!req.user) {
-            req.session.CartId = cart.id;
-            return res.send(cart);
+            return Cart.destroy({ where: { id: req.session.CartId } })
+                .then(() => {
+                    req.session.CartId = cart.id;
+                    return res.send(cart)
+                }).catch(next);
         } else {
             return req.user.getCarts({ scope: 'itemsInCart' })
                 .then(carts => res.send(carts))
@@ -90,6 +94,7 @@ router.delete('/:id', (req, res, next) => {
 router.use((req, res, next) => {
     (function() {
         if (req.user) {
+             console.log('AAA')
             return Cart.findOne({
                 where: {
                     UserId: req.user.id,
@@ -100,6 +105,7 @@ router.use((req, res, next) => {
                 }]
             });
         } else if (req.session.CartId) {
+             console.log('BBB')
             return Cart.findOne({
                 where: {
                     id: req.session.CartId,
@@ -110,16 +116,14 @@ router.use((req, res, next) => {
                 }]
             });
         } else {
-            return res.sendStatus(400);
+            console.log('CCC')
+            return Cart.create();
         }
     }())
     .then(cart => {
-            if (!cart) {
-                return res.sendStatus(404);
-            } else {
-                req.cart = cart;
-                next();
-            }
+            req.cart = cart;
+            req.session.CartId = cart.id;
+            next();
         })
         .catch(next);
 });
