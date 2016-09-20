@@ -1,9 +1,5 @@
 app.factory('ReviewFactory', function($http) {
 
-    function approveId(id) {
-        return /[^0-9]/.test(String(id)) === false;
-    }
-
     function approveReview(review) {
         return (review.hasOwnProperty('text') && review.hasOwnProperty('rating') && review.hasOwnProperty('ProductId'));
     }
@@ -34,7 +30,6 @@ app.factory('ReviewFactory', function($http) {
      * @return {[Object]} [Promise for the created review]
      */
     function addReview(review) {
-        if (!approveReview(review)) return;
         return $http.post('/api/reviews/' + review.ProductId, {
                 rating: review.rating,
                 text: review.writtenReview

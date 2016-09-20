@@ -43,11 +43,6 @@ router.delete(':/id', (req, res, next) => {
   })
 })
 
-router.use((req, res, next) => {
-    if (!(req.body.hasOwnproperty('rating') && req.body.hasOwnproperty('text'))) return res.sendStatus(400);
-    next();
-})
-
 router.post('/:id', (req, res, next) => {
   Review.create({
       writtenReview: req.body.text,
