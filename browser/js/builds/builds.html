@@ -1,10 +1,18 @@
 <div class="row">
     <div class="header container">
-    	<h1>Builds & Orders</h1>
+    	<h1>Builds</h1>
+    	<br>
     </div>
     <div class="container">
-        <build-tile ng-repeat="build in builds" comp="build"></build-tile>
+        <build-tile ng-repeat="build in builds" comp="build" exec="activate(target)" closefn="deleteBuild(toRemove)"></build-tile>
         <build-tile ng-repeat="order in orders" comp="order"></build-tile>
         <build-tile exec="newBuild(target)" comp="null"></build-tile>
+    </div>
+    <div class="header container">
+    	<h1>Orders</h1>
+    	<br>
+    </div>
+    <div class="container">
+        <build-tile ng-repeat="order in orders" comp="order"></build-tile>
     </div>
 </div>

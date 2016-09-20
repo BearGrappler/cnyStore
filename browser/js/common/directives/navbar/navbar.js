@@ -6,6 +6,10 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function(scope) {
 
+            scope.search = function() {
+                $state.go('product-list', { query: 'search:' + scope.value });
+            }
+
             scope.items = [
                 { label: 'Home', state: 'questions' },
                 { label: 'Products', state: 'product-list' },
@@ -14,6 +18,7 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             ];
 
             scope.user = null;
+
 
             scope.isLoggedIn = function() {
                 return AuthService.isAuthenticated();

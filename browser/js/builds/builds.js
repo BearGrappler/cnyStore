@@ -27,9 +27,23 @@ app.controller('BuildsCtrl', function($scope, AuthService, orders, allBuilds, $i
     $scope.builds = allBuilds;
 
     $scope.newBuild = function() {
-        CartFactory.addCart().then(() => {
-                return CartFactory.getCarts();
+        CartFactory.addCart()
+            .then(carts => {
+                $scope.builds = carts;
             })
+            .catch($log.error);
+    }
+
+    $scope.deleteBuild = function(id) {
+        CartFactory.deleteCart(id)
+            .then(carts => {
+                $scope.builds = carts;
+            })
+            .catch($log.error)
+    }
+
+    $scope.activate = function(id) {
+        CartFactory.activateCart(id)
             .then(carts => {
                 $scope.builds = carts;
             })

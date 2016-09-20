@@ -73,7 +73,7 @@ module.exports = db.define('User', {
             }
         },
         afterCreate: function(user) {
-            return db.model('Cart').create({ UserId: user.id });
+            db.model('Cart').create({ UserId: user.id });
         }
     }
 });
