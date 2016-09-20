@@ -5,22 +5,25 @@ app.factory('ProductFactory', function($http, CartFactory) {
   let allProducts = [];
   let currentProduct = {};
 
-  Product.setFilter = function() {
+
+  //this shouldn't be async nor should it assign allProducts, but it works for right now
+  Product.setFilter = function(filterObj) {
     return Product.getAll()
       .then(function(products) {
         allProducts = products;
         filter = {};
         let configObj = {};
         let upgradeTypes = ['ram', 'cpu', 'hdd', 'gpu'];
-        filter = Product.getFilter();
+        filter = filterObj;
         filter.type = new Set(filter.type);
         filter.manufacturers = new Set([]);
-        upgradeTypes.forEach(type => { configObj[type] = filter[type] });
+        upgradeTypes.forEach(type => { configObj[type] = filterObj[type] });
         filter.configObj = configObj;
       })
   }
 
   Product.getFilter = function() {
+    console.log('filter', filter)
     return filter;
   }
 
