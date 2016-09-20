@@ -3,6 +3,21 @@ const router = require('express').Router(); // eslint-disable-line new-cap
 const Order = require('../../../db').model('Order');
 const Cart = require('../../../db').model('Cart');
 
+router.get('/', (req, res, next) => {
+
+    if (!req.user) return res.send([]);
+
+    req.user.getPurchases({ scope: 'fullOrder' })
+        .then(orders => {
+            if (!orders.length) {
+                return res.send([]);
+            } else {
+                res.send(orders);
+            }
+        })
+        .catch(next);
+});
+
 router.use((req, res, next) => {
     if (!req.user) {
         return res.sendStatus(401);
@@ -48,19 +63,6 @@ router.put('/adminsOnly/:orderId/:newStatus', function(req, res, next) {
 
 
 })
-
-
-router.get('/', (req, res, next) => {
-    req.user.getPurchases({ scope: 'fullOrder' })
-        .then(orders => {
-            if (!orders.length) {
-                return res.send([]);
-            } else {
-                res.send(orders);
-            }
-        })
-        .catch(next);
-});
 
 router.get('/:id', (req, res, next) => {
     Order.findOne({

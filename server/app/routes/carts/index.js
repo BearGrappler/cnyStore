@@ -1,15 +1,16 @@
 'use strict'
 const router = require('express').Router(); // eslint-disable-line new-cap
 const Cart = require('../../../db').model('Cart');
-const User = require('../../../db').model('User');
 
 router.get('/', (req, res, next) => {
 
+    if (!req.user && !req.session.CartId) return res.send([]);
+    console.log('---->', req.session);
     (function() {
         if (req.user) {
             return req.user.getCarts({ scope: 'itemsInCart' });
         } else if (req.session.CartId) {
-            return Cart.findOne({
+            return Cart.findAll({
                 where: {
                     id: req.session.CartId,
                     active: true
@@ -18,11 +19,10 @@ router.get('/', (req, res, next) => {
                     association: Cart.Product
                 }]
             });
-        } else {
-            return res.sendStatus(400);
         }
     }())
     .then(carts => {
+            console.log('CARTS', carts);
             if (!carts) {
                 return res.sendStatus(404);
             } else {
@@ -33,22 +33,26 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    if (!req.user) {
-        return res.sendStatus(401);
-    } else {
-        Cart.create({ UserId: req.user.id })
-            .then(() => {
-                // This serves to refresh the user associations.
-                return User.findOne({
-                    where: {
-                        id: req.user.id
-                    },
-                    include: [{ association: User.Cart }]
-                })
-            })
-            .then(user => res.send(user.sanitize()))
-            .catch(next);
-    }
+    (function() {
+        if (!req.user) {
+            return Cart.create();
+        } else {
+            return Cart.create({ UserId: req.user.id })
+        }
+    }())
+    .then(cart => {
+        if (!req.user) {
+            return Cart.destroy({ where: { id: req.session.CartId } })
+                .then(() => {
+                    req.session.CartId = cart.id;
+                    return res.send(cart)
+                }).catch(next);
+        } else {
+            return req.user.getCarts({ scope: 'itemsInCart' })
+                .then(carts => res.send(carts))
+                .catch(next);
+        }
+    })
 });
 
 router.put('/:id', (req, res, next) => {
@@ -69,24 +73,29 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
-    if (!req.user) {
-        return res.sendStatus(401);
-    } else {
-        Cart.destroy({ where: { id: req.params.id, UserId: req.user.id }, individualHooks: true })
-            .then((cart) => {
-                if (!cart) {
-                    return res.sendStatus(400)
-                } else {
-                    return res.sendStatus(204);
-                }
-            })
-            .catch(next);
-    }
+    (function() {
+        if (!req.user && req.session.CartId) {
+            return Cart.destroy({ where: { id: req.session.CartId } });
+        } else if (req.user) {
+            return Cart.destroy({ where: { id: req.params.id, UserId: req.user.id }, individualHooks: true });
+        } else {
+            return;
+        }
+    }())
+    .then((cart) => {
+            if (!cart) {
+                return res.sendStatus(400)
+            } else {
+                return res.sendStatus(204);
+            }
+        })
+        .catch(next);
 });
 
 router.use((req, res, next) => {
     (function() {
         if (req.user) {
+            console.log('AAA')
             return Cart.findOne({
                 where: {
                     UserId: req.user.id,
@@ -97,6 +106,7 @@ router.use((req, res, next) => {
                 }]
             });
         } else if (req.session.CartId) {
+            console.log('BBB')
             return Cart.findOne({
                 where: {
                     id: req.session.CartId,
@@ -107,16 +117,14 @@ router.use((req, res, next) => {
                 }]
             });
         } else {
-            return res.sendStatus(400);
+            console.log('CCC')
+            return Cart.create();
         }
     }())
     .then(cart => {
-            if (!cart) {
-                return res.sendStatus(404);
-            } else {
-                req.cart = cart;
-                next();
-            }
+            req.cart = cart;
+            req.session.CartId = cart.id;
+            next();
         })
         .catch(next);
 });

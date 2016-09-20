@@ -157,8 +157,9 @@ app.factory('ProductFactory', function($http, CartFactory) {
   }
 
   Product.addToCart = function(productConfig) {
-    let addToCartMap = Object.keys(productConfig).map(key => CartFactory.addToCart(productConfig[key].id))
-    return Promise.all(addToCartMap);
+    return CartFactory.addCart()
+      .then(() => Promise.all(Object.keys(productConfig).map(key => CartFactory.addToCart(productConfig[key].id))))
+      .catch(console);
   }
 
   Product.getDefaultConfig = function(product) {
