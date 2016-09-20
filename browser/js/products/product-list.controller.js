@@ -10,50 +10,34 @@ app.config(function($stateProvider) {
           if (query[0] === 'search') {
             return ProductFactory.findBySearchFilter(query[1])
           }
-          if (query[0] === 'type') {
-            return ProductFactory.getAllOfType(query[1])
-          }
-          return ProductFactory.getAll();
+          return ProductFactory.setFilter().then(() => ProductFactory.filter());
         }
       }
     })
 })
 
 app.controller('ProductListController', function($scope, products, ProductFactory) {
-  $scope.allProducts = products;
-  $scope.filteredProducts = products;
+  $scope.products = products;
 
-  let filters = { manufacturer: new Set([]), type: new Set([]) };
+  // let filter = ProductFactory.getFilter();
 
-  $scope.manufacturers = new Set();
-  if (products) {
-    $scope.allProducts.forEach(product => $scope.manufacturers.add(product.manufacturer));
-  }
-  $scope.manufacturers = Array.from($scope.manufacturers)
 
   $scope.filterManufacturer = function(manufacturer) {
-    if (filters.manufacturer.has(manufacturer)) {
-      filters.manufacturer.delete(manufacturer)
-    } else {
-      filters.manufacturer.add(manufacturer)
-    }
-    $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
+    ProductFactory.addManufacturer(manufacturer);
+    $scope.products = ProductFactory.filter();
   }
 
   $scope.filterPrice = function(price) {
-    filters.price = price;
-    $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
+    ProductFactory.addPriceToFilter(price);
+    $scope.products = ProductFactory.filter();
   }
 
   $scope.filterType = function(type) {
-    if (filters.type.has(type)) {
-      filters.type.delete(type)
-    } else {
-      filters.type.add(type)
-    }
-    $scope.filteredProducts = ProductFactory.filter(filters, $scope.allProducts);
+    ProductFactory.addUserTypeToFilter(type);
+    $scope.products = ProductFactory.filter();
   }
 
+  $scope.manufacturers = Array.from(ProductFactory.findManufacturers());
   $scope.userTypes = ['Gamer', 'Student', 'Artist', 'Casual'];
-  $scope.productTypes = ['base', 'ram', 'cpu', 'gpu', 'hdd']
+  $scope.productTypes = ['base', 'ram', 'cpu', 'gpu', 'hdd'];
 })
