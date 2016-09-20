@@ -1,19 +1,18 @@
 app.factory('adminsFactory', function($http) {
     var adminsFactory = {};
 
-    adminsFactory.getUsers = function() {
-        // console.log('we are looking for a user in adminsFactoryfindUser')
 
-        return $http.get('/api/users/findUsers')
-            .then(function(arrayOfUsers) {
-                // console.log('got something from adminsFactory findUsers')
-                if (arrayOfUsers.length) {
-                    return false
-                }
-                // console.log('successfully hit adminsFactory find Users')
-                // console.log(arrayOfUsers);
-                return arrayOfUsers.data;
-            })
+    adminsFactory.makeUserAdmin = function(user){
+        return $http.put('/api/users/makeAdmin', user)
+    }
+
+    adminsFactory.deleteUser = function(user){
+        return $http.delete('/api/users/deleteUser/' + user.id)
+
+    }
+
+    adminsFactory.changeStatusOfOrder = function(order, newStatus){
+        return $http.put('/api/orders/adminsOnly/' + order.id +'/'+ newStatus)
     }
     return adminsFactory;
 });
