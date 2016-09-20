@@ -1,13 +1,13 @@
-<div ng-click="exec({target: comp.id})" class="tile noselect col-lg-3 col-md-6 col-sm-12">
-    <div ng-class="{'b-on': comp.active}" class="btile">
+<div ng-click="exec({target: tile.id})" class="tile noselect col-lg-3 col-md-6 col-sm-12">
+    <div ng-class="{'b-on': tile.active, 'addText': addButton}" class="btile">
         <div ng-if="!addButton">
-	    	<div ng-click="delete(comp.id, $event)" class="remove">
+	    	<div ng-if="!tile.immutable" ng-click="delete(tile.id, $event)" class="remove">
 	    		<i class="glyphicon glyphicon-remove"></i>
 			</div>
             <span><small>Cost: ${{total}}</small></span><br/>
-            <span><small>{{comp.createdAt | date : MM/DD/YY}}</small></span><br/>
-            <span><small>ID: {{comp.id}}</small></span>
+            <span><small>{{tile.createdAt | date : MM/DD/YY}}</small></span><br/>
+            <span><small>ID: {{tile.id}}</small></span>
         </div>
-        <i id="addTile" ng-if="addButton" class="glyphicon glyphicon-plus"></i>
+        <i ng-if="addButton" class="glyphicon glyphicon-plus"><br><span class="tile-text">Add New</span></i>
     </div>
 </div>

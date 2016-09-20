@@ -38,13 +38,13 @@ router.put('/adminsOnly/:orderId/:newStatus', function(req, res, next) {
     }
 
     Order.findById(req.params.orderId)
-    .then(function(order){
-        if(!order) return;
-        return order.update({
-            currentStatus: req.params.newStatus
+        .then(function(order) {
+            if (!order) return;
+            return order.update({
+                currentStatus: req.params.newStatus
+            })
         })
-    })
-    .catch(err => next(err));
+        .catch(err => next(err));
 
 
 })
