@@ -42,7 +42,7 @@ app.factory('ProductFactory', function($http) {
 
   Product.updateProduct = function(product, updateObj) {
     return $http.put('/api/products/' + product.id, updateObj)
-    .then(updatedProduct => updatedProduct.data)
+      .then(updatedProduct => updatedProduct.data)
   }
 
   Product.deleteProduct = function(product) {
@@ -98,5 +98,30 @@ app.factory('ProductFactory', function($http) {
     return newProducts;
   }
 
-  return Product
+  Product.finDefaultConfig = function(product) {
+    let defaultConfig = {};
+    product.ram.forEach(option => {
+      if (option.defOption) {
+        defaultConfig.ram = option;
+      }
+    })
+    product.cpu.forEach(option => {
+      if (option.defOption) {
+        defaultConfig.cpu = option;
+      }
+    })
+    product.hdd.forEach(option => {
+      if (option.defOption) {
+        defaultConfig.hdd = option;
+      }
+    })
+    product.gpu.forEach(option => {
+      if (option.defOption) {
+        defaultConfig.gpu = option;
+      }
+    })
+  }
+}
+
+return Product
 })

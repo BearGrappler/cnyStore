@@ -17,12 +17,12 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
 
   $scope.editView = false;
   $scope.product = product;
-  findDefaultConfiguration();
   $scope.currentConfiguration = [$scope.product, $scope.selectedRam, $scope.selectedCpu, $scope.selectedHdd, $scope.selectedGpu]
   $scope.price = product.price;
   $scope.updatedProduct = {};
   ['name', 'price', 'description'].forEach(key => { $scope.updatedProduct[key] = $scope.product[key] })
   $scope.isAdmin = AuthService.isAdmin();
+  $scope.defaultConfiguration = ProductFactory.getDefaultConfig($scope.product)
 
 
   $scope.calculatePrice = function() {
@@ -62,27 +62,5 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
     CartFactory.addToCart($scope.currentConfiguration)
   }
 
-  function findDefaultConfiguration() {
-    $scope.defaultConfiguration = {};
-    product.ram.forEach(option => {
-      if (option.defOption) {
-        $scope.defaultConfiguration.ram = option;
-      }
-    })
-    product.cpu.forEach(option => {
-      if (option.defOption) {
-        $scope.defaultConfiguration.cpu = option;
-      }
-    })
-    product.hdd.forEach(option => {
-      if (option.defOption) {
-        $scope.defaultConfiguration.hdd = option;
-      }
-    })
-    product.gpu.forEach(option => {
-      if (option.defOption) {
-        $scope.defaultConfiguration.gpu = option;
-      }
-    })
-  }
+
 })
