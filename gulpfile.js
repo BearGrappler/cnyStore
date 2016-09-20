@@ -160,10 +160,10 @@ gulp.task('default', function() {
     // Reload when a template (.html) file changes.
     gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
 
-    Run server tests when a server file or server test file changes.
+    // Run server tests when a server file or server test file changes.
     gulp.watch(['tests/server/**/*.js', 'server/app/**/*.js'], ['testServerJS']);
 
-    Run browser testing when a browser test file changes.
+    // Run browser testing when a browser test file changes.
     gulp.watch('tests/browser/**/*', ['testBrowserJS']);
 
     livereload.listen();

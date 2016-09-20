@@ -38,6 +38,23 @@ let seedOrders = function() {
     return Promise.all(creatingOrders)
 }
 
+let seedBilling = function() {
+    let Billings = require('./seedBilling');
+
+    let creatingBillings = Billings.map(billingObj => db.model('Billing').create(billingObj))
+
+    return Promise.all(creatingBillings)
+}
+
+let seedShipping = function() {
+    let Shippings = require('./seedShipping');
+
+    let creatingShippings = Shippings.map(shippingObj => db.model('Shipping').create(shippingObj))
+
+    return Promise.all(creatingShippings)
+}
+
+
 let seedProducts = function() {
     let products = require('./seedProducts');
 
@@ -62,6 +79,14 @@ let seedOptions = function() {
     return Promise.all(creatingOptions)
 }
 
+let seedReviews = function() {
+    let reviews = require('./seedReviews');
+
+    let creatingReviews = reviews.map(reviewObj => db.model('Review').create(reviewObj))
+
+    return Promise.all(creatingReviews)
+}
+
 module.exports = (function() {
     return db.sync({ force: true })
         .then(function() {
@@ -71,10 +96,19 @@ module.exports = (function() {
             return seedOrders();
         })
         .then(() => {
+            return seedAddresses();
+        })
+        .then(() => {
+            return seedBilling();
+        })
+        .then(() => {
+            return seedShipping();
+        })
+        .then(() => {
             return seedProducts();
         })
         .then(() => {
-            return seedAddresses();
+            return seedReviews();
         })
         .then(() => {
             return seedOptions();
