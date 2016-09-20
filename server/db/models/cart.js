@@ -90,6 +90,7 @@ module.exports = db.define('Cart', {
                 .catch(console.log);
         },
         afterCreate: function(cart) {
+            if (cart.UserId === null) return;
             return db.model('Cart')
                 .update({ active: false }, { where: { UserId: cart.UserId, id: { $ne: cart.id } }, returning: true })
                 .then(_cart => _cart)
@@ -108,14 +109,7 @@ module.exports = db.define('Cart', {
                         })[0].update({ active: true }, { returning: true })
                     }
                 })
-                .then(_updatedCart => {
-                    if (!_updatedCart) {
-                        return db.model('Cart').create({ UserId: UserId })
-                    } else {
-                        return _updatedCart;
-                    }
-                })
-                .then(newCart => newCart)
+                .then(_cart => _cart)
                 .catch(console.log);
         }
     }

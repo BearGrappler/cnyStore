@@ -29,6 +29,10 @@ app.controller('BuildsCtrl', function($scope, AuthService, orders, allBuilds, $i
     });
     $scope.builds = allBuilds;
 
+    $scope.isLoggedIn = function() {
+        return AuthService.isAuthenticated();
+    }
+
     $scope.newBuild = function() {
         CartFactory.addCart()
             .then(carts => {
