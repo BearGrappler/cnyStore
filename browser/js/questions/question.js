@@ -8,10 +8,9 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('QuestionCtrl', function($scope, AuthService, QStackFactory) {
+app.controller('QuestionCtrl', function($scope, $state, AuthService, QStackFactory, ProductFactory) {
 
     $scope.qstack = QStackFactory;
-    console.log(AuthService.isAdmin());
 
     /**
      * Starts a new question process
@@ -45,6 +44,10 @@ app.controller('QuestionCtrl', function($scope, AuthService, QStackFactory) {
         $scope.current = $scope.qstack.advance();
         $scope.selected.clear();
         $scope.selected = new Map($scope.qstack.displayed.map(node => [node.id, false]));
+        if (!$scope.current) {
+            ProductFactory.setFilter($scope.qstack.currentFilters);
+            return $state.go('product-list');
+        }
     }
 
 });
