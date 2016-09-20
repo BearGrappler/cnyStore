@@ -1,3 +1,4 @@
+$color: #1c9cff;
 .single-product {
     .single-product-info {
         width: 60vw;
@@ -18,18 +19,21 @@
             list-style-type: none;
         }
     }
-
-    .page {
-      float: right;
-      width: 20vw;
-      img {
-        width: 7vw;
-      }
+    .configuration-selector {
+        float: right;
+        width: 20vw;
+        img {
+            width: 7vw;
+        }
     }
-
     .reviews {
-      margin: auto;
-      width: 60vw;
+        margin: auto;
+        width: 50vw;
+    }
+    .review {
+        background: $color;
+        border: 1px solid darkgrey;
+        color: white;
     }
 }
 

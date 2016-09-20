@@ -13,22 +13,15 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, PagesFactory) {
-  PagesFactory();
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, CartFactory) {
 
   $scope.editView = false;
   $scope.product = product;
   findDefaultConfiguration();
-  $scope.currentConfiguration = {
-    base: $scope.product,
-    ram: $scope.selectedRam,
-    cpu: $scope.selectedCpu,
-    hdd: $scope.selectedHdd,
-    gpu: $scope.selectedGpu
-  }
+  $scope.currentConfiguration = [$scope.product, $scope.selectedRam, $scope.selectedCpu, $scope.selectedHdd, $scope.selectedGpu]
   $scope.price = product.price;
   $scope.updatedProduct = {};
-  ['name', 'price', 'description'].forEach(key => {$scope.updatedProduct[key] = $scope.product[key]})
+  ['name', 'price', 'description'].forEach(key => { $scope.updatedProduct[key] = $scope.product[key] })
   $scope.isAdmin = AuthService.isAdmin();
 
 
@@ -53,7 +46,8 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
 
   $scope.updateProduct = function() {
     return ProductFactory.updateProduct($scope.product, $scope.updatedProduct)
-    .then(newProduct => {if (newProduct) $scope.product = newProduct})
+      .then(newProduct => {
+        if (newProduct) $scope.product = newProduct })
   }
 
   $scope.deleteProduct = function() {
@@ -62,6 +56,10 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
 
   $scope.hasUpgrades = function() {
     return (product.cpu.length || product.gpu.length || product.hdd.length || product.ram.length)
+  }
+
+  $scope.addToCart = function() {
+    CartFactory.addToCart($scope.currentConfiguration)
   }
 
   function findDefaultConfiguration() {
