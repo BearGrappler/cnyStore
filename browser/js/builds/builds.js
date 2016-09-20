@@ -19,11 +19,14 @@ app.config(function($stateProvider) {
 app.controller('BuildsCtrl', function($scope, AuthService, orders, allBuilds, $injector, $log) {
 
     let CartFactory = $injector.get('CartFactory');
-    let $state = $injector.get('$state');
+    // let $state = $injector.get('$state');
 
     $scope.builds = {};
     $scope.error = null;
-    $scope.orders = orders;
+    $scope.orders = orders.map(order => {
+        order.immutable = true;
+        return order;
+    });
     $scope.builds = allBuilds;
 
     $scope.newBuild = function() {

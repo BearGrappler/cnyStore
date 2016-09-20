@@ -73,6 +73,7 @@ $colorc: #ffffff;
     font-size: 22px;
 }
 
+
 .btile:hover,
 .b-on {
     background-color: $colorb;
@@ -81,13 +82,13 @@ $colorc: #ffffff;
     color: white;
 }
 
-#addTile {
+.addText {
     color: $colorb;
-    font-size: 96px;
-}
-
-#addTile:hover {
-    color: white;
+    font-size: 48px;
+    span {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 22px;
+    }
 }
 
 .otile {}
@@ -106,4 +107,9 @@ $colorc: #ffffff;
     transition: all 0.1s ease;
     transform: translateY(-2px);
     transform: scale(1.4);
+}
+
+.tile-text {
+    font-family: 'Montserrat', sans-serif;
+    color: $colorb;
 }

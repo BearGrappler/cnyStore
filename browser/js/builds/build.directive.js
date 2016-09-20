@@ -8,8 +8,15 @@ app.directive('buildTile', function(CartFactory, $log, $uibModal) {
             closefn: '&'
         },
         link: function(scope) {
-            scope.addButton = scope.comp === null ? 1 : 0;
-            scope.total = scope.comp ? scope.comp.Items.map(product => product.price).reduce((_a, _b) => _a + _b, 0) : '';
+            if (!scope.comp) {
+                if (scope.comp === null) scope.addButton = 1;
+                scope.tile = { immutable: true, type: true }
+            }
+
+            scope.tile = scope.comp;
+
+            scope.total = scope.comp ? scope.comp.Items
+                .map(product => product.price).reduce((_a, _b) => _a + _b, 0) : '';
 
             scope.delete = function(id, $event) {
                 $event.stopPropagation();
@@ -29,7 +36,7 @@ app.directive('buildTile', function(CartFactory, $log, $uibModal) {
                     if (!result) {
                         return;
                     } else {
-                        scope.closefn({toRemove: id});
+                        scope.closefn({ toRemove: id });
                     }
                 })
             }
