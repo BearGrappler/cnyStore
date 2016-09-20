@@ -13,11 +13,16 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, CartFactory) {
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService) {
+
+  if (Object.keys(ProductFactory.getFilter().configObj).length > 0) {
+
+    $scope.recommendedConfig = ProductFactory.getRecommendedConfig(product);
+  }
+
 
   $scope.editView = false;
   $scope.product = product;
-  $scope.currentConfiguration = [$scope.product, $scope.selectedRam, $scope.selectedCpu, $scope.selectedHdd, $scope.selectedGpu]
   $scope.price = product.price;
   $scope.updatedProduct = {};
   ['name', 'price', 'description'].forEach(key => { $scope.updatedProduct[key] = $scope.product[key] })
@@ -59,7 +64,8 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
   }
 
   $scope.addToCart = function() {
-    CartFactory.addToCart($scope.currentConfiguration)
+    let currentConfiguration = [$scope.product, $scope.selectedRam, $scope.selectedCpu, $scope.selectedHdd, $scope.selectedGpu]
+    ProductFactory.addToCart(currentConfiguration)
   }
 
 

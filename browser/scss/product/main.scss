@@ -20,8 +20,10 @@ $color: #1c9cff;
         }
     }
     .configuration-selector {
+        border: 1px solid $color;
         float: right;
         width: 20vw;
+        height: 100%;
         img {
             width: 7vw;
         }
