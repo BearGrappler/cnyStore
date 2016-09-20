@@ -87,13 +87,6 @@ let seedReviews = function() {
   return Promise.all(creatingReviews)
 }
 
-let seedReviews = function() {
-    let reviews = require('./seedReviews');
-
-    let creatingReviews = reviews.map(reviewObj => db.model('Review').create(reviewObj))
-
-    return Promise.all(creatingReviews)
-}
 
 module.exports = (function() {
 
