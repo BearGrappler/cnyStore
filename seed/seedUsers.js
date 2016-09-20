@@ -24,9 +24,9 @@ var buildUsers = function() {
         password: 'password',
         isAdmin: true
     }, {
-        name: 'Barack Obama',
-        email: 'obama@gmail.com',
-        password: 'potus',
+        name: 'Yi Chao',
+        email: 'changingtimes@gmail.com',
+        password: '123456',
         isAdmin: true
     }];
 

@@ -11,6 +11,7 @@
         </ul>
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="createUser" class="btn createUser-button">Create </button>
+        <button ng-show="!user" ui-sref="resetPassword" class="btn resetPassword-button">Reset Password</button>
         <div ng-show="user" class="welcome">
             <span>{{user.name}}</span><span id="portrait" class="glyphicon glyphicon-user"></span>
             <a ng-click="logout()">Logout</a>
