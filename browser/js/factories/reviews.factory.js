@@ -37,7 +37,7 @@ app.factory('ReviewFactory', function($http) {
         if (!approveReview(review)) return;
         return $http.post('/api/reviews/' + review.ProductId, {
                 rating: review.rating,
-                text: review.text
+                text: review.writtenReview
             })
             .then(res => res.data);
     }

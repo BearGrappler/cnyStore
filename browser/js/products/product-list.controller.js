@@ -21,6 +21,11 @@ app.controller('ProductListController', function($scope, products, ProductFactor
 
   // let filter = ProductFactory.getFilter();
 
+  $scope.clearFilter = function() {
+    return ProductFactory.setFilter({})
+    .then(() => {$scope.products = ProductFactory.filter()})
+
+  }
 
   $scope.filterManufacturer = function(manufacturer) {
     ProductFactory.addManufacturer(manufacturer);
