@@ -19,7 +19,7 @@
             <button ng-show="!user" ui-sref="createUser" class="btn createUser-button">Create </button>
         </div>
         <div ng-if="user" class="welcome">
-            <div id="lportrait"><a ui-sref="#"><span>{{user.name}}</span><i id="portrait" class="glyphicon glyphicon-user"></i></a></div>
+            <div id="lportrait"><a ui-sref="myUserPage"><span>{{user.name}}</span><i id="portrait" class="glyphicon glyphicon-user"></i></a></div>
             <div><a ng-click="logout()">Logout</a></div>
         </div>
     </div>

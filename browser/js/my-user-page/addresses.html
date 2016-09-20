@@ -1,0 +1,12 @@
+   <table>
+        <h1>My addresses</h1>
+        <tr ng-repeat="address in addresses">
+            <td>{{address.thoroughfare}}</td>
+            <td>{{address.city}}</td>
+            <td>{{address.state}}</td>
+            <td>{{address.zipCode}}</td>
+            <td><button ng-click="changeMyAddress(address)">Change My Address</button></td>
+            </div>
+        </tr>
+    </table>
+

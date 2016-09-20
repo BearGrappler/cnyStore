@@ -2,6 +2,48 @@
 const router = require('express').Router(); // eslint-disable-line new-cap
 const User = require('../../../db').model('User');
 
+router.get('/me/myBillingAddresses', (req, res, next) => {
+    if (!req.user) return res.sendStatus(401);
+    User.findById(req.user.id)
+    .then(function(user){
+        return user.getBillingAddresses();
+    })
+    .then(function(billings){
+        console.log('successfully got billings')
+        console.log(billings);
+        res.send(billings);
+    })
+
+})
+
+router.get('/me/myShippingAddresses', (req, res, next) => {
+    if (!req.user) return res.sendStatus(401);
+    User.findById(req.user.id)
+    .then(function(user){
+        return user.getShippingAddresses();
+    })
+    .then(function(shippings){
+        console.log('successfully got shippings')
+        console.log(shippings);
+        res.send(shippings);
+    })
+
+})
+
+
+router.get('/me/myReviews', (req, res, next) => {
+    if (!req.user) return res.sendStatus(401);
+    User.findById(req.user.id)
+    .then(function(user){
+        return user.getReviews();
+    })
+    .then(function(reviews){
+        console.log('successfully got billings')
+        console.log(reviews);
+        res.send(reviews);
+    })
+
+})
 router.get('/me', (req, res, next) => {
     if (!req.user) return res.sendStatus(401);
     else return res.send(req.user.sanitize());
