@@ -40,4 +40,8 @@ module.exports = function(app, db) {
             //afterwards should redirect to login so that user does not have to log-in again?
     })
 
+    app.get('/github', function(req, res, next) {
+        return res.redirect('https://github.com/BearGrappler/cnyStore');
+    });
+
 };
