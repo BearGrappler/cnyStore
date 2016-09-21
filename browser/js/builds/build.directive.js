@@ -22,6 +22,8 @@ app.directive('buildTile', function(CartFactory, $log, $uibModal) {
                 $event.stopPropagation();
                 let modalInstance = $uibModal.open({
                     controller: function($scope, $uibModalInstance) {
+                        $scope.isDelete = true;
+                        $scope.isPurchase = false;
                         $scope.delete = function() {
                             $uibModalInstance.close(true);
                         }
@@ -31,7 +33,6 @@ app.directive('buildTile', function(CartFactory, $log, $uibModal) {
                     },
                     templateUrl: 'js/builds/modal.html'
                 })
-
                 modalInstance.result.then(result => {
                     if (!result) {
                         return;
@@ -40,6 +41,25 @@ app.directive('buildTile', function(CartFactory, $log, $uibModal) {
                     }
                 })
             }
+
+            scope.checkout = function(id, $event, items) {
+                $event.stopPropagation();
+                let modalInstance = $uibModal.open({
+                    scope: scope,
+                    controller: function($scope, $state, $uibModalInstance) {
+                        $scope.isPurchase = true;
+                        $scope.isDelete = false;
+                        $scope.purchase = function() {
+                            $state.go('purchase')
+                        }
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss();
+                        }
+                    },
+                    templateUrl: 'js/builds/modal.html'
+                })
+            }
+
         }
     }
 })
