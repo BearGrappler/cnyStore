@@ -15,5 +15,4 @@ app.controller('StripeCtrl', function($scope, AuthService, $state, OrderFactory)
     $scope.checkout = function(token) {
         return OrderFactory.purchaseCart(token, 1).then(data => console.log(data));
     }
-
 });

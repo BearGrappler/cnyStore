@@ -1,51 +1,55 @@
 <section class="single-product">
-    <button style="float:right" ng-click="editView = !editView" ng-show="isAdmin">EDIT PRODUCT</button>
+    <button class="btn btn-danger" style="float:right; margin-right: 20px" ng-click="editView = !editView" ng-show="isAdmin">EDIT PRODUCT</button>
     <div ng-show="!editView && hasUpgrades()" class="configuration-selector">
-        <!-- need a way to indicate a configuration is recommended for the usertype
-          * could have a div on the side with buttons for each usertype that will change the currentConfig
-        -->
-        <!-- need to automatically show the default options in the selects -->
         <h3> Upgrades: </h3>
-        <div class="ram-upgrade" ng-show="product.ram.length >= 1">
+        <div class="upgrade" ng-show="product.ram.length >= 1">
             <label>RAM</label>
+            <br>
             <img src="{{selectedRam.imageUrls[0]}}">
             <br>
             <select ng-change="calculatePrice()" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
         </div>
-        <div class="cpu-upgrade" ng-show="product.cpu.length >= 1">
+        <div class="upgrade" ng-show="product.cpu.length >= 1">
             <label>CPU</label>
+            <br>
             <img src="{{selectedCpu.imageUrls[0]}}">
             <br>
             <select ng-change="calculatePrice()" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
         </div>
-        <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
+        <div class="upgrade" ng-show="product.hdd.length >= 1">
             <label>HDD</label>
+            <br>
             <img src="{{selectedHdd.imageUrls[0]}}">
             <br>
             <select ng-change="calculatePrice()" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
         </div>
-        <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
+        <div class="upgrade" ng-show="product.gpu.length >= 1">
             <label>GPU</label>
+            <br>
             <img src="{{selectedGpu.imageUrls[0]}}">
             <br>
             <select ng-change="calculatePrice()" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
         </div>
     </div>
-    <div class="recommended-config" ng-show="recommendedConfig" style="float: left; border: 1px solid blue">
-        <h2>Recommended Configuration:</h2>
-        <div ng-repeat="key in options">
+
+
+    <div class="recommended-config" ng-show="recommendedConfig">
+        <h2>Recommended <br>Configuration:</h2>
+        <span ng-repeat="key in options">
             <h3>{{key}}</h3>
             <p>{{recommendedConfig[key].name}}</p>
             <p>{{recommendedConfig[key].price}}</p>
-        </div>
+        </span>
     </div>
+
+
     <div class="single-product-info">
+        <button class="btn" id="cart" ng-click="addToCart()">ADD TO CART</button>
         <div class="images">
             <img ng-repeat="url in product.imageUrls" class="product-photo" src="{{url}}">
         </div>
         <h1 class="product-name"> {{product.name}} </h1>
         <h3 class="product-price"> ${{price}} </h3>
-        <button ng-click="addToCart()">ADD CONFIGURATION TO CART</button>
         <p class="product-description"> {{product.description}} </p>
         <form ng-show="editView" ng-model="updatedProduct">
             <input type="text" ng-model="updatedProduct.name">
@@ -55,14 +59,14 @@
             <button type="submit" ng-click="updateProduct()">Update Product</button>
         </form>
     </div>
-    <div class="reviews">
-        <h3>Reviews:</h3>
+    <div class="reviews col-lg-6" >
+        <h2>Reviews:</h2>
         <div class="review" ng-repeat="review in product.Reviews">
             <p>{{review.writtenReview}}</p>
         </div>
         <form class="create-review" ng-show="isUser" ng-model="review">
-            <label>Add Review:</label><br>
-            <label>Star Rating</label>
+            <label>Add Review:</label>
+            Star Rating
             <select ng-model="review.rating">
                 <option>1</option>
                 <option>2</option>
@@ -70,20 +74,8 @@
                 <option>4</option>
                 <option>5</option>
             </select>
-            <br>
-            <textarea placeholder="Review Content" ng-model="review.writtenReview"></textarea>
-            <br>
-            <button type="submit" ng-click="addReview()">Submit</button>
+            <textarea class="form-control" placeholder="Review Content" ng-model="review.writtenReview"></textarea>
+            <button type="submit" class="btn" ng-click="addReview()">Submit</button>
         </form>
     </div>
-    <!-- <div class="currentConfiguration">
-        <h3>Current Configuration:</h3>
-        <ul>
-            <li>{{product.name}} - ${{basePrice}}</li>
-            <li ng-show="product.ram.length >= 1">{{selectedRam.name}} - ${{selectedRam.price}}</li>
-            <li ng-show="product.cpu.length >= 1">{{selectedCpu.name}} - ${{selectedCpu.price}}</li>
-            <li ng-show="product.hdd.length >= 1">{{selectedHdd.name}} - ${{selectedHdd.price}}</li>
-            <li ng-show="product.gpu.length >= 1">{{selectedGpu.name}} - ${{selectedGpu.price}} </li>
-        </ul>
-    </div> -->
 </section>

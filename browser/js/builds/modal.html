@@ -13,6 +13,6 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-danger" ng-click="delete()" ng-show="isDelete">Delete</button>
-  <button class="btn" ng-click="purchase()" ng-show="isPurchase">Checkout</button>
+  <button class="btn" ng-show="isPurchase" stripe-checkout="checkout" data-key="pk_test_6bfTQcvqyyxdlQN6rguyPNk4" data-name="Simple Example" data-description="Five dollahs!" data-amount="500">Checkout</button>
     <button class="btn btn-info" ng-click="cancel()">Cancel</button>
 </div>

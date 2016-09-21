@@ -1,26 +1,26 @@
-<div class="product-list-filter">
-    <button ng-click="clearFilter()">Clear Filters</button>
-    <form class="filter-form">
-        <label>Manufacturer</label>
-        <br>
-        <span ng-repeat="manufacturer in manufacturers"> <input ng-model="manufacturerSelector" type="checkbox" ng-change="filterManufacturer(manufacturer)"> {{manufacturer}} <br> </span>
-        <label>Max Price</label>
-        <br>
-        <input type="range" min="500" max="1500" value="1500" step="100" ng-model="price" ng-change="filterPrice(price)" />
-        <br>
-        <pre ng-show="price">${{price}}</pre>
-        <br>
-        <label>User Type</label>
-        <br>
-        <span ng-repeat="type in userTypes"> <input ng-model="typeSelector" type="checkbox" ng-change="filterType(type)"> {{type}} <br> </span>
-    </form>
-</div>
-<section class="product-list">
-    <div class="product-in-list" ng-repeat="product in products">
-        <img class="product-list-image" src="{{product.imageUrls[0]}}">
-        <a ui-sref="single-product({id: product.id})">
-            <h2 class="product-list-name">{{product.name}}</h2>
-            <h4 class="product-list-price">${{product.price}}</h4>
-        </a>
+<section class="product-list row">
+    <div class="product-list-filter col-lg-3">
+        <form class="filter-form">
+            <label>Manufacturer</label>
+            <br>
+            <span ng-repeat="manufacturer in manufacturers"> <p> <input ng-model="manufacturerSelector" type="checkbox" ng-change="filterManufacturer(manufacturer)"> {{manufacturer}}</p> </span>
+            <label>Max Price</label>
+            <br>
+            <input type="range" min="500" max="1500" value="1500" step="100" ng-model="price" ng-change="filterPrice(price)" />
+            <br>
+            <pre ng-show="price">${{price}}</pre>
+            <br>
+            <label>User Type</label>
+            <br>
+            <span ng-repeat="type in userTypes"> <p><input ng-model="typeSelector" type="checkbox" ng-change="filterType(type)"> {{type}}</p></span>
+        </form>
+        <button class="btn" ng-click="clearFilter()">Clear Filters</button>
     </div>
+    <a ng-repeat="product in products" ui-sref="single-product({id: product.id})">
+        <div class="product-in-list col-lg-9">
+            <img class="product-list-image" src="{{product.imageUrls[0]}}">
+            <h2 class="product-list-name">{{product.name}}</h2>
+            <h3 class="product-list-price">${{product.price}}</h3>
+        </div>
+    </a>
 </section>
