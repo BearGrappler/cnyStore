@@ -13,7 +13,7 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService) {
+app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, ReviewFactory) {
 
   if (ProductFactory.getFilter().configObj && ProductFactory.getFilter().configObj.cpu) {
     $scope.recommendedConfig = ProductFactory.getRecommendedConfig();
@@ -22,13 +22,14 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
     $scope.recommendedConfig = false;
   }
 
+  $scope.isUser = AuthService.isAuthenticated();
+  $scope.isAdmin = AuthService.isAdmin();
 
   $scope.editView = false;
   $scope.product = product;
   $scope.price = product.price;
   $scope.updatedProduct = {};
   ['name', 'price', 'description'].forEach(key => { $scope.updatedProduct[key] = $scope.product[key] })
-  $scope.isAdmin = AuthService.isAdmin();
   $scope.defaultConfiguration = ProductFactory.getDefaultConfig($scope.product)
 
 
@@ -49,6 +50,12 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
       price += $scope.selectedGpu.price
     }
     $scope.price = price
+  }
+
+  $scope.addReview = function() {
+    console.log('adding review')
+    $scope.review.ProductId = $scope.product.id;
+    ReviewFactory.addReview($scope.review);
   }
 
   $scope.updateProduct = function() {
