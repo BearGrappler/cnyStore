@@ -7,7 +7,7 @@ module.exports = db.define('Review', {
         type: Sequelize.STRING(3000), // eslint-disable-line new-cap
         allowNull: false,
         validate: {
-            len: [0, 3000] //to satisfy validation requirement that the review has to have a minimum length
+            len: [20, 3000] //to satisfy validation requirement that the review has to have a minimum length
         }
     },
     rating: {
