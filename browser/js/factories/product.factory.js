@@ -23,7 +23,6 @@ app.factory('ProductFactory', function($http, CartFactory) {
   }
 
   Product.getFilter = function() {
-    console.log('filter', filter)
     return filter;
   }
 

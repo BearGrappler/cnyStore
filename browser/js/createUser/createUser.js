@@ -21,7 +21,7 @@ app.controller('CreateUserCtrl', function($scope, AuthService, $state) {
                 $scope.error = 'Incorrect Password!';
             } else {
                 AuthService.createUser(newUserInfo).then(function() {
-                        $state.go('home')
+                        $state.go('builds')
                     })
                     .catch(function() {
                         $scope.error = 'Failed to Create the new User'
