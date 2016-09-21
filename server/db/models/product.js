@@ -38,7 +38,7 @@ module.exports = db.define('Product', {
         allowNull: false
     },
     imageUrls: {
-        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
+        type: Sequelize.ARRAY(Sequelize.TEXT), // eslint-disable-line new-cap
         allowNull: false
     },
     type: {

@@ -56,7 +56,7 @@ router.put('/:id', function(req, res, next) {
         inventory: req.body.inventory
       }))
       .then(product => res.send(product))
-      .catch(() => res.sendStatus(500));
+      .catch((err) => {console.log('ERROR', err); res.sendStatus(500)});
   } else {
     res.sendStatus(401)
   }
