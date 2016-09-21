@@ -1,16 +1,11 @@
 app.factory('ReviewFactory', function($http) {
 
-    function approveReview(review) {
-        return (review.hasOwnProperty('text') && review.hasOwnProperty('rating') && review.hasOwnProperty('ProductId'));
-    }
-
     /**
      * Retrieves all reviews for a product.
      * @param  {[Number || String]} id [PRODUCT ID]
      * @return {[Array]}    [Promise for an array of reviews for a product]
      */
     function getReviews(id) {
-        if (!approveId(id)) return;
         return $http.get('/api/reviews/all/' + id).then(res => res.data);
     }
 
@@ -20,7 +15,6 @@ app.factory('ReviewFactory', function($http) {
      * @return {[Object]}    [Promise for a review object]
      */
     function getReview(id) {
-        if (!approveId(id)) return;
         return $http.get('/api/reviews/' + id).then(res => res.data);
     }
 
@@ -43,7 +37,6 @@ app.factory('ReviewFactory', function($http) {
      * @return {[Promise]}    [Promise to delete the review]
      */
     function deleteReview(id) {
-        if (!approveId(id)) return;
         return $http.delete('/api/reviews/' + id).then(res => res.data);
     }
 
@@ -54,7 +47,6 @@ app.factory('ReviewFactory', function($http) {
      * @return {[Object]}        [Promise for the updated review]
      */
     function editReview(id, review) {
-        if (!(approveId(id) && approveReview(review))) return;
         return $http.put('/api/reviews/' + id, {
             rating: review.rating,
             text: review.text

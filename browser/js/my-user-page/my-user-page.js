@@ -5,53 +5,53 @@ app.config(function($stateProvider) {
             templateUrl: 'js/my-user-page/my-user-page.html',
             controller: 'myUserPageCtrl',
             resolve: {
-                myUserInfo : function($http){
-                    return $http.get('/api/users/me').then(function(obj){
+                myUserInfo: function($http) {
+                    return $http.get('/api/users/me').then(function(obj) {
                         return obj.data;
                     })
                 }
             }
-    })
-    .state('myUserPage.addresses', {
-        url:'/addresses',
-        templateUrl: 'js/my-user-page/addresses.html',
-        controller: 'myUserPageAddressesCtrl',
-        resolve: {
-            myBillings: function($http){
-                return $http.get('/api/users/me/myBillingAddresses')
-                    .then(function(obj){
+        })
+        .state('myUserPage.addresses', {
+            url: '/addresses',
+            templateUrl: 'js/my-user-page/addresses.html',
+            controller: 'myUserPageAddressesCtrl',
+            resolve: {
+                myBillings: function($http) {
+                    return $http.get('/api/users/me/myBillingAddresses')
+                        .then(function(obj) {
+                            return obj.data
+                        })
+                },
+                myShippings: function($http) {
+                    return $http.get('/api/users/me/myShippingAddresses').then(function(obj) {
                         return obj.data
                     })
-            },
-            myShippings: function($http){
-                return $http.get('/api/users/me/myShippingAddresses').then(function(obj){
+                }
+            }
+        })
+        .state('myUserPage.reviews', {
+            url: '/reviews',
+            templateUrl: 'js/my-user-page/reviews.html',
+            controller: 'myUserPageReviewsCtrl',
+            resolve: {
+                reviews: function($http) {
+                    return $http.get('/api/users/me/myReviews').then(function(obj) {
                         return obj.data
                     })
+                }
             }
-        }
-    })
-    .state('myUserPage.reviews', {
-        url:'/reviews',
-        templateUrl: 'js/my-user-page/reviews.html',
-        controller: 'myUserPageReviewsCtrl',
-        resolve: {
-            reviews: function($http){
-                return $http.get('/api/users/me/myReviews').then(function(obj){
-                    return obj.data
-                })
+        })
+        .state('myUserPage.orders', {
+            url: '/orders',
+            templateUrl: 'js/my-user-page/orders.html',
+            controller: 'myUserPageOrdersCtrl',
+            resolve: {
+                orders: function(OrderFactory) {
+                    return OrderFactory.getOrders();
+                }
             }
-        }
-    })
-    .state('myUserPage.orders', {
-        url:'/orders',
-        templateUrl: 'js/my-user-page/orders.html',
-        controller: 'myUserPageOrdersCtrl',
-        resolve: {
-            orders: function(OrderFactory){
-                return OrderFactory.getOrders();
-            }
-        }
-    })
+        })
 })
 
 
@@ -88,4 +88,3 @@ app.controller('myUserPageOrdersCtrl', function($scope, $state, myUserInfo, orde
     $scope.orders = orders;
 
 });
-

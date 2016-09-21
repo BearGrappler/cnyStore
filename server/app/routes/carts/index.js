@@ -5,7 +5,7 @@ const Cart = require('../../../db').model('Cart');
 router.get('/', (req, res, next) => {
 
     if (!req.user && !req.session.CartId) return res.send([]);
-    console.log('---->', req.session);
+
     (function() {
         if (req.user) {
             return req.user.getCarts({ scope: 'itemsInCart' });
@@ -22,7 +22,6 @@ router.get('/', (req, res, next) => {
         }
     }())
     .then(carts => {
-            console.log('CARTS', carts);
             if (!carts) {
                 return res.sendStatus(404);
             } else {
