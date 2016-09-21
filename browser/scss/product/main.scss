@@ -1,63 +1,95 @@
 $color: #1c9cff;
+$color2: #f31214;
 .single-product {
-    .single-product-info {
-        width: 60vw;
-        margin: auto;
-    }
-    padding: 15px;
-    width: 100vw;
-    text-align: center;
-    margin: auto;
-    height: 70vh;
-    .images {
-        img {
-            height: 20vh;
-        }
-    }
-    .currentConfiguration {
-        ul {
-            list-style-type: none;
-        }
-    }
+    font-family: 'Montserrat', sans-serif;
     .configuration-selector {
-        border: 1px solid $color;
-        float: right;
-        width: 20vw;
-        height: 100%;
+        box-shadow: 8px 8px 4px #e4e4e4;
+        text-align: center;
+        border: 10px solid $color2;
+        position: fixed;
+        .upgrade {
+            margin: 15px;
+            img {
+                margin: 7px;
+                height: 55px;
+            }
+        }
+    }
+    .single-product-info {
+        box-shadow: 8px 8px 4px #e4e4e4;
+        padding: 10px;
+        border: 10px solid $color;
+        width: 60vw;
+        margin-left: 20vw;
+        margin-bottom: 20px;
         img {
-            width: 7vw;
+            width: 15vw;
+        }
+        #cart {
+            float: right;
+            transition: all 0.25s ease;
+        }
+        #cart:hover {
+            transition: all 0.25s ease;
+            transform: translateY(-4px);
+            background: $color;
+            border: 10px solid white;
         }
     }
     .reviews {
-        margin: auto;
-        width: 50vw;
+        box-shadow: 8px 8px 4px #e4e4e4;
+        border: 10px solid $color;
+        width: 60vw;
+        margin-left: 20vw;
     }
-    .review {
-        background: $color;
-        border: 1px solid darkgrey;
-        color: white;
+
+    .recommended-config {
+        text-align: center;
+        float: right;
+        border: 10px solid $color2;
+        box-shadow: 8px 8px 4px #e4e4e4;
     }
 }
 
 .product-list {
+    font-family: 'Montserrat', sans-serif;
     .product-in-list {
-        background: rgba(230, 230, 230, .6);
+        background: white;
         height: 150px;
         width: 70vw;
-        margin: auto;
-        border: 1px solid black;
+        margin: auto 15px 15px 20%;
+        border: 10px solid $color;
         padding: 5px;
         img {
             height: 140px;
             float: left;
         }
+        transition: all 0.25s ease;
+        box-shadow: 8px 8px 4px #e4e4e4;
+    }
+    a:hover {
+        text-decoration: none;
+        font-style: none;
+    }
+    .product-in-list:hover {
+        transition: all 0.25s ease;
+        transform: translateY(-4px);
+        background: $color;
+        border: 10px solid white;
     }
 }
 
 .product-list-filter {
-    height: 70vh;
+    label {
+        font-size: 2rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+    box-shadow: 8px 8px 4px #e4e4e4;
+    left: 10px;
+    position: fixed;
     width: 15vw;
     padding: 10px;
-    float: left;
-    background-color: lightgrey;
+    border: 10px solid $color2;
 }

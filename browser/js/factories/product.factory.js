@@ -1,4 +1,4 @@
-app.factory('ProductFactory', function($http, CartFactory) {
+app.factory('ProductFactory', function($http, $state, CartFactory) {
   let Product = {};
 
   let filter = {};
@@ -8,18 +8,14 @@ app.factory('ProductFactory', function($http, CartFactory) {
 
   //this shouldn't be async nor should it assign allProducts, but it works for right now
   Product.setFilter = function(filterObj) {
-    return Product.getAll()
-      .then(function(products) {
-        allProducts = products;
-        filter = {};
-        let configObj = {};
-        let upgradeTypes = ['ram', 'cpu', 'hdd', 'gpu'];
-        filter = filterObj;
-        filter.type = new Set(filter.type);
-        filter.manufacturers = new Set([]);
-        upgradeTypes.forEach(type => { configObj[type] = filterObj[type] });
-        filter.configObj = configObj;
-      })
+    filter = {};
+    let configObj = {};
+    let upgradeTypes = ['ram', 'cpu', 'hdd', 'gpu'];
+    filter = filterObj;
+    filter.type = new Set(filter.type);
+    filter.manufacturers = new Set([]);
+    upgradeTypes.forEach(type => { configObj[type] = filterObj[type] });
+    filter.configObj = configObj;
   }
 
   Product.getFilter = function() {
@@ -158,6 +154,7 @@ app.factory('ProductFactory', function($http, CartFactory) {
   Product.addToCart = function(productConfig) {
     return CartFactory.addCart()
       .then(() => Promise.all(Object.keys(productConfig).map(key => CartFactory.addToCart(productConfig[key].id))))
+      .then(() => $state.go('builds'))
       .catch(console);
   }
 
@@ -185,6 +182,9 @@ app.factory('ProductFactory', function($http, CartFactory) {
     })
     return defaultConfig;
   }
+
+  Product.getAll()
+    .then(products => { allProducts = products })
 
   return Product
 })

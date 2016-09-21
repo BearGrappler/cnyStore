@@ -13,14 +13,8 @@ app.config(function($stateProvider) {
     })
 })
 
-app.controller('SingleProductCtrl', function($scope, product, ProductFactory, AuthService, ReviewFactory) {
+app.controller('SingleProductCtrl', function($scope, $state, product, ProductFactory, AuthService, ReviewFactory) {
 
-  if (ProductFactory.getFilter().configObj && ProductFactory.getFilter().configObj.cpu) {
-    $scope.recommendedConfig = ProductFactory.getRecommendedConfig();
-    $scope.options = Object.keys($scope.recommendedConfig);
-  } else {
-    $scope.recommendedConfig = false;
-  }
 
   $scope.isUser = AuthService.isAuthenticated();
   $scope.isAdmin = AuthService.isAdmin();
@@ -31,7 +25,6 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
   $scope.updatedProduct = {};
   ['name', 'price', 'description'].forEach(key => { $scope.updatedProduct[key] = $scope.product[key] })
   $scope.defaultConfiguration = ProductFactory.getDefaultConfig($scope.product)
-
 
   $scope.calculatePrice = function() {
     let price = product.price;
@@ -51,6 +44,24 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
     }
     $scope.price = price
   }
+
+  if (ProductFactory.getFilter().configObj && ProductFactory.getFilter().configObj.cpu) {
+    $scope.recommendedConfig = ProductFactory.getRecommendedConfig();
+    $scope.options = Object.keys($scope.recommendedConfig);
+    $scope.selectedCpu = $scope.recommendedConfig.cpu;
+    $scope.selectedRam = $scope.recommendedConfig.ram;
+    $scope.selectedGpu = $scope.recommendedConfig.gpu;
+    $scope.selectedHdd = $scope.recommendedConfig.hdd;
+  } else {
+    $scope.selectedCpu = $scope.product.cpu[0];
+    $scope.selectedRam = $scope.product.ram[0];
+    $scope.selectedGpu = $scope.product.gpu[0];
+    $scope.selectedHdd = $scope.product.hdd[0];
+    $scope.recommendedConfig = false;
+  }
+  $scope.calculatePrice();
+
+
 
   $scope.addReview = function() {
     console.log('adding review')
@@ -73,8 +84,9 @@ app.controller('SingleProductCtrl', function($scope, product, ProductFactory, Au
   }
 
   $scope.addToCart = function() {
+    $scope.product.price = $scope.basePrice;
     let currentConfiguration = [$scope.product, $scope.selectedRam, $scope.selectedCpu, $scope.selectedHdd, $scope.selectedGpu]
-    ProductFactory.addToCart(currentConfiguration)
+    return ProductFactory.addToCart(currentConfiguration)
   }
 
 

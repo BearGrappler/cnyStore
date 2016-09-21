@@ -10,7 +10,8 @@ app.config(function($stateProvider) {
           if (query[0] === 'search') {
             return ProductFactory.findBySearchFilter(query[1])
           }
-          return ProductFactory.setFilter(ProductFactory.getFilter()).then(() => ProductFactory.filter());
+          ProductFactory.setFilter(ProductFactory.getFilter())
+          return ProductFactory.filter();
         }
       }
     })
@@ -22,8 +23,8 @@ app.controller('ProductListController', function($scope, products, ProductFactor
   // let filter = ProductFactory.getFilter();
 
   $scope.clearFilter = function() {
-    return ProductFactory.setFilter({})
-    .then(() => {$scope.products = ProductFactory.filter()})
+    ProductFactory.setFilter({})
+    $scope.products = ProductFactory.filter()
 
   }
 
