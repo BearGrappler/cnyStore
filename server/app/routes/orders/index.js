@@ -18,14 +18,6 @@ router.get('/', (req, res, next) => {
         .catch(next);
 });
 
-router.use((req, res, next) => {
-    if (!req.user) {
-        return res.sendStatus(401);
-    } else {
-        next();
-    }
-})
-
 router.param('id', (req, res, next, id) => {
     if (/[^0-9]/.test(String(id))) {
         return res.sendStatus(400);
@@ -81,20 +73,31 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.use((req, res, next) => {
+
     if (!req.body.hasOwnProperty('AddressId')) {
         return res.sendStatus(400);
     } else {
-        if (!req.user) return res.sendStatus(401);
-        Cart.findOne({
-                where: {
-                    UserId: req.user.id,
-                    active: true
-                }
-            }).then(cart => {
+        (function() {
+            if (!req.user) {
+                return Cart.findOne({ where: { id: req.session.CartId }, include: [{ association: Cart.Product }] });
+            } else {
+                return Cart.findOne({
+                    where: {
+                        UserId: req.user.id,
+                        active: true
+                    },
+                    include: [{ association: Cart.Product }]
+                });
+            }
+        }())
+        .then(cart => {
                 if (!cart) {
                     return res.sendStatus(404);
                 } else {
                     req.cart = cart;
+                    req.cart.total = req.cart.Items.reduce((_a, _b) => {
+                        return _a + _b.price * 100;
+                    }, 0)
                     next();
                 }
             })
@@ -103,15 +106,36 @@ router.use((req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    return req.cart.purchase(req.body.AddressId, req.user)
-        .then(order => {
-            if (!order) {
-                return res.sendStatus(400);
-            } else {
-                return res.send(order);
-            }
-        })
-        .catch(next);
+
+    let pk = require('../../../env').STRIPE_PK;
+
+    let Stripe = require('stripe')(pk);
+
+    // Get the credit card details submitted by the form
+    let token = req.body.stripeToken; // Using Express
+
+    // Create a charge: this will charge the user's card
+    Stripe.charges.create({
+        amount: req.cart.total, // Amount in cents
+        currency: 'usd',
+        source: token.id,
+        description: 'Brand New Laptop!'
+    }, function(err, charge) {
+        if (err && err.type === 'StripeCardError') {
+            return res.send(err);
+        } else {
+            if (!charge.paid) return res.sendStatus(400);
+            req.cart.purchase(req.body.AddressId, req.user, charge.amount)
+                .then(order => {
+                    if (!order) {
+                        return res.sendStatus(400);
+                    } else {
+                        return res.send(order);
+                    }
+                })
+                .catch(next);
+        }
+    });
 });
 
 module.exports = router;

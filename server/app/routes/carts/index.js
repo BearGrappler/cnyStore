@@ -95,7 +95,6 @@ router.delete('/:id', (req, res, next) => {
 router.use((req, res, next) => {
     (function() {
         if (req.user) {
-            console.log('AAA')
             return Cart.findOne({
                 where: {
                     UserId: req.user.id,
@@ -106,7 +105,6 @@ router.use((req, res, next) => {
                 }]
             });
         } else if (req.session.CartId) {
-            console.log('BBB')
             return Cart.findOne({
                 where: {
                     id: req.session.CartId,
@@ -117,7 +115,6 @@ router.use((req, res, next) => {
                 }]
             });
         } else {
-            console.log('CCC')
             return Cart.create();
         }
     }())

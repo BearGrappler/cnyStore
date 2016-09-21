@@ -50,21 +50,27 @@ module.exports = db.define('Cart', {
          * Creates an Order instance, associates all cart items to it, and deletes the cart.
          * @return {[Promise]}
          */
-        purchase: function(AddressId, user) {
+        purchase: function(AddressId, user, orderTotal) {
             let order;
             return this.getItems()
                 .then(items => {
                     if (!items.length) {
                         return;
                     } else {
-                        return db.model('Order').create()
+                        return db.model('Order').create({ amountPaid: orderTotal / 100, paymentReceivedDate: new Date() })
                             .then(_order => {
                                 order = _order;
                                 return _order.addProducts(items);
                             })
                             .then(() => db.model('Address').findById(AddressId))
                             .then(_address => _address.addReceipt(order))
-                            .then(() => user.addPurchase(order))
+                            .then(() => {
+                                if (!user) {
+                                    return;
+                                } else {
+                                    return user.addPurchase(order);
+                                }
+                            })
                             .then(() => this.destroy())
                             .then(() => {
                                 return db.model('Order').findOne({
