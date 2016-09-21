@@ -55,8 +55,8 @@ describe('User model', function () {
             });
 
             it('should call crypto.createHash with "sha1"', function () {
-                User.encryptPassword('asldkjf', 'asd08uf2j');
-                expect(cryptoStub.calledWith('sha1')).to.be.ok;
+                User.encryptPassword('asldkjf', '066cd2b95fd9663538b58899da88117d45dc39ad893ebda6c8b28da0fdd13616772097e4dc9cce2928fa0dc8cd1ff0de6fe5ece561f2956f8c07105de09b7098');
+                expect(cryptoStub.calledWith('sha512')).to.be.ok;
             });
 
             it('should call hash.update with the first and second argument', function () {
