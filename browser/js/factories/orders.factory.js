@@ -13,8 +13,8 @@ app.factory('OrderFactory', function($http) {
         return $http.get('/api/orders/' + id).then(res => res.data);
     }
 
-    function purchaseCart() {
-        return $http.post('/api/orders').then(res => res.data);
+    function purchaseCart(token, AddressId) {
+        return $http.post('/api/orders', { stripeToken: token, AddressId }).then(res => res.data);
     }
 
     return {
