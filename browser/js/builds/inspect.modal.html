@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title">Cart Inspect</h3>
+</div>
+<div class="modal-body">
+    <ul class="list-group">
+        <li class="list-group-item">{{build.imageURL}}</li>
+        <li class="list-group-item">{{base.name}}</li>
+        <br>
+        <li class="list-group-item">{{base.description}}</li>
+        <li class="list-group-item">{{build.total}}</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <form>
+        <button ng-disabled="!build.total" class="btn btn-success" stripe-checkout="checkout" data-key="pk_test_6bfTQcvqyyxdlQN6rguyPNk4" data-name="Simple Example" data-description="Five dollahs!" data-amount="500">
+            Purchase
+        </button>
+        <button class="btn btn-info" ng-click="cancel()">Return</button>
+    </form>
+</div>

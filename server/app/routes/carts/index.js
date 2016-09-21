@@ -5,7 +5,7 @@ const Cart = require('../../../db').model('Cart');
 router.get('/', (req, res, next) => {
 
     if (!req.user && !req.session.CartId) return res.send([]);
-    console.log('---->', req.session);
+
     (function() {
         if (req.user) {
             return req.user.getCarts({ scope: 'itemsInCart' });
@@ -22,7 +22,6 @@ router.get('/', (req, res, next) => {
         }
     }())
     .then(carts => {
-            console.log('CARTS', carts);
             if (!carts) {
                 return res.sendStatus(404);
             } else {
@@ -56,20 +55,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    if (!req.user) {
-        return res.sendStatus(401);
-    } else {
-        Cart.update({ active: true }, { where: { id: req.params.id, UserId: req.user.id }, returning: true, individualHooks: true })
-            .then(cart => {
-                if (!cart[0]) {
-                    return res.sendStatus(404);
-                } else {
-                    if (String(req.user.id) !== String(cart[1][0].UserId)) return res.sendStatus(401);
-                    return res.send(cart[1][0]);
-                }
-            })
-            .catch(next);
-    }
+    Cart.update({ active: true }, { where: { id: req.params.id }, returning: true, individualHooks: true })
+        .then(cart => {
+            if (!cart[0]) {
+                return res.sendStatus(404);
+            } else {
+                return res.send(cart[1][0]);
+            }
+        })
+        .catch(next);
 });
 
 router.delete('/:id', (req, res, next) => {

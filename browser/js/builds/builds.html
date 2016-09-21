@@ -1,17 +1,18 @@
 <div class="row">
     <div class="header container">
-    	<h1>Builds</h1>
-    	<br>
-    </div>
-    <div class="container">
-        <build-tile ng-if="isLoggedIn()" exec="newBuild(target)" comp="null"></build-tile>
-        <build-tile ng-repeat="build in builds" comp="build" exec="activate(target)" closefn="deleteBuild(toRemove)"></build-tile>
-    </div>
-    <div ng-if="isLoggedIn()" class="container">
-    <div class="header container">
-        <h1>Orders</h1>
+        <h1>Builds</h1>
         <br>
     </div>
-        <build-tile ng-repeat="order in orders" comp="order"></build-tile>
+    <div class="container">
+        <build-tile ng-if="isLoggedIn()" exec="newBuild(target)" comp="null" type="button"></build-tile>
+        <build-tile ng-repeat="build in builds" comp="build" purchase="checkout(id)" exec="activate(target)" type="build" closefn="deleteBuild(toRemove)">
+        </build-tile>
+    </div>
+    <div ng-if="isLoggedIn()" class="container">
+        <div class="header container">
+            <h1>Orders</h1>
+            <br>
+        </div>
+        <build-tile ng-repeat="order in orders" comp="order" type="order"></build-tile>
     </div>
 </div>

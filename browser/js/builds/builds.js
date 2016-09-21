@@ -19,6 +19,7 @@ app.config(function($stateProvider) {
 app.controller('BuildsCtrl', function($scope, AuthService, orders, allBuilds, $injector, $log) {
 
     let CartFactory = $injector.get('CartFactory');
+    let OrderFactory = $injector.get('OrderFactory');
     // let $state = $injector.get('$state');
 
     $scope.builds = {};
@@ -55,6 +56,10 @@ app.controller('BuildsCtrl', function($scope, AuthService, orders, allBuilds, $i
                 $scope.builds = carts;
             })
             .catch($log.error);
+    }
+
+    $scope.checkout = function(token) {
+        return OrderFactory.purchaseCart(token, 1);
     }
 
 });
