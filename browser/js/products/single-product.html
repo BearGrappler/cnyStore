@@ -10,25 +10,25 @@
             <label>RAM</label>
             <img src="{{selectedRam.imageUrls[0]}}">
             <br>
-            <select ng-change="calculatePrice()" ng-init="selectedRam = product.ram[0]" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
+            <select ng-change="calculatePrice()" ng-options="item.name for item in product.ram" ng-model="selectedRam"></select>
         </div>
         <div class="cpu-upgrade" ng-show="product.cpu.length >= 1">
             <label>CPU</label>
             <img src="{{selectedCpu.imageUrls[0]}}">
             <br>
-            <select ng-change="calculatePrice()" ng-init="selectedCpu = product.cpu[0]" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
+            <select ng-change="calculatePrice()" ng-options="item.name for item in product.cpu" ng-model="selectedCpu"></select>
         </div>
         <div class="hdd-upgrade" ng-show="product.hdd.length >= 1">
             <label>HDD</label>
             <img src="{{selectedHdd.imageUrls[0]}}">
             <br>
-            <select ng-change="calculatePrice()" ng-init="selectedHdd = product.hdd[0]" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
+            <select ng-change="calculatePrice()" ng-options="item.name for item in product.hdd" ng-model="selectedHdd"></select>
         </div>
         <div class="gpu-upgrade" ng-show="product.gpu.length >= 1">
             <label>GPU</label>
             <img src="{{selectedGpu.imageUrls[0]}}">
             <br>
-            <select ng-change="calculatePrice()" ng-init="selectedGpu = product.gpu[0]" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
+            <select ng-change="calculatePrice()" ng-options="item.name for item in product.gpu" ng-model="selectedGpu"></select>
         </div>
     </div>
     <div class="recommended-config" ng-show="recommendedConfig" style="float: left; border: 1px solid blue">
